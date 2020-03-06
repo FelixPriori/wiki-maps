@@ -12,16 +12,34 @@ body {
     position: absolute;
     height: 15%;
     width: 100%;
+    display: flex;
     h1 {
       color: $color3;
       font-family: 'Josefin Sans', sans-serif;
       font-size: 3em;
-      padding: 0 1em;
+      padding: 0 1.5em;
       text-shadow: 2px 2px $color4;
     }
     h1:hover {
       color: $color4;
       text-shadow: 2px 2px $color3;
+    }
+    span {
+      align-self: center;
+      margin-left: auto;
+      padding: 2px;
+      button {
+        z-index: 10;
+        margin-right: 2em;
+        background-color: $color2;
+        color: $color4;
+        box-shadow: 0.2em 0.2em 0 0 $color4;
+      }
+      .btn-light:hover {
+        background-color: $color4;
+        color: $color2;
+        box-shadow: 0.2em 0.2em 0 0 $color2;
+      }
     }
   }
   aside {
