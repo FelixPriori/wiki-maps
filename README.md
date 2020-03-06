@@ -1,5 +1,3 @@
-LHL Node Skeleton
-=========
 # WIKI MAPS (name pending)
 
 ## User stories
