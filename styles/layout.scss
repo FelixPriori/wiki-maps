@@ -1,9 +1,34 @@
 // See: https://sass-lang.com/
 
-body {
-  background-color: #EEE;
+$color1: rgba(237, 106, 90, 1);
+$color2: rgba(244, 241, 187, 1);
+$color3: rgba(155, 193, 188, 1);
+$color4: rgba(93, 87, 107, 1);
+$color5: rgba(230, 235, 224, 1);
 
-  h1 {
-    color: #244751;
+body {
+  nav {
+    background-color: $color1;
+    position: absolute;
+    height: 15%;
+    width: 100%;
+    h1 {
+      color: $color3;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 3em;
+      padding: 0 1em;
+      text-shadow: 2px 2px $color4;
+    }
+    h1:hover {
+      color: $color4;
+      text-shadow: 2px 2px $color3;
+    }
+  }
+  aside {
+    position: absolute;
+    top: 15%;
+    background-color: $color3;
+    height: 100%;
+    width: 25%;
   }
 }
