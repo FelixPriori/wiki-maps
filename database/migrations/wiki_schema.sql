@@ -24,15 +24,15 @@ CREATE TABLE points (id SERIAL PRIMARY KEY,
                      image VARCHAR(255),
                      latitude INTEGER NOT NULL,
                      longitude INTEGER NOT NULL,
-                     map_id INTEGER REFERENCES maps(id) DELETE ON CASCADE
+                     map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE
                      );
 
 CREATE TABLE favourites (id SERIAL PRIMARY KEY,
-                        map_id INTEGER REFERENCES maps(id) DELETE ON CASCADE,
-                        contributor_id INTEGER REFERENCES users(id) DELETE ON CASCADE
+                        map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+                        contributor_id INTEGER REFERENCES users(id) ON DELETE CASCADE
                         );
 
 CREATE TABLE contributions (id SERIAL PRIMARY KEY,
-                           contributor_id INTEGER REFERENCES user(id) DELETE ON CASCADE,
-                           map_id INTEGER REFERENCES maps(id) DELETE ON CASCADE 
+                           contributor_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                           map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE 
                            );
