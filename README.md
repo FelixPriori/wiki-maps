@@ -1,5 +1,3 @@
-LHL Node Skeleton
-=========
 # WIKI MAPS (name pending)
 
 ## User stories
@@ -28,3 +26,17 @@ ___**Note:**___ a _visitor_ is someone who is visitig the site without being log
 - Node 10.x or above
 - NPM 5.x or above
 - PG 6.x
+
+## Routes table
+
+| HTTP method | URL pattern      | Use                          |
+|------------:|-----------------:|-----------------------------:|
+|GET          |/login            |Display login form            |
+|GET          |/register         |Display register form         |
+|GET          |/index            |Show the main page            |
+|POST         |/maps:id          |Show a map with specific id   |
+|POST         |/maps:id/edit     |Display form for editing map  |
+|POST         |/points:id        |Show a point with specific id |
+|POST         |/points:id/edit   |Display form for editing map  |
+|DELETE       |/maps:id/delete   |Delete a single map           |
+|DELETE       |/points:id/delete |Delete a single point         |
