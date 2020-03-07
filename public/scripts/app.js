@@ -15,6 +15,25 @@ $(() => {
     map.panTo(new L.LatLng(position.lat, position.lng))
   });
 
+  $login = $('#login');
+  $logout = $('#logout');
+  $register = $('#register');
+  $welcome = $('#welcome-message');
+
+  $login.click(() => {
+    $login.hide();
+    $register.hide();
+    $logout.show();
+    $welcome.show();
+  });
+
+  $logout.click(() => {
+    $login.show();
+    $register.show();
+    $logout.hide();
+    $welcome.hide();
+  });
+
 
   const $color1 = 'rgba(237, 106, 90, 1)';
   const $color2 = 'rgba(244, 241, 187, 1)';
