@@ -43,6 +43,16 @@ body {
       }
     }
   }
+  main {
+    #mapid {
+      position: absolute;
+      top: 15%;
+      left: 25%;
+      height: 85%;
+      width: 75%;
+      z-index: 1;
+    }
+  }
   aside {
     .aside-content {
       position: absolute;
