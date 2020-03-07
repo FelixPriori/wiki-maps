@@ -1,5 +1,21 @@
 $(() => {
 
+  const map = L.map('mapid').setView([45.5017, -73.5673], 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  const marker = L.marker([45.5017, -73.5673], {draggable: 'true'}).addTo(map)
+    .bindPopup('This is a test');
+  marker.on('dragend', function(event){
+    var marker = event.target;
+    var position = marker.getLatLng();
+    marker.setLatLng(new L.LatLng(position.lat, position.lng),{draggable:'true'});
+    map.panTo(new L.LatLng(position.lat, position.lng))
+  });
+
+
   const $color1 = 'rgba(237, 106, 90, 1)';
   const $color2 = 'rgba(244, 241, 187, 1)';
   const $color3 = 'rgba(155, 193, 188, 1)';
@@ -8,7 +24,7 @@ $(() => {
   const $asidecontent = $('.aside-content');
   const $favourites = $('#favourites');
   const $allMaps = $('#all-maps');
-  const $contributions = $('#contributions')
+  const $contributions = $('#contributions');
 
   $favourites.click(() => {
     $asidecontent.addClass('turn-red')
