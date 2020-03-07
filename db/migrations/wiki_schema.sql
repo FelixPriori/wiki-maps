@@ -1,11 +1,13 @@
-DELETE TABLE IF EXISTS users CASCADE;
-DELETE TABLE IF EXISTS maps CASCADE;
-DELETE TABLE IF EXISTS points CASCADE;
-DELETE TABLE IF EXISTS favourites CASCADE;
-DELETE TABLE IF EXISTS contributions CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS maps CASCADE;
+DROP TABLE IF EXISTS points CASCADE;
+DROP TABLE IF EXISTS favourites CASCADE;
+DROP TABLE IF EXISTS contributions CASCADE;
 
 CREATE TABLE users (id SERIAL PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL,
+                    first_name VARCHAR(255) NOT NULL,
+                    last_name VARCHAR(255) NOT NULL,
+                    password VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
                     avatar VARCHAR(255) NOT NULL,
                     location VARCHAR(255) NOT NULL
@@ -13,17 +15,17 @@ CREATE TABLE users (id SERIAL PRIMARY KEY,
 
 CREATE TABLE maps (id SERIAL PRIMARY KEY,
                        name VARCHAR(255) NOT NULL,
-                       latitude INTEGER NOT NULL,
-                       longitude INTEGER NOT NULL,
-                       zoom INTEGER NOT NULL
+                       latitude decimal NOT NULL DEFAULT 45.5017,
+                       longitude decimal NOT NULL DEFAULT -73.5673,
+                       zoom INTEGER NOT NULL DEFAULT 12
                        );
 
 CREATE TABLE points (id SERIAL PRIMARY KEY,
                      name VARCHAR(255) NOT NULL,
                      description TEXT,
                      image VARCHAR(255),
-                     latitude INTEGER NOT NULL,
-                     longitude INTEGER NOT NULL,
+                     latitude decimal NOT NULL,
+                     longitude decimal NOT NULL,
                      map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE
                      );
 
