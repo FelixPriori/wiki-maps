@@ -1,11 +1,13 @@
-DELETE TABLE IF EXISTS users CASCADE;
-DELETE TABLE IF EXISTS maps CASCADE;
-DELETE TABLE IF EXISTS points CASCADE;
-DELETE TABLE IF EXISTS favourites CASCADE;
-DELETE TABLE IF EXISTS contributions CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS maps CASCADE;
+DROP TABLE IF EXISTS points CASCADE;
+DROP TABLE IF EXISTS favourites CASCADE;
+DROP TABLE IF EXISTS contributions CASCADE;
 
 CREATE TABLE users (id SERIAL PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL,
+                    first_name VARCHAR(255) NOT NULL,
+                    last_name VARCHAR(255) NOT NULL,
+                    password VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
                     avatar VARCHAR(255) NOT NULL,
                     location VARCHAR(255) NOT NULL
