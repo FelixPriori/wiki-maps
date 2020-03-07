@@ -13,6 +13,7 @@ body {
     height: 15%;
     width: 100%;
     display: flex;
+    z-index: 2;
     h1 {
       color: $color3;
       font-family: 'Josefin Sans', sans-serif;
@@ -33,20 +34,74 @@ body {
         margin-right: 2em;
         background-color: $color2;
         color: $color4;
-        box-shadow: 0.2em 0.2em 0 0 $color4;
+        box-shadow: 0.1em 0.1em 0 0 $color4;
       }
       .btn-light:hover {
         background-color: $color4;
         color: $color2;
-        box-shadow: 0.2em 0.2em 0 0 $color2;
+        box-shadow: 0.1em 0.1em 0 0 $color2;
       }
     }
   }
   aside {
-    position: absolute;
-    top: 15%;
-    background-color: $color3;
-    height: 100%;
-    width: 25%;
+    .aside-content {
+      position: absolute;
+      top: 15%;
+      background-color: $color3;
+      height: 100%;
+      width: 25%;
+      box-shadow: 0.1em 0 0 0 $color4;
+      border-top: solid 0.1em $color4;
+      border-right: 0.1em $color4;
+      z-index: 4;
+    }
+    .turn-red {
+      background-color: $color1;
+    }
+    .turn-green {
+      background-color: $color3;
+    }
+    .turn-yellow {
+      background-color: $color2;
+    }
+    .sidebar-nav {
+      ul {
+        top: 15%;
+        left: 22%;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        height: 15em;
+        z-index: 10;
+        flex-grow: 1;
+        li {
+          list-style-type:none;
+          flex-grow: 1;
+          border-top-right-radius: 25%;
+          line-height: 5em;
+          padding: 1em;
+          border-bottom: solid 0.1em $color4;
+        }
+        #all-maps {
+          border-top: solid 0.1em $color4;
+          background-color: $color3;
+          box-shadow: 0.1em 0 0 0 $color4;
+          z-index: 3;
+        }
+        #favourites {
+          background-color: $color1;
+          box-shadow: 0.1em 0 0 0 $color4;
+          z-index: 2;
+        }
+        #contributions {
+          background-color: $color2;
+          box-shadow: 0.1em 0 0 0 $color4;
+          z-index: 1;
+        }
+        .left-border {
+          border-left: solid 0.1em $color4;
+        }
+      }
+    }
   }
 }
