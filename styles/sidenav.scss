@@ -1,0 +1,56 @@
+$color1: rgba(237, 106, 90, 1);
+$color2: rgba(244, 241, 187, 1);
+$color3: rgba(155, 193, 188, 1);
+$color4: rgba(93, 87, 107, 1);
+$color5: rgba(230, 235, 224, 1);
+
+body {
+  aside {
+    .aside-content {
+      background-color: $color3;
+      box-shadow: 0.1em 0 0 0 $color4;
+      border-top: solid 0.1em $color4;
+      border-right: 0.1em $color4;
+    }
+    .turn-red {
+      background-color: $color1;
+    }
+    .turn-green {
+      background-color: $color3;
+    }
+    .turn-yellow {
+      background-color: $color2;
+    }
+  }
+  div {
+    ul {
+      li {
+        list-style-type:none;
+        flex-grow: 1;
+        border-top-right-radius: 25%;
+        line-height: 5em;
+        padding: 1em;
+        border-bottom: solid 0.1em $color4;
+      }
+      #all-maps {
+        border-top: solid 0.1em $color4;
+        background-color: $color3;
+        box-shadow: 0.1em 0 0 0 $color4;
+        z-index: 3;
+      }
+      #favourites {
+        background-color: $color1;
+        box-shadow: 0.1em 0 0 0 $color4;
+        z-index: 2;
+      }
+      #contributions {
+        background-color: $color2;
+        box-shadow: 0.1em 0 0 0 $color4;
+        z-index: 1;
+      }
+      .left-border {
+        border-left: solid 0.1em $color4;
+      }
+    }
+  }
+}
