@@ -123,6 +123,24 @@ body {
       }
     }
   }
+  #new-map_form {
+    background-color: $color1;
+    color: $color5;
+    position: fixed;
+    text-align: center;
+    font-size: 1.2em;
+    display:none;
+    right: 2%;
+    bottom: 20%;
+    z-index: 10;
+    padding: 2em;
+    box-shadow: 0.2em 0.2em 0 0 $color4;
+  }
+  div {
+    form {
+      color: $color4;
+    }
+  }
   .create-icons {
     z-index: 10;
     position: fixed;
@@ -131,7 +149,7 @@ body {
     bottom: 5%
   }
   footer {
-    #new-point_button, #new-map_button {
+    #new-map_button {
      border-radius: 50%;
      width: 3.5em;
      height: 3.5em;
@@ -142,10 +160,6 @@ body {
      display:flex;
      justify-content: center;
      align-items: center;
-    }
-    #new-point_button:hover {
-      color: $color1;
-      background-color: $color3;
     }
 
     #new-map_button:hover {

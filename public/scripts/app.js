@@ -44,6 +44,12 @@ $(() => {
   const $favourites = $('#favourites');
   const $allMaps = $('#all-maps');
   const $contributions = $('#contributions');
+  const $mapForm = $('#new-map_form');
+  const $mapButton = $('#new-map_button');
+
+  $mapButton.click(() => {
+    $mapForm.toggle();
+  });
 
   $favourites.click(() => {
     $asidecontent.addClass('turn-red')
