@@ -15,17 +15,17 @@ CREATE TABLE users (id SERIAL PRIMARY KEY,
 
 CREATE TABLE maps (id SERIAL PRIMARY KEY,
                        name VARCHAR(255) NOT NULL,
-                       latitude INTEGER NOT NULL,
-                       longitude INTEGER NOT NULL,
-                       zoom INTEGER NOT NULL
+                       latitude decimal NOT NULL DEFAULT 45.5017,
+                       longitude decimal NOT NULL DEFAULT -73.5673,
+                       zoom INTEGER NOT NULL DEFAULT 12
                        );
 
 CREATE TABLE points (id SERIAL PRIMARY KEY,
                      name VARCHAR(255) NOT NULL,
                      description TEXT,
                      image VARCHAR(255),
-                     latitude INTEGER NOT NULL,
-                     longitude INTEGER NOT NULL,
+                     latitude decimal NOT NULL,
+                     longitude decimal NOT NULL,
                      map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE
                      );
 
