@@ -10,19 +10,8 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
-
-    userHelper.getUsers(db);
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        const users = data.rows;
-        res.json({ users });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+  router.get("/register", (req, res) => {
+    userHelper.addUsers(db);
   });
   return router;
 };
