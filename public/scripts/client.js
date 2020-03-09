@@ -12,7 +12,7 @@ const renderMaps = function(maps) {
   };
   
   function createPointElement(dataMap) {
-    let $map = `<div class="map-list-item"> <p id=${dataMap.id}>${dataMap.name} :Coordinates: latitude: ${dataMap.latitude} & longitude: ${dataMap.longitude} id:${dataMap.id}</p> </div>`;
+    let $map = `<div class="map-list-item"> <p id=${dataMap.id}>${dataMap.name}</p> </div>`;
     return $map;
   }
 
