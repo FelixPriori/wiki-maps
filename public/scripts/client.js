@@ -11,16 +11,23 @@ const renderMaps = function(maps) {
      $('#maps-container').prepend($map);
     }
   };
-  
+
+
   function createMapElement(dataMap) {
-    let $map = `<div class="map-list-item"><p id=${dataMap.id}>${dataMap.name}</p> </div>`;
+    let $map = `
+    <div class="map-list-item">
+      <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
+      <p id=${dataMap.id}>
+        ${dataMap.name} 
+      </p>
+    </div>`;
     return $map;
   }
 
   function loadMaps() {
     $.ajax({
       method: "GET",
-      url: `/maps`, 
+      url: `/maps`,
     }).done(renderMaps);
   }
   loadMaps();

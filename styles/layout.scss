@@ -57,9 +57,13 @@ body {
         height: auto;
       }
       .map-list-item {
-        border: 1px solid black;
+        display: flex;
+        text-align: left;
         margin: 1em;
         padding: 1em;
+        img {
+          margin-right: 1em;
+        }
       }
     }
     .favourites-aside {
