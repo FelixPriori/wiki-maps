@@ -42,10 +42,13 @@ body {
       }
       .btn-light:active {
         box-shadow: none;
+        outline: 0;
       }
-
       #logout {
         display: none;
+      }
+      .btn-light:focus {
+        outline: 0;
       }
     }
     .form {
