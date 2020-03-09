@@ -10,16 +10,22 @@ const renderMaps = function(maps) {
       $("#maps-container").prepend($map);
     });
   };
-  
+
   function createPointElement(dataMap) {
-    let $map = `<div class="map-list-item"> <p id=${dataMap.id}>${dataMap.name} :Coordinates: latitude: ${dataMap.latitude} & longitude: ${dataMap.longitude} id:${dataMap.id}</p> </div>`;
+    let $map = `
+    <div class="map-list-item">
+      <img src="/assets/img/compass.svg" alt="" style="width: 5em" title="compass">
+      <p id=${dataMap.id}>
+        ${dataMap.name} :Coordinates: latitude: ${dataMap.latitude} & longitude: ${dataMap.longitude} id:${dataMap.id}
+      </p>
+    </div>`;
     return $map;
   }
 
   function loadMaps() {
     $.ajax({
       method: "GET",
-      url: `/maps`, 
+      url: `/maps`,
     }).done(renderMaps);
   }
   $(document).ready
@@ -32,7 +38,7 @@ const postMap = function() {
     data: $("#map-form").serialize(),
     }).done(data => {
         console.log(data);
-    }); 
+    });
 };
 //have to update this based on the users latitude and longitude
 const createPoints = function(lat, lng) {
