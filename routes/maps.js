@@ -3,13 +3,11 @@ const router = express.Router();
 const mapsHelper = require('../lib/db_helper');
 
 module.exports = (db) => {
-    router.get('/getmap' , (req, res) => {
-        mapsHelper.getMaps(db);
-    });
-    return router;
-}
 
-module.exports = (db) => {
+    router.get('/' , (req, res) => {
+        mapsHelper.getMaps(db).then(dbRes => res.json(dbRes));
+    });
+
     router.post('/makemap', (req, res) => {
        const mapName = req.body;
         let mapInfo = {

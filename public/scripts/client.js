@@ -9,29 +9,21 @@ const renderMaps = function(maps) {
       const $map = createPointElement(map);
       $("#maps-container").prepend($map);
     });
-    console.log(maps);
   };
+  
   function createPointElement(dataMap) {
-    console.log(dataMap);
     let $map = `<div class="map-list-item"> <p id=${dataMap.id}>${dataMap.name} :Coordinates: latitude: ${dataMap.latitude} & longitude: ${dataMap.longitude} id:${dataMap.id}</p> </div>`;
     return $map;
   }
+
   function loadMaps() {
     $.ajax({
       method: "GET",
-      url: `http://localhost:8080/maps`
-      // data: { get_param: "value" },
-      // dataType: "json"
+      url: `/maps`, 
     }).done(renderMaps);
   }
+  $(document).ready
   loadMaps();
-
-const loadMaps = function(){ 
-    $.ajax({
-        method: 'GET',
-        url: `http://localhost:8080/maps/getmap`,
-    }).done(renderMaps)
-}
 
 const postMap = function() {
   $.ajax({
