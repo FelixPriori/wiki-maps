@@ -8,7 +8,7 @@ module.exports = (db) => {
         mapsHelper.getMaps(db).then(dbRes => res.json(dbRes));
     });
 
-    router.post('/makemap', (req, res) => {
+    router.post('/', (req, res) => {
        const mapName = req.body;
         let mapInfo = {
          name: mapName['map-name']

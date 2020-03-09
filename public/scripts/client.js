@@ -5,14 +5,15 @@ $("#map-form").on("submit", function(event) {
 });
 
 const renderMaps = function(maps) {
-    maps.forEach(map => {
-      const $map = createPointElement(map);
-      $("#maps-container").prepend($map);
-    });
+    $('#maps-container').empty();
+    for(let i = 0; i < maps.length; i++){
+     $map = createMapElement(maps[i]);
+     $('#maps-container').prepend($map);
+    }
   };
   
-  function createPointElement(dataMap) {
-    let $map = `<div class="map-list-item"> <p id=${dataMap.id}>${dataMap.name}</p> </div>`;
+  function createMapElement(dataMap) {
+    let $map = `<div class="map-list-item"><p id=${dataMap.id}>${dataMap.name}</p> </div>`;
     return $map;
   }
 
@@ -22,17 +23,15 @@ const renderMaps = function(maps) {
       url: `/maps`, 
     }).done(renderMaps);
   }
-  $(document).ready
   loadMaps();
 
-const postMap = function() {
-  $.ajax({
+const postMap = function(event) {
+
+    $.ajax({
     method: "POST",
-    url: `http://localhost:8080/maps/makemap`,
+    url: `/maps`,
     data: $("#map-form").serialize(),
-    }).done(data => {
-        console.log(data);
-    }); 
+    }).done(() => loadMaps()); 
 };
 //have to update this based on the users latitude and longitude
 const createPoints = function(lat, lng) {
