@@ -1,15 +1,7 @@
 // See: https://sass-lang.com/
 
-$color1: rgba(237, 106, 90, 1);
-$color2: rgba(244, 241, 187, 1);
-$color3: rgba(155, 193, 188, 1);
-$color4: rgba(93, 87, 107, 1);
-$color5: rgba(230, 235, 224, 1);
-
 body {
-  font-family: 'Lato', sans-serif;
   nav {
-
     position: absolute;
     height: 15%;
     width: 100%;
@@ -44,6 +36,21 @@ body {
         height: 15em;
         z-index: 10;
         flex-grow: 1;
+        li {
+          list-style-type:none;
+          flex-grow: 1;
+          line-height: 5em;
+          padding: 1em;
+        }
+        #all-maps {
+          z-index: 3;
+        }
+        #favourites {
+          z-index: 2;
+        }
+        #contributions {
+          z-index: 1;
+        }
       }
     }
   }
