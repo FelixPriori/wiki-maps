@@ -58,18 +58,21 @@ body {
         height: auto;
       }
       .map-list-item {
-        display: flex;
-        text-align: left;
         margin: 1em;
-        padding: 1em;
-        justify-items: center;
-        p {
-          align-self: center;
-          word-break: break-all;
-        }
-        img {
-          margin-right: 1em;
-          min-width: 3em;
+        button {
+          display: flex;
+          text-align: left;
+          width: 100%;
+          padding: 1em;
+          justify-items: center;
+          p {
+            align-self: center;
+            word-break: break-all;
+          }
+          img {
+            margin-right: 1em;
+            min-width: 3em;
+          }
         }
       }
     }

@@ -16,10 +16,12 @@ const renderMaps = function(maps) {
   function createMapElement(dataMap) {
     let $map = `
     <div class="map-list-item">
-      <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
-      <p id=${dataMap.id}>
-        ${dataMap.name}
-      </p>
+      <button>
+        <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
+        <p id=${dataMap.id}>
+          ${dataMap.name}
+        </p>
+      </button>
     </div>`;
     return $map;
   }
@@ -33,7 +35,6 @@ const renderMaps = function(maps) {
   loadMaps();
 
 const postMap = function(event) {
-
     $.ajax({
     method: "POST",
     url: `/maps`,
