@@ -14,34 +14,51 @@ $(() => {
   const $favouritesAside = $('.favourites-aside');
   const $allMapsAside = $('.all-maps-aside');
   const $contributionsAside = $('.contributions-aside');
-  const $mainBanner = $('nav');
-  const $h2 = $('h2');
 
   const map = L.map('mapid').setView([45.5017, -73.5673], 12);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  const marker = L.marker([45.5017, -73.5673], {draggable: 'true'}).addTo(map)
-    .bindPopup('This is a test');
-  marker.on('dragend', function(event){
-    var marker = event.target;
-    var position = marker.getLatLng();
-    marker.setLatLng(new L.LatLng(position.lat, position.lng),{draggable:'true'});
-    map.panTo(new L.LatLng(position.lat, position.lng))
-  });
+  const popupContent = `
+    <form class="marker-form">
+      <label for="marker-name">Name</label>
+      <input type="text", placeholder="name your marker!"/>
+      <label for="marker-img">Image</label>
+      <input class="marker-img" type="url", placeholder="img url"/>
+      <label for="marker-description">Description</label>
+      <textarea class="marker-description" placeholder="desciption"></textarea>
+      <input class="submit" type="submit">
+      <button class="cancel-button">Cancel</button>
+    </form>
+  `;
+
+  newMarkerGroup = new L.LayerGroup();
+	map.on('click', addMarker);
+
+  function addMarker(click){
+    return newMarker = new L.marker(click.latlng, {draggable: 'true'})
+      .addTo(map)
+      .bindPopup(popupContent)
+      .openPopup();
+  }
 
   $login = $('#login');
   $logout = $('#logout');
   $register = $('#register');
   $welcome = $('#welcome-message');
+  $registerForm = $('.register_form');
+  $loginForm = $('.login_form');
 
   $login.click(() => {
-    $login.hide();
-    $register.hide();
-    $logout.show();
-    $welcome.show();
+    $loginForm.toggle();
+    $registerForm.hide();
+  });
+
+  $register.click(() => {
+    $loginForm.hide();
+    $registerForm.toggle();
   });
 
   $logout.click(() => {

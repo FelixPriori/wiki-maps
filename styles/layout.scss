@@ -8,6 +8,27 @@ body {
     display: flex;
     z-index: 2;
   }
+  .form {
+    position: fixed;
+    padding: 1em;
+    top: 20%;
+    right: 2%;
+    form {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      input {
+        margin-bottom: 1em;
+      }
+      .submit {
+        margin-top: 1em;
+      }
+    }
+  }
+  .login_form, .register_form {
+    display:none;
+  }
+
   main {
     #mapid {
       position: absolute;
