@@ -22,6 +22,22 @@ body {
     .turn-yellow {
       background-color: $color2;
     }
+    div {
+      text-align: center;
+      h2 {
+        font-family: 'Josefin Sans', sans-serif;
+        color: $color2;
+        text-shadow: 2px 2px $color4;
+      }
+      .map-list-item {
+        box-shadow: 0.2em 0.2em 0 0 $color4;
+        opacity: 50%;
+        background-color: $color5;
+      }
+      .map-list-item:hover {
+        opacity: 100%;
+      }
+    }
   }
   div {
     ul {

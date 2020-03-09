@@ -26,6 +26,19 @@ body {
       width: 25%;
       z-index: 4;
     }
+    div {
+      .map-list-item {
+        border: 1px solid black;
+        margin: 1em;
+        padding: 1em;
+      }
+    }
+    .favourites-aside {
+      display: none;
+    }
+    .contributions-aside {
+      display: none;
+    }
     .sidebar-nav {
       ul {
         top: 15%;
