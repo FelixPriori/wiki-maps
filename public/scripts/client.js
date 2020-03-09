@@ -18,12 +18,12 @@ const renderMaps = function(maps) {
     <div class="map-list-item">
       <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
       <p id=${dataMap.id}>
-        ${dataMap.name} 
+        ${dataMap.name}
       </p>
     </div>`;
     return $map;
   }
-  yikes
+
   function loadMaps() {
     $.ajax({
       method: "GET",
@@ -38,7 +38,7 @@ const postMap = function(event) {
     method: "POST",
     url: `/maps`,
     data: $("#map-form").serialize(),
-    }).done(() => loadMaps()); 
+    }).done(() => loadMaps());
 };
 //have to update this based on the users latitude and longitude
 const createPoints = function(lat, lng) {

@@ -41,6 +41,8 @@ body {
         box-shadow: $shadow;
         opacity: 50%;
         background-color: $color5;
+        font-family: 'Josefin Sans', sans-serif;
+        font-size: 1.25em;
       }
       .map-list-item:hover {
         opacity: 100%;

@@ -1,6 +1,7 @@
 // See: https://sass-lang.com/
 
 body {
+  overflow: hidden;
   nav {
     position: absolute;
     height: 15%;
@@ -44,7 +45,7 @@ body {
     .aside-content {
       position: absolute;
       top: 15%;
-      height: 100%;
+      height: 85vh;
       width: 25%;
       z-index: 4;
       overflow-y: scroll;
@@ -61,8 +62,14 @@ body {
         text-align: left;
         margin: 1em;
         padding: 1em;
+        justify-items: center;
+        p {
+          align-self: center;
+          word-break: break-all;
+        }
         img {
           margin-right: 1em;
+          min-width: 3em;
         }
       }
     }
@@ -75,7 +82,7 @@ body {
     .sidebar-nav {
       ul {
         top: 15%;
-        left: 22%;
+        left: 22.05%;
         position: absolute;
         display: flex;
         flex-direction: column;
