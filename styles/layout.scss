@@ -1,47 +1,12 @@
 // See: https://sass-lang.com/
 
-$color1: rgba(237, 106, 90, 1);
-$color2: rgba(244, 241, 187, 1);
-$color3: rgba(155, 193, 188, 1);
-$color4: rgba(93, 87, 107, 1);
-$color5: rgba(230, 235, 224, 1);
-
 body {
   nav {
-    background-color: $color1;
     position: absolute;
     height: 15%;
     width: 100%;
     display: flex;
     z-index: 2;
-    h1 {
-      color: $color3;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 3em;
-      padding: 0 1.5em;
-      text-shadow: 2px 2px $color4;
-    }
-    h1:hover {
-      color: $color4;
-      text-shadow: 2px 2px $color3;
-    }
-    span {
-      align-self: center;
-      margin-left: auto;
-      padding: 2px;
-      button {
-        z-index: 10;
-        margin-right: 2em;
-        background-color: $color2;
-        color: $color4;
-        box-shadow: 0.1em 0.1em 0 0 $color4;
-      }
-      .btn-light:hover {
-        background-color: $color4;
-        color: $color2;
-        box-shadow: 0.1em 0.1em 0 0 $color2;
-      }
-    }
   }
   main {
     #mapid {
@@ -57,22 +22,9 @@ body {
     .aside-content {
       position: absolute;
       top: 15%;
-      background-color: $color3;
       height: 100%;
       width: 25%;
-      box-shadow: 0.1em 0 0 0 $color4;
-      border-top: solid 0.1em $color4;
-      border-right: 0.1em $color4;
       z-index: 4;
-    }
-    .turn-red {
-      background-color: $color1;
-    }
-    .turn-green {
-      background-color: $color3;
-    }
-    .turn-yellow {
-      background-color: $color2;
     }
     .sidebar-nav {
       ul {
@@ -87,31 +39,46 @@ body {
         li {
           list-style-type:none;
           flex-grow: 1;
-          border-top-right-radius: 25%;
           line-height: 5em;
           padding: 1em;
-          border-bottom: solid 0.1em $color4;
         }
         #all-maps {
-          border-top: solid 0.1em $color4;
-          background-color: $color3;
-          box-shadow: 0.1em 0 0 0 $color4;
           z-index: 3;
         }
         #favourites {
-          background-color: $color1;
-          box-shadow: 0.1em 0 0 0 $color4;
           z-index: 2;
         }
         #contributions {
-          background-color: $color2;
-          box-shadow: 0.1em 0 0 0 $color4;
           z-index: 1;
         }
-        .left-border {
-          border-left: solid 0.1em $color4;
-        }
       }
+    }
+  }
+  #new-map_form {
+    position: fixed;
+    text-align: center;
+    display:none;
+    right: 2%;
+    bottom: 20%;
+    z-index: 10;
+    padding: 2em;
+  }
+  .create-icons {
+    z-index: 10;
+    position: fixed;
+    right: 2%;
+    display: inline-block;
+    bottom: 5%
+  }
+  footer {
+    #new-map_button {
+     border-radius: 50%;
+     width: 3.5em;
+     height: 3.5em;
+     margin: 1em;
+     display:flex;
+     justify-content: center;
+     align-items: center;
     }
   }
 }

@@ -15,6 +15,25 @@ $(() => {
     map.panTo(new L.LatLng(position.lat, position.lng))
   });
 
+  $login = $('#login');
+  $logout = $('#logout');
+  $register = $('#register');
+  $welcome = $('#welcome-message');
+
+  $login.click(() => {
+    $login.hide();
+    $register.hide();
+    $logout.show();
+    $welcome.show();
+  });
+
+  $logout.click(() => {
+    $login.show();
+    $register.show();
+    $logout.hide();
+    $welcome.hide();
+  });
+
 
   const $color1 = 'rgba(237, 106, 90, 1)';
   const $color2 = 'rgba(244, 241, 187, 1)';
@@ -25,6 +44,12 @@ $(() => {
   const $favourites = $('#favourites');
   const $allMaps = $('#all-maps');
   const $contributions = $('#contributions');
+  const $mapForm = $('#new-map_form');
+  const $mapButton = $('#new-map_button');
+
+  $mapButton.click(() => {
+    $mapForm.toggle();
+  });
 
   $favourites.click(() => {
     $asidecontent.addClass('turn-red')

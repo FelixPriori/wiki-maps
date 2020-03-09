@@ -1,0 +1,47 @@
+$color1: rgba(237, 106, 90, 1);
+$color2: rgba(244, 241, 187, 1);
+$color3: rgba(155, 193, 188, 1);
+$color4: rgba(93, 87, 107, 1);
+$color5: rgba(230, 235, 224, 1);
+
+body {
+  nav {
+    background-color: $color1;
+    h1 {
+      color: $color3;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 3em;
+      padding: 0 1.5em;
+      text-shadow: 2px 2px $color4;
+    }
+    h1:hover {
+      color: $color4;
+      text-shadow: 2px 2px $color3;
+    }
+    #welcome-message {
+      display: none;
+      color: $color5;
+      font-size: 1.75em;
+    }
+    span {
+      align-self: center;
+      margin-left: auto;
+      padding: 2px;
+      button {
+        z-index: 10;
+        margin-right: 2em;
+        background-color: $color2;
+        color: $color4;
+        box-shadow: 0.1em 0.1em 0 0 $color4;
+      }
+      .btn-light:hover {
+        background-color: $color4;
+        color: $color2;
+        box-shadow: 0.1em 0.1em 0 0 $color2;
+      }
+      #logout {
+        display: none;
+      }
+    }
+  }
+}
