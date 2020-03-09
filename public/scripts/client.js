@@ -1,19 +1,21 @@
-//Basic form 
+//The map is by default pointing to montreal
+const createMap = function(){
+    const map = L.map('map', {
+        center: [45.5017, -73.5673],
+        zoom: 12
+    })
+    return map;
+};
 
-const createForm = function(){
-    let form = `<div id="userRegister" ><form action="POST" method="/login">
-                <label for="fname">First name:</label>
-                <input type="text" id="fname" name="fname"><br><br>
-                <label for="lname">Last name:</label>
-                <input type="text" id="lname" name="lname"><br><br>
-                <input type="submit" value="Submit"></form><div>`;
-
-    return form;
-}
-
-$('#register').click(function () {
-    $form = createForm();
-    $('.aside-content').append($form);
+$.ajax({
+    type: "POST",
+    url: "/maps",
+    data: "$(#something)",
+    success: function () {
+    createMap();
+    }
 });
-
-$()
+//have to update this based on the users latitude and longitude
+const createPoints = function(lat, lng){
+    L.marker([lat, lng]).addTo(createMap);
+}
