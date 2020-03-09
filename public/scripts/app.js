@@ -34,6 +34,10 @@ $(() => {
     </form>
   `;
 
+  $('.marker-form').submit(function(event) {
+    event.preventDefault();
+  })
+
   newMarkerGroup = new L.LayerGroup();
 	map.on('click', addMarker);
 
