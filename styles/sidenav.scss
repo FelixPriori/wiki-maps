@@ -3,6 +3,7 @@ $color2: rgba(244, 241, 187, 1);
 $color3: rgba(155, 193, 188, 1);
 $color4: rgba(93, 87, 107, 1);
 $color5: rgba(230, 235, 224, 1);
+$shadow: 0.2em 0.2em 0 0 $color4;
 
 body {
   font-family: 'Lato', sans-serif;
@@ -30,7 +31,7 @@ body {
         text-shadow: 2px 2px $color4;
       }
       .map-list-item {
-        box-shadow: 0.2em 0.2em 0 0 $color4;
+        box-shadow: $shadow;
         opacity: 50%;
         background-color: $color5;
       }

@@ -19,14 +19,24 @@ body {
     }
   }
   aside {
+    overflow: hidden;
     .aside-content {
       position: absolute;
       top: 15%;
       height: 100%;
       width: 25%;
       z-index: 4;
+      overflow-y: scroll;
+      left:0;
+      right:-17px;
     }
     div {
+      img {
+        max-width: 250px;
+        max-height: 100px;
+        width: auto;
+        height: auto;
+      }
       .map-list-item {
         border: 1px solid black;
         margin: 1em;
