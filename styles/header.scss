@@ -38,8 +38,12 @@ body {
       .btn-light:hover {
         background-color: $color4;
         color: $color2;
-        box-shadow: $shadow;
+        box-shadow: 0.2em 0.2em 0 0 $color2;
       }
+      .btn-light:active {
+        box-shadow: none;
+      }
+
       #logout {
         display: none;
       }
