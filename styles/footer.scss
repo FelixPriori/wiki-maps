@@ -3,24 +3,31 @@ $color2: rgba(244, 241, 187, 1);
 $color3: rgba(155, 193, 188, 1);
 $color4: rgba(93, 87, 107, 1);
 $color5: rgba(230, 235, 224, 1);
+$shadow: 0.2em 0.2em 0 0 $color4;
 
 body {
   #new-map_form {
     background-color: $color1;
     color: $color5;
     font-size: 1.2em;
-    box-shadow: 0.2em 0.2em 0 0 $color4;
+    box-shadow: $shadow;
   }
   div {
     form {
       color: $color4;
+      .btn {
+        z-index: 10;
+        background-color: $color2;
+        color: $color4;
+        box-shadow: $shadow;
+      }
     }
   }
   footer{
     #new-map_button {
       background-color: $color1;
       color: $color5;
-      box-shadow: 0.2em 0.2em 0 0 $color4;
+      box-shadow: $shadow;
     }
     #new-map_button:hover {
       color: $color1;
