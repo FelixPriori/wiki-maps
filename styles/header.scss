@@ -44,5 +44,9 @@ body {
         display: none;
       }
     }
+    .form {
+      background-color: $color1;
+      box-shadow: $shadow;
+    }
   }
 }
