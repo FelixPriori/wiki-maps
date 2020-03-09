@@ -23,7 +23,7 @@ const renderMaps = function(maps) {
     </div>`;
     return $map;
   }
-
+  yikes
   function loadMaps() {
     $.ajax({
       method: "GET",
