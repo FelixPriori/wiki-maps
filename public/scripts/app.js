@@ -14,6 +14,7 @@ $(() => {
   const $favouritesAside = $('.favourites-aside');
   const $allMapsAside = $('.all-maps-aside');
   const $contributionsAside = $('.contributions-aside');
+  const $mapListItem = $('.map-list-item');
 
   const map = L.map('mapid').setView([45.5017, -73.5673], 12);
 
@@ -34,9 +35,7 @@ $(() => {
     </form>
   `;
 
-  $('.marker-form').submit(function(event) {
-    event.preventDefault();
-  })
+
 
   newMarkerGroup = new L.LayerGroup();
 	map.on('click', addMarker);
