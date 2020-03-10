@@ -1,3 +1,5 @@
+let currentMap;
+
 //The map is by default pointing to montreal
 $("#map-form").on("submit", function(event) {
   event.preventDefault();
@@ -20,16 +22,17 @@ const renderMaps = function(maps) {
     }
   }
 
-  const highlightMap = (element) => {
+  const highlightMap = (element, id) => {
+    localStorage.setItem('mapId', id);
     $('.map-list-item').css('border', 'none')
-      .css('opacity', '50%');
+      .css('opacity', '50%')
     $(element).css('border', '1px solid black')
-      .css('opacity', '100%');
+      .css('opacity', '100%')
   };
 
   function createMapElement(dataMap) {
     let $map = `
-      <div onclick="highlightMap(this)" class="map-list-item">
+      <div onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
         <button>
           <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
           <p id=${dataMap.id}>
