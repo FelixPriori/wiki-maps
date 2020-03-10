@@ -15,15 +15,14 @@ const renderMaps = function(maps) {
 
   function createMapElement(dataMap) {
     let $map = `
-    <div class="map-list-item">
-      <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
-      <p id=${dataMap.id}>
+    <div  class="map-list-item point">
+<img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
+      <p class="elementMap"  id=${dataMap.id}>
         ${dataMap.name} 
       </p>
     </div>`;
     return $map;
   }
-  yikes
   function loadMaps() {
     $.ajax({
       method: "GET",
@@ -40,6 +39,21 @@ const postMap = function(event) {
     data: $("#map-form").serialize(),
     }).done(() => loadMaps()); 
 };
+// have id from the cliked map name
+let idMap;
+$("map-list-item").on("click", ".point", function(e) {
+  console.log(e.target);
+  idMap = $(e.target).siblings(".elementMap").attr("id");
+  console.log($(e.target).children(".elementMap"));
+});
+
+// function loadPoints() {
+//   $.ajax({
+//     method: "GET",
+//     url: `/maps:${lidMap}`
+//   }).done((data)=>console.log(data));
+// }
+
 //have to update this based on the users latitude and longitude
 const createPoints = function(lat, lng) {
   L.marker([lat, lng]).addTo(createMap);
