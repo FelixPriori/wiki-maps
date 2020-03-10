@@ -17,10 +17,6 @@ $(document).ready(() => {
   const $registerForm = $('.register_form');
   const $loginForm = $('.login_form');
 
-  $(document).on('click', '.edit-map-title', () => {
-    $('.map-name').attr('contenteditable', 'true');
-  });
-
   $login.click(() => {
     $loginForm.toggle();
     $registerForm.hide();

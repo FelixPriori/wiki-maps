@@ -26,8 +26,9 @@ const highlightMap = id => {
 };
 
 const editName = id => {
-  $(`#${id} > button > p`).attr('contenteditable','true');
-  $(`#${id} > button > p`).focus();
+  const $mapName = $(`#${id} > button > p`);
+  $mapName.attr('contenteditable','true');
+  $mapName.focus();
 }
 
 const createMapElement = (dataMap) => {
@@ -105,38 +106,39 @@ const popupContent = `
   </form>
 `;
 
-newMarkerGroup = new L.LayerGroup();
-map.on('click', addMarker);
 let arrayCoods = [];
-
 //Marker Functions
 const addMarker = (click) => {
-let latitude = click.latlng.lat;
-let longitude = click.latlng.lng;
- arrayCoords = [latitude, longitude];
+  let latitude = click.latlng.lat;
+  let longitude = click.latlng.lng;
+  arrayCoords = [latitude, longitude];
   const newMarker = new L.marker(click.latlng, {draggable: 'true'})
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
-    return arrayCoords;
-};
+  return arrayCoords;
+  };
 
-//post markers on the map using ajax post request
-const markPoint = function(){
-    let dataObj = $('.marker-form').serialize();
-    dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
- $.ajax({
-     method: "POST",
-     url: "points/markpoint",
-     data: dataObj,
- }).done();
-}
+  //post markers on the map using ajax post request
+  const markPoint = function(){
+      let dataObj = $('.marker-form').serialize();
+      dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
+   $.ajax({
+       method: "POST",
+       url: "points/markpoint",
+       data: dataObj,
+   }).done();
+  }
 
-const getPoints = function(){
-  $.ajax({
-      method: "GET",
-      url: "/getpoints",
-      success: function () {
-      }
-  });
-};
+  const getPoints = function(){
+    $.ajax({
+        method: "GET",
+        url: "/getpoints",
+        success: function () {
+        }
+    });
+  };
+
+newMarkerGroup = new L.LayerGroup();
+map.on('click', addMarker);
+
