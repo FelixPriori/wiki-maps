@@ -8,6 +8,19 @@ module.exports = (db) => {
         mapsHelper.getMaps(db).then(dbRes => res.json(dbRes));
     });
 
+    router.post('/:mapID' , (req, res) => {
+      const mapID = req.params.mapID;
+      // const {mapID} = req.body;
+      console.log("mapid",mapID);
+      //   let mapInfo = {
+        //  id: mapID['map-ID']
+      // }
+    
+      mapsHelper.getPointsByMapId(db,mapID)
+      .then(dbRes => res.json(dbRes));
+      // .then(dbRes => res.json(dbRes));
+  });
+
     router.post('/', (req, res) => {
        const mapName = req.body;
         let mapInfo = {
@@ -17,5 +30,7 @@ module.exports = (db) => {
      mapsHelper.addMap(db, mapInfo).then(mapObject => res.json(mapObject))
                                     //.catch(err => console.log(err));
     });
+
+    
  return router;
 };

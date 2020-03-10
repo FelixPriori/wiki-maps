@@ -12,18 +12,14 @@ const renderMaps = function(maps) {
   }
 };
 
-const createMapElement = (dataMap) => {
+const createMapElement = dataMap => {
   let $map = `
     <div  class="map-list-item point">
-<img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
-      <p class="elementMap"  id=${dataMap.id}>
-        ${dataMap.name} 
-      </p>
-    </div>`;
+<img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass"><p class="elementMap"  id=${dataMap.id}>${dataMap.name} </p></div>`;
   return $map;
-}
+};
 
-const loadMaps = () =>{
+const loadMaps = () => {
   $.ajax({
     method: "GET",
     url: `/maps`
@@ -40,22 +36,46 @@ const postMap = function(event) {
 };
 // have id from the cliked map name
 let idMap;
-$("map-list-item").on("click", ".point", function(e) {
-  console.log(e.target);
-  idMap = $(e.target)
-    .siblings(".elementMap")
-    .attr("id");
-  console.log($(e.target).children(".elementMap"));
-});
 
-// function loadPoints() {
-//   $.ajax({
-//     method: "GET",
-//     url: `/maps:${lidMap}`
-//   }).done((data)=>console.log(data));
-// }
+$(".all-maps-aside").on("click", ".elementMap", function(e) {
+  // console.log(e.target);
+  idMap = $(e.target)
+    // .siblings(".elementMap")
+    .attr("id");
+  // console.log(idMap);
+  // console.log($(e.target).children(".elementMap"));
+  $.ajax({
+    method: "POST",
+    url: `/maps/${idMap}`,
+    data: `${idMap}`
+  }).done(data => console.log(data));
+});
 
 //have to update this based on the users latitude and longitude
 const createPoints = function(lat, lng) {
   L.marker([lat, lng]).addTo(createMap);
+
+
+
+  let geojson_url = "";
+
+  fetch(
+    geojson_url
+  ).then(
+    res => res.json()
+  ).then(
+    data => {
+      let geojsonLayer = L.geoJson(data, {
+        onEachFeature:function(feature,layer){
+          layer.binPopup(feature.properties['name'])
+        }
+      }).addTo(map)
+        map.fitBounds(geojsonLayer.getBounds())
+    }
+  )
+  )
 };
+
+L.geoJSON(geojsonFeature).addTo(map);
+let myLayer = L.geoJSON().addTo(map);
+myLayer.addData(geojsonFeature);
