@@ -23,7 +23,7 @@ const renderMaps = function(maps) {
     } else {
       $(element).attr('src', '/assets/img/heart-fill.svg')
     }
-  }
+  };
 
   const highlightMap = (element, id) => {
     localStorage.setItem('mapId', id);
@@ -35,14 +35,17 @@ const renderMaps = function(maps) {
 
   function createMapElement(dataMap) {
     let $map = `
-      <div onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
+      <div id=${dataMap.id} onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
         <button>
           <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
-          <p id=${dataMap.id}>
+          <p>
             ${dataMap.name}
           </p>
         </button>
-        <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favouritable">
+        <div class="icons">
+          <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favourite">
+          <img class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
+        </div>
       </div>
     `;
     return $map;
@@ -56,7 +59,8 @@ const renderMaps = function(maps) {
   }
   loadMaps();
 
-const postMap = function() {
+  const postMap = function() {
+
     $.ajax({
     method: "POST",
     url: `/maps`,
@@ -104,7 +108,7 @@ const markPoint = function(){
     dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
  $.ajax({
      method: "POST",
-     url: "/markpoint",
+     url: "points/markpoint",
      data: dataObj, 
  }).done();
 }
@@ -118,4 +122,3 @@ const getPoints = function(){
         }
     });
 }
-
