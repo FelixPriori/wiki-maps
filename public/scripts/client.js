@@ -1,5 +1,3 @@
-let currentMap;
-
 //The map is by default pointing to montreal
 $("#map-form").on("submit", function(event) {
   event.preventDefault();
@@ -20,7 +18,7 @@ const renderMaps = function(maps) {
     } else {
       $(element).attr('src', '/assets/img/heart-fill.svg')
     }
-  }
+  };
 
   const highlightMap = (element, id) => {
     localStorage.setItem('mapId', id);
@@ -32,6 +30,7 @@ const renderMaps = function(maps) {
 
   function createMapElement(dataMap) {
     let $map = `
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <div  class="map-list-item point">
@@ -57,13 +56,19 @@ const renderMaps = function(maps) {
 >>>>>>> 5787acbe934c3172d14a4bc89cf7cd6f91575650
 =======
       <div onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
+=======
+      <div id=${dataMap.id} onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
+>>>>>>> b3aaa02fcba1ed8cb2f32e13733d68e0eb0cea4d
         <button>
           <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
-          <p id=${dataMap.id}>
+          <p>
             ${dataMap.name}
           </p>
         </button>
-        <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favouritable">
+        <div class="icons">
+          <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favourite">
+          <img class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
+        </div>
       </div>
     `;
     return $map;
@@ -78,11 +83,13 @@ const renderMaps = function(maps) {
   }
   loadMaps();
 
-const postMap = function(event) {
+  const postMap = function(event) {
+    $('#new-map_form').hide();
     $.ajax({
     method: "POST",
     url: `/maps`,
     data: $("#map-form").serialize(),
+<<<<<<< HEAD
     }).done(() => loadMaps());
 };
 // have id from the cliked map name
@@ -103,4 +110,21 @@ $("map-list-item").on("click", ".point", function(e) {
 //have to update this based on the users latitude and longitude
 const createPoints = function(lat, lng) {
   L.marker([lat, lng]).addTo(createMap);
+=======
+    }).done(() => {
+      loadMaps()
+      // $.ajax({
+      //   method: "GET",
+      //   url: `/maps`,
+      // }).done(() => {
+      //   renderMaps()
+      //   highlightMap()
+      //   console.log($("#maps-container").children()[0].id);
+      // });
+    });
+  };
+  //have to update this based on the users latitude and longitude
+  const createPoints = function(lat, lng) {
+    L.marker([lat, lng]).addTo(createMap);
+>>>>>>> b3aaa02fcba1ed8cb2f32e13733d68e0eb0cea4d
 };
