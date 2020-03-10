@@ -77,16 +77,25 @@ body {
             min-width: 3em;
           }
         }
-        .favourited, .favouritable {
-          height: 1em;
-          margin-left: auto;
-          margin-top: 1em;
-          margin-right: 1em;
-          min-width: 1em;
-          align-self: end;
-        }
-        .favourited {
-          display: none;
+        .icons {
+          display: flex;
+          flex-direction: column;
+          .favouritable {
+            height: 1em;
+            margin-left: auto;
+            margin-top: 1em;
+            margin-right: 1em;
+            min-width: 1em;
+            align-self: end;
+          }
+          .edit-map-title {
+            height: 1em;
+            margin-left: auto;
+            margin-top: 1em;
+            margin-right: 1em;
+            min-width: 1em;
+            align-self: end;
+          }
         }
       }
     }

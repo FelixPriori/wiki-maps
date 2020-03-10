@@ -1,5 +1,3 @@
-let currentMap;
-
 //The map is by default pointing to montreal
 $("#map-form").on("submit", function(event) {
   event.preventDefault();
@@ -20,7 +18,7 @@ const renderMaps = function(maps) {
     } else {
       $(element).attr('src', '/assets/img/heart-fill.svg')
     }
-  }
+  };
 
   const highlightMap = (element, id) => {
     localStorage.setItem('mapId', id);
@@ -39,7 +37,10 @@ const renderMaps = function(maps) {
             ${dataMap.name}
           </p>
         </button>
-        <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favouritable">
+        <div class="icons">
+          <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favourite">
+          <img class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
+        </div>
       </div>
     `;
     return $map;
@@ -53,14 +54,25 @@ const renderMaps = function(maps) {
   }
   loadMaps();
 
-const postMap = function(event) {
+  const postMap = function(event) {
+    $('#new-map_form').hide();
     $.ajax({
     method: "POST",
     url: `/maps`,
     data: $("#map-form").serialize(),
-    }).done(() => loadMaps());
-};
-//have to update this based on the users latitude and longitude
-const createPoints = function(lat, lng) {
-  L.marker([lat, lng]).addTo(createMap);
+    }).done(() => {
+      loadMaps()
+      $.ajax({
+        method: "GET",
+        url: `/maps`,
+      }).done(() => {
+        renderMaps()
+        highlightMap()
+        $("#maps-container").children()[0];
+      });
+    });
+  };
+  //have to update this based on the users latitude and longitude
+  const createPoints = function(lat, lng) {
+    L.marker([lat, lng]).addTo(createMap);
 };
