@@ -17,26 +17,31 @@ const toggleFavouriting = (element) => {
   }
 };
 
-const highlightMap = (element, id) => {
+const highlightMap = id => {
   localStorage.setItem('mapId', id);
   $('.map-list-item').css('border', 'none')
     .css('opacity', '50%');
-  $(element).css('border', '1px solid black')
+  $(`#${id}`).css('border', '1px solid black')
     .css('opacity', '100%');
 };
 
+const editName = id => {
+  $(`#${id} > button > p`).attr('contenteditable','true');
+  $(`#${id} > button > p`).focus();
+}
+
 const createMapElement = (dataMap) => {
   let $map = `
-    <div id=${dataMap.id} onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
-      <button>
+    <div id=${dataMap.id} onclick="highlightMap(${dataMap.id})" class="map-list-item">
+      <button >
         <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
-        <p>
+        <p class="map-name">
           ${dataMap.name}
         </p>
       </button>
       <div class="icons">
         <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favourite">
-        <img class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
+        <img onclick="editName(${dataMap.id})" class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
       </div>
     </div>
   `;
@@ -51,13 +56,19 @@ const renderMaps = function(maps) {
   }
 };
 
-const loadMaps = () => {
+const loadMaps = (highlight) => {
   $.ajax({
     method: "GET",
     url: `/maps`,
-  }).done(renderMaps);
+  }).done(data => {
+    renderMaps(data);
+    if (highlight) {
+      const firstMapId = data[data.length - 1].id;
+      highlightMap(firstMapId);
+    }
+  });
 };
-loadMaps();
+loadMaps(false);
 
 const postMap = function() {
   $('#new-map_form').hide();
@@ -66,7 +77,7 @@ const postMap = function() {
     url: `/maps`,
     data: $("#map-form").serialize(),
   }).done(() => {
-    loadMaps()
+    loadMaps(true);
     $('#name-field')[0].value = '';
   });
 };

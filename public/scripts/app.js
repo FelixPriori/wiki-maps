@@ -1,10 +1,5 @@
 $(document).ready(() => {
 
-  const $color1 = 'rgba(237, 106, 90, 1)';
-  const $color2 = 'rgba(244, 241, 187, 1)';
-  const $color3 = 'rgba(155, 193, 188, 1)';
-  const $color4 = 'rgba(93, 87, 107, 1)';
-  const $color5 = 'rgba(230, 235, 224, 1)';
   const $asidecontent = $('.aside-content');
   const $favourites = $('#favourites');
   const $allMaps = $('#all-maps');
@@ -15,13 +10,16 @@ $(document).ready(() => {
   const $favouritesAside = $('.favourites-aside');
   const $allMapsAside = $('.all-maps-aside');
   const $contributionsAside = $('.contributions-aside');
-  const $mapListItem = $('.map-list-item');
-  $login = $('#login');
-  $logout = $('#logout');
-  $register = $('#register');
-  $welcome = $('#welcome-message');
-  $registerForm = $('.register_form');
-  $loginForm = $('.login_form');
+  const $login = $('#login');
+  const $logout = $('#logout');
+  const $register = $('#register');
+  const $welcome = $('#welcome-message');
+  const $registerForm = $('.register_form');
+  const $loginForm = $('.login_form');
+
+  $(document).on('click', '.edit-map-title', () => {
+    $('.map-name').attr('contenteditable', 'true');
+  });
 
   $login.click(() => {
     $loginForm.toggle();
