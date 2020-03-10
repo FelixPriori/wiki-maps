@@ -15,7 +15,6 @@ $(document).ready(() => {
   const $allMapsAside = $('.all-maps-aside');
   const $contributionsAside = $('.contributions-aside');
   const $mapListItem = $('.map-list-item');
-
   const map = L.map('mapid').setView([45.5017, -73.5673], 12);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -117,5 +116,5 @@ $(document).ready(() => {
     for(user of users) {
       $("<div>").text(user.name).appendTo($("body"));
     }
-  });;
+  });
 });

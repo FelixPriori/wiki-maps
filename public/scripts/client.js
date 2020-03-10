@@ -30,35 +30,7 @@ const renderMaps = function(maps) {
 
   function createMapElement(dataMap) {
     let $map = `
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <div  class="map-list-item point">
-<img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
-      <p class="elementMap"  id=${dataMap.id}>
-        ${dataMap.name} 
-      </p>
-    </div>`;
-    return $map;
-  }
-=======
-    <div class="map-list-item">
-      <button>
-        <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
-        <p id=${dataMap.id}>
-          ${dataMap.name}
-        </p>
-      </button>
-    </div>`;
-    return $map;
-  }
-
->>>>>>> 5787acbe934c3172d14a4bc89cf7cd6f91575650
-=======
-      <div onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
-=======
       <div id=${dataMap.id} onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
->>>>>>> b3aaa02fcba1ed8cb2f32e13733d68e0eb0cea4d
         <button>
           <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
           <p>
@@ -74,7 +46,6 @@ const renderMaps = function(maps) {
     return $map;
   }
 
->>>>>>> a2a462ed5eddf50432c56d412f90376a11d6b575
   function loadMaps() {
     $.ajax({
       method: "GET",
@@ -89,7 +60,6 @@ const renderMaps = function(maps) {
     method: "POST",
     url: `/maps`,
     data: $("#map-form").serialize(),
-<<<<<<< HEAD
     }).done(() => loadMaps());
 };
 // have id from the cliked map name
@@ -100,31 +70,14 @@ $("map-list-item").on("click", ".point", function(e) {
   console.log($(e.target).children(".elementMap"));
 });
 
-// function loadPoints() {
-//   $.ajax({
-//     method: "GET",
-//     url: `/maps:${lidMap}`
-//   }).done((data)=>console.log(data));
-// }
+function loadPoints() {
+  $.ajax({
+    method: "GET",
+    url: `/maps:${lidMap}`
+  }).done((data)=>console.log(data));
+}
 
 //have to update this based on the users latitude and longitude
 const createPoints = function(lat, lng) {
   L.marker([lat, lng]).addTo(createMap);
-=======
-    }).done(() => {
-      loadMaps()
-      // $.ajax({
-      //   method: "GET",
-      //   url: `/maps`,
-      // }).done(() => {
-      //   renderMaps()
-      //   highlightMap()
-      //   console.log($("#maps-container").children()[0].id);
-      // });
-    });
-  };
-  //have to update this based on the users latitude and longitude
-  const createPoints = function(lat, lng) {
-    L.marker([lat, lng]).addTo(createMap);
->>>>>>> b3aaa02fcba1ed8cb2f32e13733d68e0eb0cea4d
-};
+}
