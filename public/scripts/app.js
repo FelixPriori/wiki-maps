@@ -1,4 +1,4 @@
-$(() => {
+$(document).ready(() => {
 
   const $color1 = 'rgba(237, 106, 90, 1)';
   const $color2 = 'rgba(244, 241, 187, 1)';
@@ -14,8 +14,7 @@ $(() => {
   const $favouritesAside = $('.favourites-aside');
   const $allMapsAside = $('.all-maps-aside');
   const $contributionsAside = $('.contributions-aside');
-
-
+  const $mapListItem = $('.map-list-item');
   $login = $('#login');
   $logout = $('#logout');
   $register = $('#register');
@@ -46,8 +45,8 @@ $(() => {
 
   $favourites.click(() => {
     $asidecontent.addClass('turn-red')
-      .removeClass('turn-yellow')
-      .removeClass('turn-green');
+    .removeClass('turn-yellow')
+    .removeClass('turn-green');
     $favourites.removeClass('left-border');
     $contributions.addClass('left-border');
     $allMaps.addClass('left-border');
