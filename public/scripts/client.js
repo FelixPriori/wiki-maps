@@ -1,5 +1,3 @@
-let currentMap;
-
 //The map is by default pointing to montreal
 $("#map-form").on("submit", function(event) {
   event.preventDefault();
@@ -89,6 +87,7 @@ newMarkerGroup = new L.LayerGroup();
 map.on('click', addMarker);
 let arrayCoods = [];
 
+//Marker Functions 
 function addMarker(click){
 let latitude = click.latlng.lat;
 let longitude = click.latlng.lng;
@@ -99,14 +98,24 @@ let longitude = click.latlng.lng;
     .openPopup();
     return arrayCoords;
 }
+//post markers on the map using ajax post request
 const markPoint = function(){
     let dataObj = $('.marker-form').serialize();
-    dataObj += `&latitutde=${arrayCoords[0]}&longitude=${arrayCoords[1]}`;
-
+    dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
  $.ajax({
      method: "POST",
-     url: "/points/markpoint",
+     url: "/markpoint",
      data: dataObj, 
  }).done();
+}
+
+const getPoints = function(){
+    $.ajax({
+        method: "GET",
+        url: "/getpoints",
+        success: function () {
+              
+        }
+    });
 }
 
