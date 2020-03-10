@@ -30,10 +30,10 @@ const renderMaps = function(maps) {
 
   function createMapElement(dataMap) {
     let $map = `
-      <div onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
+      <div id=${dataMap.id} onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
         <button>
           <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
-          <p id=${dataMap.id}>
+          <p>
             ${dataMap.name}
           </p>
         </button>
@@ -62,14 +62,14 @@ const renderMaps = function(maps) {
     data: $("#map-form").serialize(),
     }).done(() => {
       loadMaps()
-      $.ajax({
-        method: "GET",
-        url: `/maps`,
-      }).done(() => {
-        renderMaps()
-        highlightMap()
-        $("#maps-container").children()[0];
-      });
+      // $.ajax({
+      //   method: "GET",
+      //   url: `/maps`,
+      // }).done(() => {
+      //   renderMaps()
+      //   highlightMap()
+      //   console.log($("#maps-container").children()[0].id);
+      // });
     });
   };
   //have to update this based on the users latitude and longitude
