@@ -9,64 +9,71 @@ $('body').on("submit", '.marker-form',function(event) {
     markPoint();
 });
 
-const renderMaps = function(maps) {
-    $('#maps-container').empty();
-    for(let i = 0; i < maps.length; i++){
-     $map = createMapElement(maps[i]);
-     $('#maps-container').prepend($map);
-    }
-  };
+const toggleFavouriting = (element) => {
+  if ($(element).attr('src') === '/assets/img/heart-fill.svg') {
+    $(element).attr('src', '/assets/img/heart.svg' );
+  } else {
+    $(element).attr('src', '/assets/img/heart-fill.svg')
+  }
+};
 
-  const toggleFavouriting = (element) => {
-    if ($(element).attr('src') === '/assets/img/heart-fill.svg') {
-      $(element).attr('src', '/assets/img/heart.svg' );
-    } else {
-      $(element).attr('src', '/assets/img/heart-fill.svg')
-    }
-  };
+const highlightMap = (element, id) => {
+  localStorage.setItem('mapId', id);
+  $('.map-list-item').css('border', 'none')
+    .css('opacity', '50%');
+  $(element).css('border', '1px solid black')
+    .css('opacity', '100%');
+};
 
-  const highlightMap = (element, id) => {
-    localStorage.setItem('mapId', id);
-    $('.map-list-item').css('border', 'none')
-      .css('opacity', '50%')
-    $(element).css('border', '1px solid black')
-      .css('opacity', '100%')
-  };
-
-  function createMapElement(dataMap) {
-    let $map = `
-      <div id=${dataMap.id} onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
-        <button>
-          <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
-          <p>
-            ${dataMap.name}
-          </p>
-        </button>
-        <div class="icons">
-          <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favourite">
-          <img class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
-        </div>
+const createMapElement = (dataMap) => {
+  let $map = `
+    <div id=${dataMap.id} onclick="highlightMap(this, ${dataMap.id})" class="map-list-item">
+      <button>
+        <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
+        <p>
+          ${dataMap.name}
+        </p>
+      </button>
+      <div class="icons">
+        <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favourite">
+        <img class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
       </div>
-    `;
-    return $map;
+    </div>
+  `;
+  return $map;
+};
+
+const renderMaps = function(maps) {
+  $('#maps-container').empty();
+  for(let i = 0; i < maps.length; i++){
+    $map = createMapElement(maps[i]);
+    $('#maps-container').prepend($map);
   }
+};
 
-  function loadMaps() {
-    $.ajax({
-      method: "GET",
-      url: `/maps`,
-    }).done(renderMaps);
-  }
-  loadMaps();
+const loadMaps = () => {
+  $.ajax({
+    method: "GET",
+    url: `/maps`,
+  }).done(renderMaps);
+};
+loadMaps();
 
-  const postMap = function() {
-
-    $.ajax({
+const postMap = function() {
+  $('#new-map_form').hide();
+  $.ajax({
     method: "POST",
     url: `/maps`,
     data: $("#map-form").serialize(),
-    }).done(() => loadMaps());
+  }).done(() => {
+    loadMaps()
+    $('#name-field')[0].value = '';
+  });
 };
+
+/*
+  BELOW IS CODE REGARDING MARKERS
+*/
 
 const map = L.map('mapid').setView([45.5017, -73.5673], 12);
 
@@ -91,8 +98,8 @@ newMarkerGroup = new L.LayerGroup();
 map.on('click', addMarker);
 let arrayCoods = [];
 
-//Marker Functions 
-function addMarker(click){
+//Marker Functions
+const addMarker = (click) => {
 let latitude = click.latlng.lat;
 let longitude = click.latlng.lng;
  arrayCoords = [latitude, longitude];
@@ -101,7 +108,8 @@ let longitude = click.latlng.lng;
     .bindPopup(popupContent)
     .openPopup();
     return arrayCoords;
-}
+};
+
 //post markers on the map using ajax post request
 const markPoint = function(){
     let dataObj = $('.marker-form').serialize();
@@ -109,16 +117,15 @@ const markPoint = function(){
  $.ajax({
      method: "POST",
      url: "points/markpoint",
-     data: dataObj, 
+     data: dataObj,
  }).done();
 }
 
 const getPoints = function(){
-    $.ajax({
-        method: "GET",
-        url: "/getpoints",
-        success: function () {
-              
-        }
-    });
-}
+  $.ajax({
+      method: "GET",
+      url: "/getpoints",
+      success: function () {
+      }
+  });
+};

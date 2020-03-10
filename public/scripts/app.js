@@ -10,7 +10,8 @@ $(document).ready(() => {
   const $allMaps = $('#all-maps');
   const $contributions = $('#contributions');
   const $mapForm = $('#new-map_form');
-  const $mapButton = $('#new-map_button');
+  const $newMapButton = $('#new-map_button');
+  const $mapNameField =$('#name-field');
   const $favouritesAside = $('.favourites-aside');
   const $allMapsAside = $('.all-maps-aside');
   const $contributionsAside = $('.contributions-aside');
@@ -39,8 +40,9 @@ $(document).ready(() => {
     $welcome.hide();
   });
 
-  $mapButton.click(() => {
+  $newMapButton.click(() => {
     $mapForm.toggle();
+    $mapNameField.focus();
   });
 
   $favourites.click(() => {
