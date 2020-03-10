@@ -26,10 +26,10 @@ body {
       }
     }
   }
+
   .login_form, .register_form {
     display:none;
   }
-
   main {
     #mapid {
       position: absolute;
@@ -59,12 +59,22 @@ body {
       }
       .map-list-item {
         margin: 1em;
+<<<<<<< HEAD
+=======
+        display: flex;
+        flex-direction: row;
+>>>>>>> a2a462ed5eddf50432c56d412f90376a11d6b575
         button {
           display: flex;
           text-align: left;
           width: 100%;
           padding: 1em;
+<<<<<<< HEAD
           justify-items: center;
+=======
+          padding-right: 0;
+          align-items: center;
+>>>>>>> a2a462ed5eddf50432c56d412f90376a11d6b575
           p {
             align-self: center;
             word-break: break-all;
@@ -73,6 +83,20 @@ body {
             margin-right: 1em;
             min-width: 3em;
           }
+<<<<<<< HEAD
+=======
+        }
+        .favourited, .favouritable {
+          height: 1em;
+          margin-left: auto;
+          margin-top: 1em;
+          margin-right: 1em;
+          min-width: 1em;
+          align-self: end;
+        }
+        .favourited {
+          display: none;
+>>>>>>> a2a462ed5eddf50432c56d412f90376a11d6b575
         }
       }
     }

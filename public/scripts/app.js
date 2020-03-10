@@ -1,4 +1,4 @@
-$(() => {
+$(document).ready(() => {
 
   const $color1 = 'rgba(237, 106, 90, 1)';
   const $color2 = 'rgba(244, 241, 187, 1)';
@@ -42,9 +42,9 @@ $(() => {
 
   function addMarker(click){
     return newMarker = new L.marker(click.latlng, {draggable: 'true'})
-      .addTo(map)
-      .bindPopup(popupContent)
-      .openPopup();
+    .addTo(map)
+    .bindPopup(popupContent)
+    .openPopup();
   }
 
   $login = $('#login');
@@ -77,8 +77,8 @@ $(() => {
 
   $favourites.click(() => {
     $asidecontent.addClass('turn-red')
-      .removeClass('turn-yellow')
-      .removeClass('turn-green');
+    .removeClass('turn-yellow')
+    .removeClass('turn-green');
     $favourites.removeClass('left-border');
     $contributions.addClass('left-border');
     $allMaps.addClass('left-border');
