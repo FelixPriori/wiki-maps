@@ -12,17 +12,33 @@ const renderMaps = function(maps) {
     }
   };
 
+  const toggleFavouriting = (element) => {
+    if ($(element).attr('src') === '/assets/img/heart-fill.svg') {
+      $(element).attr('src', '/assets/img/heart.svg' );
+    } else {
+      $(element).attr('src', '/assets/img/heart-fill.svg')
+    }
+  }
+
+  const highlightMap = (element) => {
+    $('.map-list-item').css('border', 'none')
+      .css('opacity', '50%');
+    $(element).css('border', '1px solid black')
+      .css('opacity', '100%');
+  };
 
   function createMapElement(dataMap) {
     let $map = `
-    <div class="map-list-item">
-      <button>
-        <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
-        <p id=${dataMap.id}>
-          ${dataMap.name}
-        </p>
-      </button>
-    </div>`;
+      <div onclick="highlightMap(this)" class="map-list-item">
+        <button>
+          <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
+          <p id=${dataMap.id}>
+            ${dataMap.name}
+          </p>
+        </button>
+        <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favouritable">
+      </div>
+    `;
     return $map;
   }
 
