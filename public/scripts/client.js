@@ -107,7 +107,30 @@ const popupContent = `
 `;
 
 let arrayCoods = [];
+
 //Marker Functions
+
+const makeMarkerHtml = (markerData) => {
+  const markerContent = `<div id='${markerData.id}'>`
+  if (markerData.image) {
+    markerContent += `<img src='${markerData.image}'>`;
+  }
+  markerContent += `<h2>${markerData.name}</h2>`;
+  if (markerData.description) {
+    markerContent += `<p>${markerData.description}</p>`
+  }
+  markerContent += `</div>`;
+  return markerContent;
+}
+
+const generateMarkers = markerList => {
+  for (const marker in markerList) {
+    const markerContent = makeMarkerHtml(marker);
+    new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
+      .popupContent(markerContent);
+  }
+}
+
 const addMarker = (click) => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
@@ -117,27 +140,27 @@ const addMarker = (click) => {
     .bindPopup(popupContent)
     .openPopup();
   return arrayCoords;
-  };
+};
 
   //post markers on the map using ajax post request
-  const markPoint = function(){
-      let dataObj = $('.marker-form').serialize();
-      dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
-   $.ajax({
-       method: "POST",
-       url: "points/markpoint",
-       data: dataObj,
-   }).done();
-  }
+const markPoint = function(){
+  let dataObj = $('.marker-form').serialize();
+  dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
+  $.ajax({
+    method: "POST",
+    url: "points/markpoint",
+    data: dataObj,
+  }).done();
+}
 
-  const getPoints = function(){
-    $.ajax({
-        method: "GET",
-        url: "/getpoints",
-        success: function () {
-        }
-    });
-  };
+const getPoints = function(){
+  $.ajax({
+    method: "GET",
+    url: "/getpoints",
+    success: function () {
+    }
+  });
+};
 
 newMarkerGroup = new L.LayerGroup();
 map.on('click', addMarker);
