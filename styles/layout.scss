@@ -26,10 +26,10 @@ body {
       }
     }
   }
+
   .login_form, .register_form {
     display:none;
   }
-
   main {
     #mapid {
       position: absolute;
@@ -59,12 +59,15 @@ body {
       }
       .map-list-item {
         margin: 1em;
+        display: flex;
+        flex-direction: row;
         button {
           display: flex;
           text-align: left;
           width: 100%;
           padding: 1em;
-          justify-items: center;
+          padding-right: 0;
+          align-items: center;
           p {
             align-self: center;
             word-break: break-all;
@@ -72,6 +75,37 @@ body {
           img {
             margin-right: 1em;
             min-width: 3em;
+          }
+        }
+        .favourited, .favouritable {
+          height: 1em;
+          margin-left: auto;
+          margin-top: 1em;
+          margin-right: 1em;
+          min-width: 1em;
+          align-self: end;
+        }
+        .favourited {
+          display: none;
+        }
+        .icons {
+          display: flex;
+          flex-direction: column;
+          .favouritable {
+            height: 1em;
+            margin-left: auto;
+            margin-top: 1em;
+            margin-right: 1em;
+            min-width: 1em;
+            align-self: end;
+          }
+          .edit-map-title {
+            height: 1em;
+            margin-left: auto;
+            margin-top: 1em;
+            margin-right: 1em;
+            min-width: 1em;
+            align-self: end;
           }
         }
       }

@@ -1,25 +1,24 @@
-$(() => {
+$(document).ready(() => {
+  const $color1 = "rgba(237, 106, 90, 1)";
+  const $color2 = "rgba(244, 241, 187, 1)";
+  const $color3 = "rgba(155, 193, 188, 1)";
+  const $color4 = "rgba(93, 87, 107, 1)";
+  const $color5 = "rgba(230, 235, 224, 1)";
+  const $asidecontent = $(".aside-content");
+  const $favourites = $("#favourites");
+  const $allMaps = $("#all-maps");
+  const $contributions = $("#contributions");
+  const $mapForm = $("#new-map_form");
+  const $mapButton = $("#new-map_button");
+  const $favouritesAside = $(".favourites-aside");
+  const $allMapsAside = $(".all-maps-aside");
+  const $contributionsAside = $(".contributions-aside");
+  const $mapListItem = $(".map-list-item");
+  const map = L.map("mapid").setView([45.5017, -73.5673], 12);
 
-  const $color1 = 'rgba(237, 106, 90, 1)';
-  const $color2 = 'rgba(244, 241, 187, 1)';
-  const $color3 = 'rgba(155, 193, 188, 1)';
-  const $color4 = 'rgba(93, 87, 107, 1)';
-  const $color5 = 'rgba(230, 235, 224, 1)';
-  const $asidecontent = $('.aside-content');
-  const $favourites = $('#favourites');
-  const $allMaps = $('#all-maps');
-  const $contributions = $('#contributions');
-  const $mapForm = $('#new-map_form');
-  const $mapButton = $('#new-map_button');
-  const $favouritesAside = $('.favourites-aside');
-  const $allMapsAside = $('.all-maps-aside');
-  const $contributionsAside = $('.contributions-aside');
-  const $mapListItem = $('.map-list-item');
-
-  const map = L.map('mapid').setView([45.5017, -73.5673], 12);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
   const popupContent = `
@@ -35,24 +34,22 @@ $(() => {
     </form>
   `;
 
-
-
   newMarkerGroup = new L.LayerGroup();
-	map.on('click', addMarker);
+  map.on("click", addMarker);
 
-  function addMarker(click){
-    return newMarker = new L.marker(click.latlng, {draggable: 'true'})
+  function addMarker(click) {
+    return (newMarker = new L.marker(click.latlng, { draggable: "true" })
       .addTo(map)
       .bindPopup(popupContent)
-      .openPopup();
+      .openPopup());
   }
 
-  $login = $('#login');
-  $logout = $('#logout');
-  $register = $('#register');
-  $welcome = $('#welcome-message');
-  $registerForm = $('.register_form');
-  $loginForm = $('.login_form');
+  $login = $("#login");
+  $logout = $("#logout");
+  $register = $("#register");
+  $welcome = $("#welcome-message");
+  $registerForm = $(".register_form");
+  $loginForm = $(".login_form");
 
   $login.click(() => {
     $loginForm.toggle();
@@ -76,46 +73,73 @@ $(() => {
   });
 
   $favourites.click(() => {
-    $asidecontent.addClass('turn-red')
-      .removeClass('turn-yellow')
-      .removeClass('turn-green');
-    $favourites.removeClass('left-border');
-    $contributions.addClass('left-border');
-    $allMaps.addClass('left-border');
+    $asidecontent
+      .addClass("turn-red")
+      .removeClass("turn-yellow")
+      .removeClass("turn-green");
+    $favourites.removeClass("left-border");
+    $contributions.addClass("left-border");
+    $allMaps.addClass("left-border");
     $contributionsAside.hide();
     $allMapsAside.hide();
     $favouritesAside.show();
   });
   $contributions.click(() => {
-    $asidecontent.addClass('turn-yellow')
-    .removeClass('turn-red')
-    .removeClass('turn-green');
-    $contributions.removeClass('left-border');
-    $allMaps.addClass('left-border');
-    $favourites.addClass('left-border');
+    $asidecontent
+      .addClass("turn-yellow")
+      .removeClass("turn-red")
+      .removeClass("turn-green");
+    $contributions.removeClass("left-border");
+    $allMaps.addClass("left-border");
+    $favourites.addClass("left-border");
     $contributionsAside.show();
     $allMapsAside.hide();
     $favouritesAside.hide();
   });
   $allMaps.click(() => {
-    $asidecontent.addClass('turn-green')
-    .removeClass('turn-yellow')
-    .removeClass('turn-red');
-    $allMaps.removeClass('left-border');
-    $contributions.addClass('left-border');
-    $favourites.addClass('left-border');
+    $asidecontent
+      .addClass("turn-green")
+      .removeClass("turn-yellow")
+      .removeClass("turn-red");
+    $allMaps.removeClass("left-border");
+    $contributions.addClass("left-border");
+    $favourites.addClass("left-border");
     $contributionsAside.hide();
     $allMapsAside.show();
     $favouritesAside.hide();
   });
 
+  
+  // have id from the cliked map name
+  let idMap;
+  $("#maps-container").on("click", "button", function(e) {
+    idMap = $(e.target)
+      .closest("div")
+      .attr("id");
+    $.ajax({
+      method: "POST",
+      url: `/maps/${idMap}`,
+      data: `${idMap}`
+    })
+    .done(data => console.log(data));
+    // .done(addPointsMap(data));
+
+  });
+
+let markerMap;
+  const addPointsMap = function(data) {
+    markerMap = L.marker([data[1].latitude, data[1].longitude]).addTo(Map);
+  };
+
 
   $.ajax({
     method: "GET",
     url: "/api/users"
-  }).done((users) => {
-    for(user of users) {
-      $("<div>").text(user.name).appendTo($("body"));
+  }).done(users => {
+    for (user of users) {
+      $("<div>")
+        .text(user.name)
+        .appendTo($("body"));
     }
-  });;
+  });
 });
