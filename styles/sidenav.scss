@@ -41,9 +41,20 @@ body {
         box-shadow: $shadow;
         opacity: 50%;
         background-color: $color5;
+        font-family: 'Josefin Sans', sans-serif;
+        font-size: 1.25em;
+        button {
+          border: none;
+        }
+        button:focus {
+          outline: 0;
+        }
       }
       .map-list-item:hover {
         opacity: 100%;
+      }
+      .map-list-item:active{
+        box-shadow: none;
       }
     }
   }

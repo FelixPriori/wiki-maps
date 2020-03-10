@@ -15,6 +15,7 @@ const renderMaps = function(maps) {
 
   function createMapElement(dataMap) {
     let $map = `
+<<<<<<< HEAD
     <div  class="map-list-item point">
 <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
       <p class="elementMap"  id=${dataMap.id}>
@@ -23,6 +24,19 @@ const renderMaps = function(maps) {
     </div>`;
     return $map;
   }
+=======
+    <div class="map-list-item">
+      <button>
+        <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="compass">
+        <p id=${dataMap.id}>
+          ${dataMap.name}
+        </p>
+      </button>
+    </div>`;
+    return $map;
+  }
+
+>>>>>>> 5787acbe934c3172d14a4bc89cf7cd6f91575650
   function loadMaps() {
     $.ajax({
       method: "GET",
@@ -32,12 +46,11 @@ const renderMaps = function(maps) {
   loadMaps();
 
 const postMap = function(event) {
-
     $.ajax({
     method: "POST",
     url: `/maps`,
     data: $("#map-form").serialize(),
-    }).done(() => loadMaps()); 
+    }).done(() => loadMaps());
 };
 // have id from the cliked map name
 let idMap;
