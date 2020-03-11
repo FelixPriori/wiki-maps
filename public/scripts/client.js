@@ -31,11 +31,9 @@ const clearMap = () => {
   // there exists an array of marker id
   // loop through
   // remove that layer
-  console.log(markers);
   for (const marker of markers) {
     marker.remove();
   }
-  console.log(markers);
 }
 
 const editName = id => {
@@ -210,13 +208,13 @@ map.on("click", addMarker);
 
 let markerElement = (dataPoint,index) => {
   let markerE = new L.marker([dataPoint[index].latitude, dataPoint[index].longitude]).addTo(map);
+  markers.push(markerE);
 }
 
 const renderMaskers = function(points) {
   for (let i = 0; i < points.length; i++) {
     markerElement(points,i);
   }
-
 };
 
 
