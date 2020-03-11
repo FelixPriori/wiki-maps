@@ -86,7 +86,7 @@ const loadMaps = highlight => {
 loadMaps(false);
 
 const postMap = function() {
-  if ($('#name-field').value) {
+  if ($('#name-field').val()) {
     $("#new-map_form").hide();
     $.ajax({
       method: "POST",
@@ -128,14 +128,14 @@ const popupContent = `
   <form class="marker-form">
     <h2>Add a new marker</h2>
     <label for="marker-name">Name</label>
-    <input name="name" type="text", placeholder="name your marker!"/>
+    <input class="marker-name" name="name" type="text", placeholder="name your marker!"/>
+    <p class="marker-name-alert alert alert-warning" style="display:none; color: rgba(237, 106, 90, 1);" role="alert">Please name your marker!</p>
     <label for="marker-img">Image</label>
     <input name="image" class="marker-img" type="url", placeholder="img url"/>
     <label for="marker-description">Description</label>
     <textarea name="description" class="marker-description" placeholder="desciption"></textarea>
     <div class="buttons">
       <input class="btn btn-light submit" type="submit">
-      <button class="btn btn-light cancel-button">Cancel</button>
     </div>
   </form>
 `;
@@ -161,13 +161,21 @@ const addMarker = (click) => {
 
 //post markers on the map using ajax post request
 const markPoint = function(){
-  let dataObj = $('.marker-form').serialize();
-  dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
-  $.ajax({
-    method: "POST",
-    url: "points/markpoint",
-    data: dataObj,
-  }).done();
+  if ($('.marker-name').val()) {
+    let dataObj = $('.marker-form').serialize();
+    dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
+    $.ajax({
+      method: "POST",
+      url: "points/markpoint",
+      data: dataObj,
+    }).done();
+  } else {
+    $('.marker-name-alert').slideDown('fast');
+    setTimeout(() => {
+      $('.marker-name-alert').slideUp('fast');
+    }, 5000);
+  }
+
 }
 
 const getPoints = function(){
@@ -183,17 +191,57 @@ const deletePoint = id => {
   // RAY : delete the point with this id;
 };
 
-const editPoint = id => {
-
-}
 
 newMarkerGroup = new L.LayerGroup();
 map.on("click", addMarker);
 
+const editPoint = () => {
+  $(event.target)
+    .closest('.leaflet-popup-content')
+    .find('.edit-popup')
+    .show();
+  $(event.target)
+    .closest('.leaflet-popup-content')
+    .find('.marker-form')
+    .hide();
+}
+
+const backToPoint = () => {
+  event.preventDefault();
+  $(event.target)
+    .closest('.leaflet-popup-content')
+    .find('.edit-popup')
+    .hide();
+  $(event.target)
+    .closest('.leaflet-popup-content')
+    .find('.marker-form')
+    .show();
+};
+
+const editForm = () => {
+  return `
+    <form class='edit-popup' style='display:none;'>
+      <h2>Edit marker</h2>
+      <label for="marker-name">Name</label>
+      <input class="marker-name" name="name" type="text", placeholder="name your marker!"/>
+      <p class="marker-name-alert alert alert-warning" style="display:none; color: rgba(237, 106, 90, 1);" role="alert">Please name your marker!</p>
+      <label for="marker-img">Image</label>
+      <input name="image" class="marker-img" type="url", placeholder="img url"/>
+      <label for="marker-description">Description</label>
+      <textarea name="description" class="marker-description" placeholder="desciption"></textarea>
+      <div class="buttons">
+        <input class="btn btn-light" type="submit">
+        <button class="btn btn-light" onclick="backToPoint()">Cancel</button>
+      </div>
+    </form>
+  `;
+}
+
+
 const makeMarkerHtml = (markerData) => {
-  let markerContent = `<div class="marker-form" id='${markerData.id}'>`
+  let markerContent = editForm() + `<div class="marker-form" id='${markerData.id}'>`
   if (markerData.image) {
-    markerContent += `
+    markerContent +=  `
       <div class="img-box">
         <img src='${markerData.image}'>
       </div>
@@ -204,11 +252,11 @@ const makeMarkerHtml = (markerData) => {
     markerContent += `<p>${markerData.description}</p>`
   }
   markerContent += `
-    <div class="buttons">
-      <button class="btn btn-light edit-button" onclick="deletePoint(${markerData.id})">Delete</button>
-      <button class="btn btn-light delete-button" onclick="editPoint(${markerData.id})">Edit</button>
-    </div>
-  </div>`;
+      <div class="buttons">
+        <button class="btn btn-light edit-button" onclick="deletePoint(${markerData.id})">Delete</button>
+        <button class="btn btn-light delete-button" onclick="editPoint()">Edit</button>
+      </div>
+    </div>`;
   return markerContent;
 }
 
