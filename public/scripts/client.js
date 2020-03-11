@@ -188,7 +188,7 @@ const popupContent = `
 
 //Marker Functions
 
-const addMarker = (click) => {
+const addMarker = click => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
   arrayCoords = [latitude, longitude];
@@ -301,9 +301,9 @@ const makeMarkerHtml = markerData => {
     markerContent += `<p>${markerData.description}</p>`;
   }
   markerContent += `
-      <div class="buttons">
-        <button class="btn btn-light edit-button" onclick="deletePoint(${markerData.id})">Delete</button>
-        <button class="btn btn-light delete-button" onclick="editPoint()">Edit</button>
+      <div id='${markerData.id}' class="buttons">
+        <button id='${markerData.map_id}'class="btn btn-light delete-button deleteMarker" onclick="deletePoint(${markerData.id})">Delete</button>
+        <button id='${markerData.map_id}' class="btn btn-light edit-button editMarker" onclick="editPoint()">Edit</button>
       </div>
     </div>`;
   return markerContent;
@@ -317,8 +317,16 @@ const renderMarkers = function(markerList) {
     })
       .addTo(map)
       .bindPopup(markerContent);
+    newMarker.point_id = marker.id;
     markers.push(newMarker);
   }
+};
+const getPointMaps = function(data) {
+  let idMap = data;
+  $.ajax({
+    method: "GET",
+    url: `/maps/${idMap}`
+  }).done(renderMarkers);
 };
 
 const renderPointsOnMap = function() {
@@ -336,6 +344,36 @@ $("#maps-container").on("click", "button", function(e) {
     method: "GET",
     url: `/maps/${idMap}`
   }).done(renderMarkers);
+});
+// have map-id from the cliked map name and render the point for this map
+// have point-id from the cliked delete
+const deleteMark = function() {
+  $("#mapid").on("click", ".deleteMarker", function(e) {
+    console.log(e.target);
+
+    let idMap = $(e.target).attr("id");
+    console.log("idMap: ", idMap);
+    let point = $(e.target)
+      .closest("div")
+      .attr("id");
+    let dataObj = { pointId: point, mapid: idMap };
+    $.ajax({
+      method: "POST",
+      url: "/maps/points/delete",
+      data: dataObj
+    }).done(() => {
+      markers.filter(marker => (marker.point_id = dataObj.pointId))[0].remove();
+    });
+  });
+};
+deleteMark();
+// have point-id from the cliked edit
+$("#mapid").on("click", ".editMarker", function(e) {
+  let point = $(e.target)
+    .closest("div")
+    .attr("id");
+  let dataObj = { pointId: point };
+  // console.log("Edit: ",dataObj);
 });
 
 /* ADD user functionality Login ------ Register Can Favourite a map, Can Have Contributions */
