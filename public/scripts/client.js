@@ -1,4 +1,6 @@
 let markers = [];
+localStorage.removeItem('mapId');
+
 //The map is by default pointing to montreal
 $("#map-form").on("submit", function(event) {
   event.preventDefault();
@@ -7,15 +9,21 @@ $("#map-form").on("submit", function(event) {
 //Submit for a pointer on the map
 $("body").on("submit", ".marker-form", function(event) {
   event.preventDefault();
-  markPoint();
-  map.closePopup();
-  renderPointsOnMap();
+  if ($('.marker-name').val().length) {
+    markPoint();
+    map.closePopup();
+    renderPointsOnMap();
+  } else {
+    $('.marker-name-alert').slideDown('fast');
+    setTimeout(() => {
+      $('.marker-name-alert').slideUp('fast');
+    }, 5000);
+  }
 });
-//Submit for Registering users into the data base
+
 $("#Uregister-form").on("submit", function(event){
   event.preventDefault();
   registerUser();
-  //Find a way to close the register form.
 });
 
 const toggleFavouriting = element => {
@@ -46,9 +54,41 @@ const clearMap = () => {
 };
 
 const editName = id => {
-  const $mapName = $(`#${id} > button > p`);
-  $mapName.attr("contenteditable", "true");
-  $mapName.focus();
+  $(`#${id}`)
+    .find('form')
+    .show();
+  $(`#${id}`)
+    .find('.edit')
+    .show();
+  $(`#${id}`)
+    .find('.not-edit')
+    .hide();
+  $(`#${id}`)
+  .find('p')
+  .hide();
+};
+
+const cancel = id => {
+  $(`#${id}`)
+    .find('form')
+    .hide();
+  $(`#${id}`)
+    .find('.edit')
+    .hide();
+  $(`#${id}`)
+    .find('.not-edit')
+    .show();
+  $(`#${id}`)
+    .find('p')
+    .show();
+};
+
+const editNameForm = currentName => {
+  return `
+    <form style="display:none;">
+      <input type='text' value='${currentName}'>
+    </form>
+  `
 };
 
 const createMapElement = dataMap => {
@@ -59,10 +99,13 @@ const createMapElement = dataMap => {
         <p class="map-name">
           ${dataMap.name}
         </p>
+        ${editNameForm(dataMap.name)}
       </button>
       <div class="icons">
-        <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favourite">
-        <img onclick="editName(${dataMap.id})" class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
+        <img onclick="cancel(${dataMap.id})" class="edit cancel-img" src="/assets/img/circle-slash.svg" alt="" title="cancel">
+        <img class="edit confirm-img" src="/assets/img/check-circle.svg" alt="" title="confirm">
+        <img onclick="toggleFavouriting(this)" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
+        <img onclick="editName(${dataMap.id})" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
       </div>
     </div>
   `;
@@ -145,7 +188,7 @@ const popupContent = `
 
 //Marker Functions
 
-const addMarker = click => {
+const addMarker = (click) => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
   arrayCoords = [latitude, longitude];
@@ -161,25 +204,23 @@ const addMarker = click => {
 };
 
 //post markers on the map using ajax post request
-const markPoint = function() {
-  let dataObj = $(".marker-form").serialize();
-  dataObj += `&latitude=${arrayCoords[0]}&longitude=${
-    arrayCoords[1]
-  }&map_id=${localStorage.getItem("mapId")}`;
-  $.ajax({
-    method: "POST",
-    url: "points/markpoint",
-    data: dataObj
-  }).done(() => {
-    getPointsOnMap();
-  });
-};
+const markPoint = function(){
+    let dataObj = $('.marker-form').serialize();
+    dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
+    $.ajax({
+      method: "POST",
+      url: "points/markpoint",
+      data: dataObj,
+    }).done(() => {
+      clearMap()
+      getPointsOnMap();
+    });
+}
 
-const getPointsOnMap = function() {
-  clearMap();
+const getPointsOnMap = function(){
   $.ajax({
     method: "GET",
-    url: `/maps/${localStorage.getItem("mapId")}`
+    url: `/maps/${localStorage.getItem('mapId')}`
   }).done(renderMarkers);
 };
 
@@ -195,7 +236,13 @@ const deletePoint = id => {
 };
 
 newMarkerGroup = new L.LayerGroup();
-map.on("click", addMarker);
+map.on("click", event => {
+  if (localStorage.getItem('mapId')){
+    addMarker(event);
+  } else {
+    $('.login_form').show();
+  }
+});
 
 const editPoint = () => {
   $(event.target)
