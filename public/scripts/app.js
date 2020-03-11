@@ -40,34 +40,37 @@ $(document).ready(() => {
   });
 
   $favourites.click(() => {
-    $asidecontent.addClass('turn-red')
-    .removeClass('turn-yellow')
-    .removeClass('turn-green');
-    $favourites.removeClass('left-border');
-    $contributions.addClass('left-border');
-    $allMaps.addClass('left-border');
+    $asidecontent
+      .addClass("turn-red")
+      .removeClass("turn-yellow")
+      .removeClass("turn-green");
+    $favourites.removeClass("left-border");
+    $contributions.addClass("left-border");
+    $allMaps.addClass("left-border");
     $contributionsAside.hide();
     $allMapsAside.hide();
     $favouritesAside.show();
   });
   $contributions.click(() => {
-    $asidecontent.addClass('turn-yellow')
-    .removeClass('turn-red')
-    .removeClass('turn-green');
-    $contributions.removeClass('left-border');
-    $allMaps.addClass('left-border');
-    $favourites.addClass('left-border');
+    $asidecontent
+      .addClass("turn-yellow")
+      .removeClass("turn-red")
+      .removeClass("turn-green");
+    $contributions.removeClass("left-border");
+    $allMaps.addClass("left-border");
+    $favourites.addClass("left-border");
     $contributionsAside.show();
     $allMapsAside.hide();
     $favouritesAside.hide();
   });
   $allMaps.click(() => {
-    $asidecontent.addClass('turn-green')
-    .removeClass('turn-yellow')
-    .removeClass('turn-red');
-    $allMaps.removeClass('left-border');
-    $contributions.addClass('left-border');
-    $favourites.addClass('left-border');
+    $asidecontent
+      .addClass("turn-green")
+      .removeClass("turn-yellow")
+      .removeClass("turn-red");
+    $allMaps.removeClass("left-border");
+    $contributions.addClass("left-border");
+    $favourites.addClass("left-border");
     $contributionsAside.hide();
     $allMapsAside.show();
     $favouritesAside.hide();
@@ -77,9 +80,11 @@ $(document).ready(() => {
   $.ajax({
     method: "GET",
     url: "/api/users"
-  }).done((users) => {
-    for(user of users) {
-      $("<div>").text(user.name).appendTo($("body"));
+  }).done(users => {
+    for (user of users) {
+      $("<div>")
+        .text(user.name)
+        .appendTo($("body"));
     }
   });
 });

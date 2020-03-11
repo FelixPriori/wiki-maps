@@ -5,16 +5,22 @@ $("#map-form").on("submit", function(event) {
   postMap();
 });
 
+<<<<<<< HEAD
 $('body').on("submit", '.marker-form',function(event) {
     event.preventDefault();
     markPoint();
+=======
+$("body").on("submit", ".marker-form", function(event) {
+  event.preventDefault();
+  markPoint();
+>>>>>>> newServer
 });
 
-const toggleFavouriting = (element) => {
-  if ($(element).attr('src') === '/assets/img/heart-fill.svg') {
-    $(element).attr('src', '/assets/img/heart.svg' );
+const toggleFavouriting = element => {
+  if ($(element).attr("src") === "/assets/img/heart-fill.svg") {
+    $(element).attr("src", "/assets/img/heart.svg");
   } else {
-    $(element).attr('src', '/assets/img/heart-fill.svg')
+    $(element).attr("src", "/assets/img/heart-fill.svg");
   }
 };
 
@@ -40,11 +46,11 @@ const clearMap = () => {
 
 const editName = id => {
   const $mapName = $(`#${id} > button > p`);
-  $mapName.attr('contenteditable','true');
+  $mapName.attr("contenteditable", "true");
   $mapName.focus();
-}
+};
 
-const createMapElement = (dataMap) => {
+const createMapElement = dataMap => {
   let $map = `
     <div id=${dataMap.id} onclick="highlightMap(${dataMap.id}); clearMap();" class="map-list-item">
       <button >
@@ -63,17 +69,21 @@ const createMapElement = (dataMap) => {
 };
 
 const renderMaps = function(maps) {
-  $('#maps-container').empty();
-  for(let i = 0; i < maps.length; i++){
+  $("#maps-container").empty();
+  for (let i = 0; i < maps.length; i++) {
     $map = createMapElement(maps[i]);
-    $('#maps-container').prepend($map);
+    $("#maps-container").prepend($map);
   }
 };
 
+<<<<<<< HEAD
 const loadMaps = (highlight) => {
+=======
+const loadMaps = highlight => {
+>>>>>>> newServer
   $.ajax({
     method: "GET",
-    url: `/maps`,
+    url: `/maps`
   }).done(data => {
     renderMaps(data);
     if (highlight) {
@@ -85,21 +95,23 @@ const loadMaps = (highlight) => {
 loadMaps(false);
 
 const postMap = function() {
-  $('#new-map_form').hide();
+  $("#new-map_form").hide();
   $.ajax({
     method: "POST",
     url: `/maps`,
-    data: $("#map-form").serialize(),
+    data: $("#map-form").serialize()
   }).done(() => {
     loadMaps(true);
-    $('#name-field')[0].value = '';
+    $("#name-field")[0].value = "";
   });
 };
 // have id from the cliked map name
 let idMap;
 $("map-list-item").on("click", ".point", function(e) {
   console.log(e.target);
-  idMap = $(e.target).siblings(".elementMap").attr("id");
+  idMap = $(e.target)
+    .siblings(".elementMap")
+    .attr("id");
   console.log($(e.target).children(".elementMap"));
 });
 
@@ -107,10 +119,11 @@ $("map-list-item").on("click", ".point", function(e) {
   BELOW IS CODE REGARDING MARKERS
 */
 
-const map = L.map('mapid').setView([45.5017, -73.5673], 12);
+const map = L.map("mapid").setView([45.5017, -73.5673], 12);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
 const popupContent = `
@@ -171,7 +184,7 @@ const addMarker = (click) => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
   arrayCoords = [latitude, longitude];
-  const newMarker = new L.marker(click.latlng, {draggable: 'true'})
+  const newMarker = new L.marker(click.latlng, { draggable: "true" })
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
@@ -200,5 +213,32 @@ const getPoints = function(){
 };
 
 newMarkerGroup = new L.LayerGroup();
-map.on('click', addMarker);
+map.on("click", addMarker);
 
+// have id from the cliked map name
+
+
+let markerElement = (dataPoint,index) => {
+  let markerE = new L.marker([dataPoint[index].latitude, dataPoint[index].longitude]).addTo(map);
+}
+
+const renderMaskers = function(points) {
+  for (let i = 0; i < points.length; i++) {
+    markerElement(points,i);
+  }
+  
+};
+
+
+$("#maps-container").on("click", "button", function(e) {
+  let idMap = $(e.target)
+    .closest("div")
+    .attr("id");
+  // console.log(idMap);
+  $.ajax({
+    method: "GET",
+    url: `/maps/${idMap}`
+    // data: `${idMap}`
+  })
+    .done(renderMaskers);
+});
