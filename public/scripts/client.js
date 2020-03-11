@@ -1,4 +1,6 @@
 let markers = [];
+localStorage.removeItem('mapId');
+
 //The map is by default pointing to montreal
 $("#map-form").on("submit", function(event) {
   event.preventDefault();
@@ -45,9 +47,41 @@ const clearMap = () => {
 }
 
 const editName = id => {
-  const $mapName = $(`#${id} > button > p`);
-  $mapName.attr("contenteditable", "true");
-  $mapName.focus();
+  $(`#${id}`)
+    .find('form')
+    .show();
+  $(`#${id}`)
+    .find('.edit')
+    .show();
+  $(`#${id}`)
+    .find('.not-edit')
+    .hide();
+  $(`#${id}`)
+  .find('p')
+  .hide();
+};
+
+const cancel = id => {
+  $(`#${id}`)
+    .find('form')
+    .hide();
+  $(`#${id}`)
+    .find('.edit')
+    .hide();
+  $(`#${id}`)
+    .find('.not-edit')
+    .show();
+  $(`#${id}`)
+    .find('p')
+    .show();
+};
+
+const editNameForm = currentName => {
+  return `
+    <form style="display:none;">
+      <input type='text' value='${currentName}'>
+    </form>
+  `
 };
 
 const createMapElement = dataMap => {
@@ -58,10 +92,13 @@ const createMapElement = dataMap => {
         <p class="map-name">
           ${dataMap.name}
         </p>
+        ${editNameForm(dataMap.name)}
       </button>
       <div class="icons">
-        <img onclick="toggleFavouriting(this)" class="favouritable" src="/assets/img/heart.svg" alt="" title="favourite">
-        <img onclick="editName(${dataMap.id})" class="edit-map-title" src="/assets/img/pencil.svg" alt="" title="edit title">
+        <img onclick="cancel(${dataMap.id})" class="edit cancel-img" src="/assets/img/circle-slash.svg" alt="" title="cancel">
+        <img class="edit confirm-img" src="/assets/img/check-circle.svg" alt="" title="confirm">
+        <img onclick="toggleFavouriting(this)" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
+        <img onclick="editName(${dataMap.id})" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
       </div>
     </div>
   `;
@@ -193,7 +230,13 @@ const deletePoint = id => {
 };
 
 newMarkerGroup = new L.LayerGroup();
-map.on("click", addMarker);
+map.on("click", event => {
+  if (localStorage.getItem('mapId')){
+    addMarker(event);
+  } else {
+    $('.login_form').show();
+  }
+});
 
 const editPoint = () => {
   $(event.target)

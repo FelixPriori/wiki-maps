@@ -59,6 +59,11 @@ body {
         margin: 1em;
         display: flex;
         flex-direction: row;
+        form {
+          input {
+            max-width: 8em;
+          }
+        }
         button {
           display: flex;
           text-align: left;
@@ -75,7 +80,7 @@ body {
             min-width: 3em;
           }
         }
-        .favourited, .favouritable {
+        .favouritable {
           height: 1em;
           margin-left: auto;
           margin-top: 1em;
@@ -83,13 +88,10 @@ body {
           min-width: 1em;
           align-self: end;
         }
-        .favourited {
-          display: none;
-        }
         .icons {
           display: flex;
           flex-direction: column;
-          .favouritable {
+          .favouritable, .cancel-img {
             height: 1em;
             margin-left: auto;
             margin-top: 1em;
@@ -97,13 +99,16 @@ body {
             min-width: 1em;
             align-self: end;
           }
-          .edit-map-title {
+          .edit-map-title, .confirm-img {
             height: 1em;
             margin-left: auto;
             margin-top: 1em;
             margin-right: 1em;
             min-width: 1em;
             align-self: end;
+          }
+          .confirm-img, .cancel-img {
+            display: none;
           }
         }
       }
