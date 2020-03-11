@@ -1,3 +1,4 @@
+let markers = [];
 //The map is by default pointing to montreal
 $("#map-form").on("submit", function(event) {
   event.preventDefault();
@@ -18,14 +19,24 @@ const toggleFavouriting = element => {
 };
 
 const highlightMap = id => {
-  localStorage.setItem("mapId", id);
-  $(".map-list-item")
-    .css("border", "none")
-    .css("opacity", "50%");
-  $(`#${id}`)
-    .css("border", "1px solid black")
-    .css("opacity", "100%");
+  localStorage.setItem('mapId', id);
+  $('.map-list-item').css('border', 'none')
+    .css('opacity', '50%');
+  $(`#${id}`).css('border', '1px solid black')
+    .css('opacity', '100%');
+  newMarkerGroup.clearLayers();
 };
+
+const clearMap = () => {
+  // there exists an array of marker id
+  // loop through
+  // remove that layer
+  console.log(markers);
+  for (const marker of markers) {
+    marker.remove();
+  }
+  console.log(markers);
+}
 
 const editName = id => {
   const $mapName = $(`#${id} > button > p`);
@@ -35,7 +46,7 @@ const editName = id => {
 
 const createMapElement = dataMap => {
   let $map = `
-    <div id=${dataMap.id} onclick="highlightMap(${dataMap.id})" class="map-list-item">
+    <div id=${dataMap.id} onclick="highlightMap(${dataMap.id}); clearMap();" class="map-list-item">
       <button >
         <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
         <p class="map-name">
@@ -119,8 +130,47 @@ const popupContent = `
 `;
 
 let arrayCoods = [];
+
 //Marker Functions
-const addMarker = click => {
+
+let markerListId = [];
+
+const deletePoint = id => {
+  for (const marker of markerListId) {
+    const key = Object.keys(marker);
+    if (key === id) {
+      map.removeLayer(marker.key);
+    }
+  }
+}
+
+const makeMarkerHtml = markerData => {
+  const markerContent = `<div id='${markerData.id}'>`
+  if (markerData.image) {
+    markerContent += `<img src='${markerData.image}'>`;
+  }
+  markerContent += `<h2>${markerData.name}</h2>`;
+  if (markerData.description) {
+    markerContent += `<p>${markerData.description}</p>`
+  }
+  markerContent += `<button onclick="deletePoint(${markerData.id})" class="delete-point">Delete</button>`
+  markerContent += `</div>`;
+  return markerContent;
+}
+
+const generateMarkers = markerList => {
+  for (const marker of markerList) {
+    const markerContent = makeMarkerHtml(marker);
+    const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
+      .popupContent(markerContent);
+    markerListId.push({
+      [marker.id]: newMarker._leaflet_id
+    });
+    markers.push(newMarker);
+  }
+};
+
+const addMarker = (click) => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
   arrayCoords = [latitude, longitude];
@@ -128,27 +178,27 @@ const addMarker = click => {
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
+  markers.push(newMarker);
   return arrayCoords;
 };
 
 //post markers on the map using ajax post request
-const markPoint = function() {
-  let dataObj = $(".marker-form").serialize();
-  dataObj += `&latitude=${arrayCoords[0]}&longitude=${
-    arrayCoords[1]
-  }&map_id=${localStorage.getItem("mapId")}`;
+const markPoint = function(){
+  let dataObj = $('.marker-form').serialize();
+  dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
   $.ajax({
     method: "POST",
     url: "points/markpoint",
-    data: dataObj
+    data: dataObj,
   }).done();
-};
+}
 
-const getPoints = function() {
+const getPoints = function(){
   $.ajax({
     method: "GET",
     url: "/getpoints",
-    success: function() {}
+    success: function () {
+    }
   });
 };
 

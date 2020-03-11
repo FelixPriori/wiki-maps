@@ -1,29 +1,21 @@
 $(document).ready(() => {
-  const $color1 = "rgba(237, 106, 90, 1)";
-  const $color2 = "rgba(244, 241, 187, 1)";
-  const $color3 = "rgba(155, 193, 188, 1)";
-  const $color4 = "rgba(93, 87, 107, 1)";
-  const $color5 = "rgba(230, 235, 224, 1)";
-  const $asidecontent = $(".aside-content");
-  const $favourites = $("#favourites");
-  const $allMaps = $("#all-maps");
-  const $contributions = $("#contributions");
-  const $mapForm = $("#new-map_form");
-  const $mapButton = $("#new-map_button");
-  const $favouritesAside = $(".favourites-aside");
-  const $allMapsAside = $(".all-maps-aside");
-  const $contributionsAside = $(".contributions-aside");
-  const $mapListItem = $(".map-list-item");
-  const map = L.map("mapid").setView([45.5017, -73.5673], 12);
-  const $newMapButton = $("#new-map_button");
-  const $mapNameField = $("#name-field");
 
-  const $login = $("#login");
-  const $logout = $("#logout");
-  const $register = $("#register");
-  const $welcome = $("#welcome-message");
-  const $registerForm = $(".register_form");
-  const $loginForm = $(".login_form");
+  const $asidecontent = $('.aside-content');
+  const $favourites = $('#favourites');
+  const $allMaps = $('#all-maps');
+  const $contributions = $('#contributions');
+  const $mapForm = $('#new-map_form');
+  const $newMapButton = $('#new-map_button');
+  const $mapNameField =$('#name-field');
+  const $favouritesAside = $('.favourites-aside');
+  const $allMapsAside = $('.all-maps-aside');
+  const $contributionsAside = $('.contributions-aside');
+  const $login = $('#login');
+  const $logout = $('#logout');
+  const $register = $('#register');
+  const $welcome = $('#welcome-message');
+  const $registerForm = $('.register_form');
+  const $loginForm = $('.login_form');
 
   $login.click(() => {
     $loginForm.toggle();
