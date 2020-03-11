@@ -15,41 +15,15 @@ $(document).ready(() => {
   const $contributionsAside = $(".contributions-aside");
   const $mapListItem = $(".map-list-item");
   const map = L.map("mapid").setView([45.5017, -73.5673], 12);
+  const $newMapButton = $("#new-map_button");
+  const $mapNameField = $("#name-field");
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-
-  const popupContent = `
-    <form class="marker-form">
-      <label for="marker-name">Name</label>
-      <input type="text", placeholder="name your marker!"/>
-      <label for="marker-img">Image</label>
-      <input class="marker-img" type="url", placeholder="img url"/>
-      <label for="marker-description">Description</label>
-      <textarea class="marker-description" placeholder="desciption"></textarea>
-      <input class="submit" type="submit">
-      <button class="cancel-button">Cancel</button>
-    </form>
-  `;
-
-  newMarkerGroup = new L.LayerGroup();
-  map.on("click", addMarker);
-
-  function addMarker(click) {
-    return (newMarker = new L.marker(click.latlng, { draggable: "true" })
-      .addTo(map)
-      .bindPopup(popupContent)
-      .openPopup());
-  }
-
-  $login = $("#login");
-  $logout = $("#logout");
-  $register = $("#register");
-  $welcome = $("#welcome-message");
-  $registerForm = $(".register_form");
-  $loginForm = $(".login_form");
+  const $login = $("#login");
+  const $logout = $("#logout");
+  const $register = $("#register");
+  const $welcome = $("#welcome-message");
+  const $registerForm = $(".register_form");
+  const $loginForm = $(".login_form");
 
   $login.click(() => {
     $loginForm.toggle();
@@ -68,8 +42,9 @@ $(document).ready(() => {
     $welcome.hide();
   });
 
-  $mapButton.click(() => {
+  $newMapButton.click(() => {
     $mapForm.toggle();
+    $mapNameField.focus();
   });
 
   $favourites.click(() => {
@@ -108,28 +83,6 @@ $(document).ready(() => {
     $allMapsAside.show();
     $favouritesAside.hide();
   });
-
-  
-  // have id from the cliked map name
-  let idMap;
-  $("#maps-container").on("click", "button", function(e) {
-    idMap = $(e.target)
-      .closest("div")
-      .attr("id");
-    $.ajax({
-      method: "POST",
-      url: `/maps/${idMap}`,
-      data: `${idMap}`
-    })
-    .done(data => console.log(data));
-    // .done(addPointsMap(data));
-
-  });
-
-let markerMap;
-  const addPointsMap = function(data) {
-    markerMap = L.marker([data[1].latitude, data[1].longitude]).addTo(Map);
-  };
 
 
   $.ajax({

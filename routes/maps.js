@@ -8,7 +8,7 @@ module.exports = (db) => {
         mapsHelper.getMaps(db).then(dbRes => res.json(dbRes));
     });
 
-    router.post('/:mapID' , (req, res) => {
+    router.get('/:mapID' , (req, res) => {
       const mapID = req.params.mapID;
       // const {mapID} = req.body;
       console.log("mapid",mapID);
