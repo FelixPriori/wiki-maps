@@ -116,14 +116,17 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 const popupContent = `
   <form class="marker-form">
+    <h2>Add a new marker</h2>
     <label for="marker-name">Name</label>
     <input name="name" type="text", placeholder="name your marker!"/>
     <label for="marker-img">Image</label>
     <input name="image" class="marker-img" type="url", placeholder="img url"/>
     <label for="marker-description">Description</label>
     <textarea name="description" class="marker-description" placeholder="desciption"></textarea>
-    <input class="submit" type="submit">
-    <button class="cancel-button">Cancel</button>
+    <div class="buttons">
+      <input class="btn btn-light submit" type="submit">
+      <button class="btn btn-light cancel-button">Cancel</button>
+    </div>
   </form>
 `;
 
@@ -173,7 +176,7 @@ newMarkerGroup = new L.LayerGroup();
 map.on("click", addMarker);
 
 const makeMarkerHtml = (markerData) => {
-  let markerContent = `<div id='${markerData.id}'>`
+  let markerContent = `<div class="marker-form" id='${markerData.id}'>`
   if (markerData.image) {
     markerContent += `<img src='${markerData.image}'>`;
   }
@@ -181,7 +184,11 @@ const makeMarkerHtml = (markerData) => {
   if (markerData.description) {
     markerContent += `<p>${markerData.description}</p>`
   }
-  markerContent += `<button onclick="deletePoint(${markerData.id})">Delete</button>`
+  markerContent += `
+  <div class="buttons">
+    <button class="btn btn-light edit-button" onclick="deletePoint(${markerData.id})">Delete</button>
+    <button class="btn btn-light delete-button" onclick="editPoint(${markerData.id})">Edit</button>
+  </div>`
   markerContent += `</div>`;
   return markerContent;
 }
