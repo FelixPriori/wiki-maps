@@ -35,6 +35,10 @@ const clearMap = () => {
   }
 }
 
+const clearPending = () => {
+
+}
+
 const editName = id => {
   const $mapName = $(`#${id} > button > p`);
   $mapName.attr("contenteditable", "true");
@@ -141,7 +145,10 @@ const addMarker = (click) => {
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
-  markers.push(newMarker);
+  newMarker.pending = true;
+  const confirmedMarkers = markers.filter(marker => !marker.pending);
+  markers.filter(marker => marker.pending).forEach(marker => marker.remove());
+  markers = [...confirmedMarkers, newMarker];
   return arrayCoords;
 };
 
@@ -221,3 +228,11 @@ $("#maps-container").on("click", "button", function(e) {
   })
     .done(renderMarkers);
 });
+
+
+// refreshes when
+/*
+  - switch map
+  - add point
+  - add point without saving
+*/
