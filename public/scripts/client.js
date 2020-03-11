@@ -4,12 +4,18 @@ $("#map-form").on("submit", function(event) {
   event.preventDefault();
   postMap();
 });
-
+//Submit for a pointer on the map
 $("body").on("submit", ".marker-form", function(event) {
-    event.preventDefault();
-    markPoint();
-    map.closePopup();
-    renderPointsOnMap();
+  event.preventDefault();
+  markPoint();
+  map.closePopup();
+  renderPointsOnMap();
+});
+//Submit for Registering users into the data base
+$("#Uregister-form").on("submit", function(event){
+  event.preventDefault();
+  registerUser();
+  //Find a way to close the register form.
 });
 
 const toggleFavouriting = element => {
@@ -21,11 +27,13 @@ const toggleFavouriting = element => {
 };
 
 const highlightMap = id => {
-  localStorage.setItem('mapId', id);
-  $('.map-list-item').css('border', 'none')
-    .css('opacity', '50%');
-  $(`#${id}`).css('border', '1px solid black')
-    .css('opacity', '100%');
+  localStorage.setItem("mapId", id);
+  $(".map-list-item")
+    .css("border", "none")
+    .css("opacity", "50%");
+  $(`#${id}`)
+    .css("border", "1px solid black")
+    .css("opacity", "100%");
 };
 
 const clearMap = () => {
@@ -35,7 +43,7 @@ const clearMap = () => {
   for (const marker of markers) {
     marker.remove();
   }
-}
+};
 
 const editName = id => {
   const $mapName = $(`#${id} > button > p`);
@@ -84,7 +92,7 @@ const loadMaps = highlight => {
 loadMaps(false);
 
 const postMap = function() {
-  if ($('#name-field').val()) {
+  if ($("#name-field").val()) {
     $("#new-map_form").hide();
     $.ajax({
       method: "POST",
@@ -95,10 +103,10 @@ const postMap = function() {
       $("#name-field")[0].value = "";
     });
   } else {
-    $('.name-alert').slideDown('fast');
+    $(".name-alert").slideDown("fast");
     setTimeout(() => {
-      $('.name-alert').slideUp('fast');
-    }, 5000)
+      $(".name-alert").slideUp("fast");
+    }, 5000);
   }
 };
 // have id from the cliked map name
@@ -135,14 +143,13 @@ const popupContent = `
   </form>
 `;
 
-
 //Marker Functions
 
-const addMarker = (click) => {
-    let latitude = click.latlng.lat;
-    let longitude = click.latlng.lng;
-    arrayCoords = [latitude, longitude];
-    const newMarker = new L.marker(click.latlng, { draggable: "true" })
+const addMarker = click => {
+  let latitude = click.latlng.lat;
+  let longitude = click.latlng.lng;
+  arrayCoords = [latitude, longitude];
+  const newMarker = new L.marker(click.latlng, { draggable: "true" })
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
@@ -154,46 +161,33 @@ const addMarker = (click) => {
 };
 
 //post markers on the map using ajax post request
-const markPoint = function(){
-  let dataObj = $('.marker-form').serialize();
-  dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
+const markPoint = function() {
+  let dataObj = $(".marker-form").serialize();
+  dataObj += `&latitude=${arrayCoords[0]}&longitude=${
+    arrayCoords[1]
+  }&map_id=${localStorage.getItem("mapId")}`;
   $.ajax({
     method: "POST",
     url: "points/markpoint",
-    data: dataObj,
+    data: dataObj
   }).done(() => {
     getPointsOnMap();
   });
-}
+};
 
-const getPointsOnMap = function(){
-    clearMap()
-    $.ajax({
-        method: "GET",
-        url: `/maps/${localStorage.getItem('mapId')}`
-      }).done(renderMarkers);
-    }
+const getPointsOnMap = function() {
+  clearMap();
+  $.ajax({
+    method: "GET",
+    url: `/maps/${localStorage.getItem("mapId")}`
+  }).done(renderMarkers);
+};
 
-  if ($('.marker-name').val()) {
-    let dataObj = $('.marker-form').serialize();
-    dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
-    $.ajax({
-      method: "POST",
-      url: "points/markpoint",
-      data: dataObj,
-    }).done();
-  } else {
-    $('.marker-name-alert').slideDown('fast');
-    setTimeout(() => {
-      $('.marker-name-alert').slideUp('fast');
-    }, 5000);
-  }
-
-const getPoints = function(){
+const getPoints = function() {
   $.ajax({
     method: "GET",
     url: "points/getpoints"
-  })
+  });
 };
 
 const deletePoint = id => {
@@ -205,24 +199,24 @@ map.on("click", addMarker);
 
 const editPoint = () => {
   $(event.target)
-    .closest('.leaflet-popup-content')
-    .find('.edit-popup')
+    .closest(".leaflet-popup-content")
+    .find(".edit-popup")
     .show();
   $(event.target)
-    .closest('.leaflet-popup-content')
-    .find('.marker-form')
+    .closest(".leaflet-popup-content")
+    .find(".marker-form")
     .hide();
-}
+};
 
 const backToPoint = () => {
   event.preventDefault();
   $(event.target)
-    .closest('.leaflet-popup-content')
-    .find('.edit-popup')
+    .closest(".leaflet-popup-content")
+    .find(".edit-popup")
     .hide();
   $(event.target)
-    .closest('.leaflet-popup-content')
-    .find('.marker-form')
+    .closest(".leaflet-popup-content")
+    .find(".marker-form")
     .show();
 };
 
@@ -243,13 +237,13 @@ const editForm = () => {
       </div>
     </form>
   `;
-}
+};
 
-
-const makeMarkerHtml = (markerData) => {
-  let markerContent = editForm() + `<div class="marker-form" id='${markerData.id}'>`
+const makeMarkerHtml = markerData => {
+  let markerContent =
+    editForm() + `<div class="marker-form" id='${markerData.id}'>`;
   if (markerData.image) {
-    markerContent +=  `
+    markerContent += `
       <div class="img-box">
         <img src='${markerData.image}'>
       </div>
@@ -257,7 +251,7 @@ const makeMarkerHtml = (markerData) => {
   }
   markerContent += `<h2>${markerData.name}</h2>`;
   if (markerData.description) {
-    markerContent += `<p>${markerData.description}</p>`
+    markerContent += `<p>${markerData.description}</p>`;
   }
   markerContent += `
       <div class="buttons">
@@ -266,39 +260,56 @@ const makeMarkerHtml = (markerData) => {
       </div>
     </div>`;
   return markerContent;
-}
+};
 
 const renderMarkers = function(markerList) {
   for (const marker of markerList) {
     const markerContent = makeMarkerHtml(marker);
-    const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
+    const newMarker = new L.marker([marker.latitude, marker.longitude], {
+      draggable: "true"
+    })
       .addTo(map)
       .bindPopup(markerContent);
     markers.push(newMarker);
   }
 };
 
-const renderPointsOnMap = function(){
-    $.ajax({
-        method: "GET",
-        url: "/points/getpoints",    
-    }).done(renderMarkers)
-}
+const renderPointsOnMap = function() {
+  $.ajax({
+    method: "GET",
+    url: "/points/getpoints"
+  }).done(renderMarkers);
+};
 
 $("#maps-container").on("click", "button", function(e) {
   let idMap = $(e.target)
     .closest("div")
     .attr("id");
-    $.ajax({
+  $.ajax({
     method: "GET",
     url: `/maps/${idMap}`
   }).done(renderMarkers);
 });
 
 
-// refreshes when
-/*
-  - switch map
-  - add point
-  - add point without saving
-*/
+/* ADD user functionality Login ------ Register Can Favourite a map, Can Have Contributions */
+const registerUser = function(){
+  let dataObj = {
+    first_name: $('.register-name').val(),
+    email: $('.register-email').val(),
+    password: $('.register-password').val()
+  }
+  $.ajax({
+    method: "POST",
+    url: "users/register",
+    data: dataObj
+  }).done();
+}
+
+const loginUser = function(){
+  $.ajax({
+    method: "GET",
+    url: "users/login"
+  }).done();
+}
+

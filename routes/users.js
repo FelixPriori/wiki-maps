@@ -11,8 +11,18 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/register", (req, res) => {
-    userHelper.addUsers(db);
   });
+
+  router.post("/register", (req, res) => {
+    let userData = req.body;
+    console.log(userData);
+    userData = {
+      first_name: userData.first_name,
+      email: userData.email,
+      password: userData.password
+    };
+    userHelper.addUser(db, userData).then(dbRes => res.json(dbRes));
+  })
   return router;
 };
 
