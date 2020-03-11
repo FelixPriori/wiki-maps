@@ -134,8 +134,6 @@ let arrayCoods = [];
 
 //Marker Functions
 
-let markerListId = [];
-
 const addMarker = (click) => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
@@ -182,18 +180,22 @@ map.on("click", addMarker);
 const makeMarkerHtml = (markerData) => {
   let markerContent = `<div class="marker-form" id='${markerData.id}'>`
   if (markerData.image) {
-    markerContent += `<img src='${markerData.image}'>`;
+    markerContent += `
+      <div class="img-box">
+        <img src='${markerData.image}'>
+      </div>
+    `;
   }
   markerContent += `<h2>${markerData.name}</h2>`;
   if (markerData.description) {
     markerContent += `<p>${markerData.description}</p>`
   }
   markerContent += `
-  <div class="buttons">
-    <button class="btn btn-light edit-button" onclick="deletePoint(${markerData.id})">Delete</button>
-    <button class="btn btn-light delete-button" onclick="editPoint(${markerData.id})">Edit</button>
-  </div>`
-  markerContent += `</div>`;
+    <div class="buttons">
+      <button class="btn btn-light edit-button" onclick="deletePoint(${markerData.id})">Delete</button>
+      <button class="btn btn-light delete-button" onclick="editPoint(${markerData.id})">Edit</button>
+    </div>
+  </div>`;
   return markerContent;
 }
 
@@ -202,9 +204,8 @@ const renderMarkers = function(markerList) {
     const markerContent = makeMarkerHtml(marker);
     const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
       .addTo(map)
-      .bindPopup(markerContent)
+      .bindPopup(markerContent);
     markers.push(newMarker);
-    markerListId.push({[marker.id]: newMarker});
   }
 };
 

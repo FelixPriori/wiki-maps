@@ -13,10 +13,17 @@ $shadow: 0.2em 0.2em 0 0 $color4;
   h2 {
     text-align: center;
   }
-  img {
-    align-self: center;
-    max-width: 100px;
-    max-height: 100px;
+  .img-box {
+    background-color: $color2;
+    box-shadow: $shadow;
+    display: flex;
+    justify-content: center;
+    img {
+      margin: 1em;
+      align-self: center;
+      max-width: 100px;
+      max-height: 100px;
+    }
   }
   display: flex;
   flex-direction: column;
