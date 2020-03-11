@@ -3,10 +3,32 @@ $color2: rgba(244, 241, 187, 1);
 $color3: rgba(155, 193, 188, 1);
 $color4: rgba(93, 87, 107, 1);
 $color5: rgba(230, 235, 224, 1);
+$shadow: 0.2em 0.2em 0 0 $color4;
 
-.marker-form {
+.marker-form, .edit-popup {
+  label, h2, p {
+    color: $color2;
+    text-shadow: 1px 1px $color4;
+  }
+  h2 {
+    text-align: center;
+  }
+  .img-box {
+    background-color: $color2;
+    box-shadow: $shadow;
+    display: flex;
+    justify-content: center;
+    img {
+      margin: 1em;
+      align-self: center;
+      max-width: 100px;
+      max-height: 100px;
+    }
+  }
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-content: center;
   padding: 1em;
   input {
     margin-bottom: 1em;
@@ -15,3 +37,43 @@ $color5: rgba(230, 235, 224, 1);
     margin-top: 1em;
   }
 }
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background-color: $color1;
+  box-shadow: $shadow;
+}
+
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+  background-color: $color1;
+}
+
+.btn {
+  z-index: 10;
+  margin: 1em;
+  background-color: $color2;
+  color: $color4;
+  box-shadow: $shadow;
+}
+.btn-light:hover {
+  background-color: $color4;
+  color: $color2;
+  box-shadow: 0.2em 0.2em 0 0 $color2;
+}
+.btn-light:active {
+  box-shadow: none;
+  outline: 0;
+}
+
+.buttons {
+  display:flex;
+  justify-content: space-evenly;
+  .btn {
+    height: 2.5em;
+  }
+  .cancel-button, .edit-button {
+    margin-right: 0;
+    align-self: center;
+  }
+}
+
+
