@@ -26,6 +26,15 @@ $("#Uregister-form").on("submit", function(event){
   registerUser();
 });
 
+$("#Ulogin-form").on("submit", function(event){
+  event.preventDefault();
+  loginUser();
+});
+
+const makeName = function(name){
+
+};
+
 const toggleFavouriting = element => {
   if ($(element).attr("src") === "/assets/img/heart-fill.svg") {
     $(element).attr("src", "/assets/img/heart.svg");
@@ -90,6 +99,7 @@ const editNameForm = currentName => {
     </form>
   `
 };
+
 
 const createMapElement = dataMap => {
   let $map = `
@@ -391,9 +401,13 @@ const registerUser = function(){
 }
 
 const loginUser = function(){
+  let userData = {email: $('.login-email').val()}
   $.ajax({
-    method: "GET",
-    url: "users/login"
-  }).done();
+    method: "POST",
+    url: "users/login",
+    data: userData 
+  }).done(data => {
+    makeName(data.first_name);
+  });
 }
 

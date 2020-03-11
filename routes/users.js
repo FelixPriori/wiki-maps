@@ -21,12 +21,10 @@ module.exports = (db) => {
     userHelper.addUser(db, userData).then(dbRes => res.json(dbRes));
   });
 
-  router.get("/login", (req, res) => {
+  router.post("/login", (req, res) => {
     let userData = req.body;
-    userData = {
-      email: userData.email
-    }
-    userHelper.getUsersByEmail(db, userData).then(dbRes => res.json(dbRes));
+    console.log(userData);
+    userHelper.getUsersNameByEmail(db, userData).then(dbRes => res.json(dbRes));
   })
   return router;
 };
