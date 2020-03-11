@@ -24,7 +24,6 @@ const highlightMap = id => {
     .css('opacity', '50%');
   $(`#${id}`).css('border', '1px solid black')
     .css('opacity', '100%');
-  newMarkerGroup.clearLayers();
 };
 
 const clearMap = () => {
@@ -32,11 +31,13 @@ const clearMap = () => {
   // there exists an array of marker id
   // loop through
   // remove that layer
-//   console.log(markers);
-//   for (const marker of markers) {
-//     marker.remove();
-//   }
-//   console.log(markers);
+  for (const marker of markers) {
+    marker.remove();
+  }
+}
+
+const clearPending = () => {
+
 }
 
 const editName = id => {
@@ -86,15 +87,22 @@ const loadMaps = highlight => {
 loadMaps(false);
 
 const postMap = function() {
-  $("#new-map_form").hide();
-  $.ajax({
-    method: "POST",
-    url: `/maps`,
-    data: $("#map-form").serialize()
-  }).done(() => {
-    loadMaps(true);
-    $("#name-field")[0].value = "";
-  });
+  if ($('#name-field').val()) {
+    $("#new-map_form").hide();
+    $.ajax({
+      method: "POST",
+      url: `/maps`,
+      data: $("#map-form").serialize()
+    }).done(() => {
+      loadMaps(true);
+      $("#name-field")[0].value = "";
+    });
+  } else {
+    $('.name-alert').slideDown('fast');
+    setTimeout(() => {
+      $('.name-alert').slideUp('fast');
+    }, 5000)
+  }
 };
 // have id from the cliked map name
 let idMap;
@@ -119,58 +127,23 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 const popupContent = `
   <form class="marker-form">
+    <h2>Add a new marker</h2>
     <label for="marker-name">Name</label>
-    <input name="name" type="text", placeholder="name your marker!"/>
+    <input class="marker-name" name="name" type="text", placeholder="name your marker!"/>
+    <p class="marker-name-alert alert alert-warning" style="display:none; color: rgba(237, 106, 90, 1);" role="alert">Please name your marker!</p>
     <label for="marker-img">Image</label>
     <input name="image" class="marker-img" type="url", placeholder="img url"/>
     <label for="marker-description">Description</label>
     <textarea name="description" class="marker-description" placeholder="desciption"></textarea>
-    <input class="submit" type="submit">
-    <button class="cancel-button">Cancel</button>
+    <div class="buttons">
+      <input class="btn btn-light submit" type="submit">
+    </div>
   </form>
 `;
 
 
 //Marker Functions
 
-let markerListId = [];
-
-const deletePoint = id => {
-    for (const marker of markerListId) {
-        const key = Object.keys(marker);
-        if (key === id) {
-            map.removeLayer(marker.key);
-        }
-    }
-}
-
-const makeMarkerHtml = markerData => {
-    const markerContent = `<div id='${markerData.id}'>`
-    if (markerData.image) {
-        markerContent += `<img src='${markerData.image}'>`;
-    }
-    markerContent += `<h2>${markerData.name}</h2>`;
-    if (markerData.description) {
-        markerContent += `<p>${markerData.description}</p>`
-    }
-    markerContent += `<button onclick="deletePoint(${markerData.id})" class="delete-point">Delete</button>`
-    markerContent += `</div>`;
-    return markerContent;
-}
-
-const generateMarkers = markerList => {
-    for (const marker of markerList) {
-        const markerContent = makeMarkerHtml(marker);
-        const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
-        .popupContent(markerContent);
-        markerListId.push({
-            [marker.id]: newMarker._leaflet_id
-        });
-        markers.push(newMarker);
-    }
-};
-
-let arrayCoods = [];
 const addMarker = (click) => {
     let latitude = click.latlng.lat;
     let longitude = click.latlng.lng;
@@ -179,19 +152,30 @@ const addMarker = (click) => {
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
-  markers.push(newMarker);
+  newMarker.pending = true;
+  const confirmedMarkers = markers.filter(marker => !marker.pending);
+  markers.filter(marker => marker.pending).forEach(marker => marker.remove());
+  markers = [...confirmedMarkers, newMarker];
   return arrayCoords;
 };
 
 //post markers on the map using ajax post request
 const markPoint = function(){
-  let dataObj = $('.marker-form').serialize();
-  dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
-  $.ajax({
-    method: "POST",
-    url: "points/markpoint",
-    data: dataObj,
-  }).done();
+  if ($('.marker-name').val()) {
+    let dataObj = $('.marker-form').serialize();
+    dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
+    $.ajax({
+      method: "POST",
+      url: "points/markpoint",
+      data: dataObj,
+    }).done();
+  } else {
+    $('.marker-name-alert').slideDown('fast');
+    setTimeout(() => {
+      $('.marker-name-alert').slideUp('fast');
+    }, 5000);
+  }
+
 }
 
 const getPoints = function(){
@@ -203,18 +187,86 @@ const getPoints = function(){
   });
 };
 
+const deletePoint = id => {
+  // RAY : delete the point with this id;
+};
+
+
 newMarkerGroup = new L.LayerGroup();
 map.on("click", addMarker);
 
-// have id from the cliked map name
-
-let markerElement = (dataPoint,index) => {
-  return markerE = new L.marker([dataPoint[index].latitude, dataPoint[index].longitude]).addTo(map);
+const editPoint = () => {
+  $(event.target)
+    .closest('.leaflet-popup-content')
+    .find('.edit-popup')
+    .show();
+  $(event.target)
+    .closest('.leaflet-popup-content')
+    .find('.marker-form')
+    .hide();
 }
 
-const renderMarkers = function(points) {
-  for (let i = 0; i < points.length; i++) {
-    markerElement(points,i);
+const backToPoint = () => {
+  event.preventDefault();
+  $(event.target)
+    .closest('.leaflet-popup-content')
+    .find('.edit-popup')
+    .hide();
+  $(event.target)
+    .closest('.leaflet-popup-content')
+    .find('.marker-form')
+    .show();
+};
+
+const editForm = () => {
+  return `
+    <form class='edit-popup' style='display:none;'>
+      <h2>Edit marker</h2>
+      <label for="marker-name">Name</label>
+      <input class="marker-name" name="name" type="text", placeholder="name your marker!"/>
+      <p class="marker-name-alert alert alert-warning" style="display:none; color: rgba(237, 106, 90, 1);" role="alert">Please name your marker!</p>
+      <label for="marker-img">Image</label>
+      <input name="image" class="marker-img" type="url", placeholder="img url"/>
+      <label for="marker-description">Description</label>
+      <textarea name="description" class="marker-description" placeholder="desciption"></textarea>
+      <div class="buttons">
+        <input class="btn btn-light" type="submit">
+        <button class="btn btn-light" onclick="backToPoint()">Cancel</button>
+      </div>
+    </form>
+  `;
+}
+
+
+const makeMarkerHtml = (markerData) => {
+  let markerContent = editForm() + `<div class="marker-form" id='${markerData.id}'>`
+  if (markerData.image) {
+    markerContent +=  `
+      <div class="img-box">
+        <img src='${markerData.image}'>
+      </div>
+    `;
+  }
+  markerContent += `<h2>${markerData.name}</h2>`;
+  if (markerData.description) {
+    markerContent += `<p>${markerData.description}</p>`
+  }
+  markerContent += `
+      <div class="buttons">
+        <button class="btn btn-light edit-button" onclick="deletePoint(${markerData.id})">Delete</button>
+        <button class="btn btn-light delete-button" onclick="editPoint()">Edit</button>
+      </div>
+    </div>`;
+  return markerContent;
+}
+
+const renderMarkers = function(markerList) {
+  for (const marker of markerList) {
+    const markerContent = makeMarkerHtml(marker);
+    const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
+      .addTo(map)
+      .bindPopup(markerContent);
+    markers.push(newMarker);
   }
 };
 
@@ -231,3 +283,11 @@ $("#maps-container").on("click", "button", function(e) {
   })
     .done(renderMarkers);
 });
+
+
+// refreshes when
+/*
+  - switch map
+  - add point
+  - add point without saving
+*/
