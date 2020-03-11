@@ -6,8 +6,10 @@ $("#map-form").on("submit", function(event) {
 });
 
 $("body").on("submit", ".marker-form", function(event) {
-  event.preventDefault();
-  markPoint();
+    event.preventDefault();
+    markPoint();
+    map.closePopup();
+    renderPointsOnMap();
 });
 
 const toggleFavouriting = element => {
@@ -24,19 +26,15 @@ const highlightMap = id => {
     .css('opacity', '50%');
   $(`#${id}`).css('border', '1px solid black')
     .css('opacity', '100%');
-  newMarkerGroup.clearLayers();
 };
 
 const clearMap = () => {
-    markers.clearLayers();
   // there exists an array of marker id
   // loop through
   // remove that layer
-//   console.log(markers);
-//   for (const marker of markers) {
-//     marker.remove();
-//   }
-//   console.log(markers);
+  for (const marker of markers) {
+    marker.remove();
+  }
 }
 
 const editName = id => {
@@ -99,17 +97,14 @@ const postMap = function() {
 // have id from the cliked map name
 let idMap;
 $("map-list-item").on("click", ".point", function(e) {
-  console.log(e.target);
   idMap = $(e.target)
     .siblings(".elementMap")
     .attr("id");
-  console.log($(e.target).children(".elementMap"));
 });
 
 /*
   BELOW IS CODE REGARDING MARKERS
 */
-
 const map = L.map("mapid").setView([45.5017, -73.5673], 12);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -130,47 +125,8 @@ const popupContent = `
   </form>
 `;
 
-
-//Marker Functions
-
 let markerListId = [];
 
-const deletePoint = id => {
-    for (const marker of markerListId) {
-        const key = Object.keys(marker);
-        if (key === id) {
-            map.removeLayer(marker.key);
-        }
-    }
-}
-
-const makeMarkerHtml = markerData => {
-    const markerContent = `<div id='${markerData.id}'>`
-    if (markerData.image) {
-        markerContent += `<img src='${markerData.image}'>`;
-    }
-    markerContent += `<h2>${markerData.name}</h2>`;
-    if (markerData.description) {
-        markerContent += `<p>${markerData.description}</p>`
-    }
-    markerContent += `<button onclick="deletePoint(${markerData.id})" class="delete-point">Delete</button>`
-    markerContent += `</div>`;
-    return markerContent;
-}
-
-const generateMarkers = markerList => {
-    for (const marker of markerList) {
-        const markerContent = makeMarkerHtml(marker);
-        const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
-        .popupContent(markerContent);
-        markerListId.push({
-            [marker.id]: newMarker._leaflet_id
-        });
-        markers.push(newMarker);
-    }
-};
-
-let arrayCoods = [];
 const addMarker = (click) => {
     let latitude = click.latlng.lat;
     let longitude = click.latlng.lng;
@@ -191,43 +147,72 @@ const markPoint = function(){
     method: "POST",
     url: "points/markpoint",
     data: dataObj,
-  }).done();
+  }).done(() => {
+    getPointsOnMap();
+  });
+}
+
+const getPointsOnMap = function(){
+    clearMap()
+    $.ajax({
+        method: "GET",
+        url: `/maps/${localStorage.getItem('mapId')}`
+      }).done(renderMarkers)
 }
 
 const getPoints = function(){
   $.ajax({
     method: "GET",
-    url: "/getpoints",
-    success: function () {
-    }
-  });
+    url: "points/getpoints"
+  })
+};
+
+const deletePoint = id => {
+  // RAY : delete the point with this id;
 };
 
 newMarkerGroup = new L.LayerGroup();
 map.on("click", addMarker);
 
-// have id from the cliked map name
-
-let markerElement = (dataPoint,index) => {
-  return markerE = new L.marker([dataPoint[index].latitude, dataPoint[index].longitude]).addTo(map);
+const makeMarkerHtml = (markerData) => {
+  let markerContent = `<div id='${markerData.id}'>`
+  if (markerData.image) {
+    markerContent += `<img src='${markerData.image}'>`;
+  }
+  markerContent += `<h2>${markerData.name}</h2>`;
+  if (markerData.description) {
+    markerContent += `<p>${markerData.description}</p>`
+  }
+  markerContent += `<button onclick="deletePoint(${markerData.id})">Delete</button>`
+  markerContent += `</div>`;
+  return markerContent;
 }
 
-const renderMarkers = function(points) {
-  for (let i = 0; i < points.length; i++) {
-    markerElement(points,i);
+const renderMarkers = function(markerList) {
+    for (const marker of markerList) {
+        const markerContent = makeMarkerHtml(marker);
+    const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
+      .addTo(map)
+      .bindPopup(markerContent)
+    markers.push(newMarker);
+    markerListId.push({[marker.id]: newMarker});
   }
 };
+
+const renderPointsOnMap = function(){
+    $.ajax({
+        method: "GET",
+        url: "/points/getpoints",    
+    }).done(renderMarkers)
+}
 
 
 $("#maps-container").on("click", "button", function(e) {
   let idMap = $(e.target)
     .closest("div")
     .attr("id");
-  // console.log(idMap);
-  $.ajax({
+    $.ajax({
     method: "GET",
     url: `/maps/${idMap}`
-    // data: `${idMap}`
-  })
-    .done(renderMarkers);
+  }).done(renderMarkers);
 });
