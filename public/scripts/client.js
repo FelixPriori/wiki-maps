@@ -24,7 +24,6 @@ const highlightMap = id => {
     .css('opacity', '50%');
   $(`#${id}`).css('border', '1px solid black')
     .css('opacity', '100%');
-  newMarkerGroup.clearLayers();
 };
 
 const clearMap = () => {
