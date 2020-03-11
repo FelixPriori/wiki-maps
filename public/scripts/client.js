@@ -172,6 +172,10 @@ const deletePoint = id => {
   // RAY : delete the point with this id;
 };
 
+const editPoint = id => {
+
+}
+
 newMarkerGroup = new L.LayerGroup();
 map.on("click", addMarker);
 
@@ -193,7 +197,7 @@ const makeMarkerHtml = (markerData) => {
   return markerContent;
 }
 
-const renderMaskers = function(markerList) {
+const renderMarkers = function(markerList) {
   for (const marker of markerList) {
     const markerContent = makeMarkerHtml(marker);
     const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
@@ -215,5 +219,5 @@ $("#maps-container").on("click", "button", function(e) {
     url: `/maps/${idMap}`
     // data: `${idMap}`
   })
-    .done(renderMaskers);
+    .done(renderMarkers);
 });
