@@ -10,9 +10,6 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
-  router.get("/register", (req, res) => {
-  });
-
   router.post("/register", (req, res) => {
     let userData = req.body;
     console.log(userData);
@@ -22,6 +19,14 @@ module.exports = (db) => {
       password: userData.password
     };
     userHelper.addUser(db, userData).then(dbRes => res.json(dbRes));
+  });
+
+  router.get("/login", (req, res) => {
+    let userData = req.body;
+    userData = {
+      email: userData.email
+    }
+    userHelper.getUsersByEmail(db, userData).then(dbRes => res.json(dbRes));
   })
   return router;
 };

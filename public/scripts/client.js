@@ -291,7 +291,6 @@ $("#maps-container").on("click", "button", function(e) {
   }).done(renderMarkers);
 });
 
-
 /* ADD user functionality Login ------ Register Can Favourite a map, Can Have Contributions */
 const registerUser = function(){
   let dataObj = {
