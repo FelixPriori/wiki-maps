@@ -133,41 +133,6 @@ let arrayCoods = [];
 
 let markerListId = [];
 
-const deletePoint = id => {
-  for (const marker of markerListId) {
-    const key = Object.keys(marker);
-    if (key === id) {
-      map.removeLayer(marker.key);
-    }
-  }
-}
-
-const makeMarkerHtml = markerData => {
-  const markerContent = `<div id='${markerData.id}'>`
-  if (markerData.image) {
-    markerContent += `<img src='${markerData.image}'>`;
-  }
-  markerContent += `<h2>${markerData.name}</h2>`;
-  if (markerData.description) {
-    markerContent += `<p>${markerData.description}</p>`
-  }
-  markerContent += `<button onclick="deletePoint(${markerData.id})" class="delete-point">Delete</button>`
-  markerContent += `</div>`;
-  return markerContent;
-}
-
-const generateMarkers = markerList => {
-  for (const marker of markerList) {
-    const markerContent = makeMarkerHtml(marker);
-    const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
-      .popupContent(markerContent);
-    markerListId.push({
-      [marker.id]: newMarker._leaflet_id
-    });
-    markers.push(newMarker);
-  }
-};
-
 const addMarker = (click) => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
@@ -200,20 +165,35 @@ const getPoints = function(){
   });
 };
 
+const deletePoint = id => {
+  // RAY : delete the point with this id;
+};
+
 newMarkerGroup = new L.LayerGroup();
 map.on("click", addMarker);
 
-// have id from the cliked map name
-
-
-let markerElement = (dataPoint,index) => {
-  let markerE = new L.marker([dataPoint[index].latitude, dataPoint[index].longitude]).addTo(map);
-  markers.push(markerE);
+const makeMarkerHtml = (markerData) => {
+  let markerContent = `<div id='${markerData.id}'>`
+  if (markerData.image) {
+    markerContent += `<img src='${markerData.image}'>`;
+  }
+  markerContent += `<h2>${markerData.name}</h2>`;
+  if (markerData.description) {
+    markerContent += `<p>${markerData.description}</p>`
+  }
+  markerContent += `<button onclick="deletePoint(${markerData.id})">Delete</button>`
+  markerContent += `</div>`;
+  return markerContent;
 }
 
-const renderMaskers = function(points) {
-  for (let i = 0; i < points.length; i++) {
-    markerElement(points,i);
+const renderMaskers = function(markerList) {
+  for (const marker of markerList) {
+    const markerContent = makeMarkerHtml(marker);
+    const newMarker = new L.marker([marker.latitude, marker.longitude], {draggable: 'true'})
+      .addTo(map)
+      .bindPopup(markerContent)
+    markers.push(newMarker);
+    markerListId.push({[marker.id]: newMarker});
   }
 };
 
