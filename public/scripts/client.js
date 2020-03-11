@@ -86,15 +86,22 @@ const loadMaps = highlight => {
 loadMaps(false);
 
 const postMap = function() {
-  $("#new-map_form").hide();
-  $.ajax({
-    method: "POST",
-    url: `/maps`,
-    data: $("#map-form").serialize()
-  }).done(() => {
-    loadMaps(true);
-    $("#name-field")[0].value = "";
-  });
+  if ($('#name-field').value) {
+    $("#new-map_form").hide();
+    $.ajax({
+      method: "POST",
+      url: `/maps`,
+      data: $("#map-form").serialize()
+    }).done(() => {
+      loadMaps(true);
+      $("#name-field")[0].value = "";
+    });
+  } else {
+    $('.name-alert').slideDown('fast');
+    setTimeout(() => {
+      $('.name-alert').slideUp('fast');
+    }, 5000)
+  }
 };
 // have id from the cliked map name
 let idMap;
