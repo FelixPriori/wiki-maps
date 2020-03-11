@@ -6,10 +6,17 @@ $("#map-form").on("submit", function(event) {
 });
 
 $("body").on("submit", ".marker-form", function(event) {
-    event.preventDefault();
+  event.preventDefault();
+  if ($('.marker-name').val().length) {
     markPoint();
     map.closePopup();
     renderPointsOnMap();
+  } else {
+    $('.marker-name-alert').slideDown('fast');
+    setTimeout(() => {
+      $('.marker-name-alert').slideUp('fast');
+    }, 5000);
+  }
 });
 
 const toggleFavouriting = element => {
@@ -139,10 +146,10 @@ const popupContent = `
 //Marker Functions
 
 const addMarker = (click) => {
-    let latitude = click.latlng.lat;
-    let longitude = click.latlng.lng;
-    arrayCoords = [latitude, longitude];
-    const newMarker = new L.marker(click.latlng, { draggable: "true" })
+  let latitude = click.latlng.lat;
+  let longitude = click.latlng.lng;
+  arrayCoords = [latitude, longitude];
+  const newMarker = new L.marker(click.latlng, { draggable: "true" })
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
@@ -155,39 +162,24 @@ const addMarker = (click) => {
 
 //post markers on the map using ajax post request
 const markPoint = function(){
-  let dataObj = $('.marker-form').serialize();
-  dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
-  $.ajax({
-    method: "POST",
-    url: "points/markpoint",
-    data: dataObj,
-  }).done(() => {
-    getPointsOnMap();
-  });
-}
-
-const getPointsOnMap = function(){
-    clearMap()
-    $.ajax({
-        method: "GET",
-        url: `/maps/${localStorage.getItem('mapId')}`
-      }).done(renderMarkers);
-    }
-
-  if ($('.marker-name').val()) {
     let dataObj = $('.marker-form').serialize();
     dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
     $.ajax({
       method: "POST",
       url: "points/markpoint",
       data: dataObj,
-    }).done();
-  } else {
-    $('.marker-name-alert').slideDown('fast');
-    setTimeout(() => {
-      $('.marker-name-alert').slideUp('fast');
-    }, 5000);
-  }
+    }).done(() => {
+      clearMap()
+      getPointsOnMap();
+    });
+}
+
+const getPointsOnMap = function(){
+  $.ajax({
+    method: "GET",
+    url: `/maps/${localStorage.getItem('mapId')}`
+  }).done(renderMarkers);
+};
 
 const getPoints = function(){
   $.ajax({
@@ -281,7 +273,7 @@ const renderMarkers = function(markerList) {
 const renderPointsOnMap = function(){
     $.ajax({
         method: "GET",
-        url: "/points/getpoints",    
+        url: "/points/getpoints",
     }).done(renderMarkers)
 }
 
