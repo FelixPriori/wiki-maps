@@ -5,15 +5,9 @@ $("#map-form").on("submit", function(event) {
   postMap();
 });
 
-<<<<<<< HEAD
-$('body').on("submit", '.marker-form',function(event) {
-    event.preventDefault();
-    markPoint();
-=======
 $("body").on("submit", ".marker-form", function(event) {
   event.preventDefault();
   markPoint();
->>>>>>> newServer
 });
 
 const toggleFavouriting = element => {
@@ -76,11 +70,7 @@ const renderMaps = function(maps) {
   }
 };
 
-<<<<<<< HEAD
-const loadMaps = (highlight) => {
-=======
 const loadMaps = highlight => {
->>>>>>> newServer
   $.ajax({
     method: "GET",
     url: `/maps`
@@ -226,7 +216,7 @@ const renderMaskers = function(points) {
   for (let i = 0; i < points.length; i++) {
     markerElement(points,i);
   }
-  
+
 };
 
 
