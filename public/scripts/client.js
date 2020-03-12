@@ -36,12 +36,6 @@ $("#logout").on('click', function(event){
   logoutUser();
 });
 
-const makeName = function(name){
-  const $h2 = $('<h2>');
-  $h2.text(`Welcome, ${name}!`);
-  $('#welcome-message').append($h2);
-};
-
 const toggleFavouriting = element => {
   if ($(element).attr("src") === "/assets/img/heart-fill.svg") {
     $(element).attr("src", "/assets/img/heart.svg");
@@ -254,8 +248,10 @@ map.on("click", event => {
     if (checkUserLoggedIn()){
       addMarker(event);
     } else {
-      console.log('user is not logged in')
-      // TODO : FELIX
+      $('.user-login-alert').show();
+      setTimeout(() => {
+        $('.user-login-alert').hide();
+      }, 3000);
     }
   } else {
     $('.select-map-alert').show();
@@ -394,6 +390,72 @@ $("#mapid").on("click", ".editMarker", function(e) {
 });
 
 /* ADD user functionality Login ------ Register Can Favourite a map, Can Have Contributions */
+
+const makeName = function(name){
+  const $h2 = $('<h2 class="welcome-message">');
+  $h2.text(`Welcome, ${name}!`);
+  $('#welcome-message').append($h2);
+};
+
+const loginLayout = (name) => {
+  $('#logout').show();
+  $('#login').hide();
+  $('#register').hide();
+  $('.login_form').hide();
+  $('#favourites').show();
+  $('#contributions').show();
+  $('#new-map_button').show();
+  makeName(name);
+}
+
+const logoutLayout = () => {
+  $('#login').show();
+  $('#register').show();
+  $('#logout').hide();
+  $('#favourites').hide();
+  $('#contributions').hide();
+  $('#new-map_button').hide();
+  $('.welcome-message').remove();
+}
+
+const checkUserLoggedIn = function(){
+  if(localStorage.getItem('userID') !== null){
+    return true;
+  }
+}
+
+if (checkUserLoggedIn()) {
+  // $.ajax({
+  //   method: 'GET',
+  //   url: 'users/checkUser'
+  // }).done(data => loginLayout(data.name))
+  loginLayout();
+} else {
+  logoutLayout();
+}
+
+const logoutUser = function() {
+  localStorage.removeItem('userID');
+  $.ajax({
+    method: "POST",
+    url: "users/logout",
+  }).done(() => {
+    logoutLayout();
+  });
+}
+
+const loginUser = function(){
+let userData = {email: $('.login-email').val()}
+$.ajax({
+  method: "POST",
+  url: "users/login",
+  data: userData
+}).done(data =>  {
+    localStorage.setItem('userID', data.id)
+    loginLayout(data.first_name);
+  });
+}
+
 const registerUser = function(){
   let dataObj = {
     first_name: $('.register-name').val(),
@@ -406,38 +468,5 @@ const registerUser = function(){
     data: dataObj
   }).done(
     loginUser()
-    );
-  }
-  const checkUserLoggedIn = function(){
-      if(localStorage.getItem('userID') !== null){
-        return true;
-      }
-    }
-  
-  const loginUser = function(){
-  let userData = {email: $('.login-email').val()}
-  $.ajax({
-    method: "POST",
-    url: "users/login",
-    data: userData
-  }).done(data =>  {
-    localStorage.setItem('userID', data.id)
-    $('#logout').show();
-    $('#login').hide();
-    $('#register').hide();
-    $('.login_form').hide();
-    makeName(data.first_name);
-  });
-}
-
-const logoutUser = function() {
-  localStorage.removeItem('userID');
-  $.ajax({
-    method: "POST",
-    url: "users/logout",
-  }).done(() => {
-    $('#login').show();
-    $('#register').show();
-    $('#logout').hide();
-  });
+  );
 }
