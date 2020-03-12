@@ -27,12 +27,11 @@ $(document).ready(() => {
     $registerForm.toggle();
   });
 
-  $logout.click(() => {
-    $login.show();
-    $register.show();
-    $logout.hide();
-    $welcome.hide();
-  });
+  // $logout.click(() => {
+  //   $login.show();
+  //   $register.show();
+  //   $logout.hide();
+  // });
 
   $newMapButton.click(() => {
     $mapForm.toggle();
