@@ -3,7 +3,7 @@
 body {
   overflow: hidden;
   nav {
-    position: absolute;
+    position: relative;
     height: 15%;
     width: 100%;
     display: flex;
@@ -26,112 +26,121 @@ body {
       }
     }
   }
-
+  .alert {
+    z-index: 3;
+    position: fixed;
+    top: 20%;
+    right: 25%;
+    display: none;
+  }
   .login_form, .register_form {
     display:none;
   }
-  main {
-    #mapid {
-      position: absolute;
-      top: 15%;
-      left: 25%;
-      height: 85%;
-      width: 75%;
-      z-index: 1;
-    }
-  }
-  aside {
-    overflow: hidden;
-    .aside-content {
-      position: absolute;
-      top: 15%;
-      height: 85vh;
-      width: 25%;
-      z-index: 4;
-      overflow-y: scroll;
-    }
-    div {
-      img {
-        width: auto;
-        height: auto;
-      }
-      .map-list-item {
-        margin: 1em;
-        display: flex;
-        flex-direction: row;
-        form {
-          input {
-            max-width: 8em;
-          }
-        }
-        button {
-          display: flex;
-          text-align: left;
-          width: 100%;
-          padding: 1em;
-          padding-right: 0;
-          align-items: center;
-          p {
-            align-self: center;
-            word-break: break-all;
-          }
-          img {
-            margin-right: 1em;
-            min-width: 3em;
-          }
-        }
-        .favouritable {
-          height: 1em;
-          margin-left: auto;
-          margin-top: 1em;
-          margin-right: 1em;
-          min-width: 1em;
-          align-self: end;
-        }
-        .icons {
-          display: flex;
-          flex-direction: column;
-          .favouritable, .cancel-img {
-            height: 1em;
-            margin-left: auto;
-            margin-top: 1em;
-            margin-right: 1em;
-            min-width: 1em;
-            align-self: end;
-          }
-          .edit-map-title, .confirm-img {
-            height: 1em;
-            margin-left: auto;
-            margin-top: 1em;
-            margin-right: 1em;
-            min-width: 1em;
-            align-self: end;
-          }
-          .confirm-img, .cancel-img {
-            display: none;
-          }
-        }
+  div {
+    position: relative;
+    main {
+      #mapid {
+        position: relative;
+        height: 100vw;
+        width: 100vw;
+        z-index: 1;
       }
     }
-    .favourites-aside {
-      display: none;
-    }
-    .contributions-aside {
-      display: none;
-    }
-    .sidebar-nav {
-      ul {
-        top: 15%;
-        left: 22.05%;
-        position: absolute;
+    aside {
+      overflow: hidden;
+      position: absolute;
+      display: flex;
+      height: 100%;
+      width: 30vw;
+      z-index: 10;
+      top: 0;
+      .aside-content {
+        position: relative;
         display: flex;
         flex-direction: column;
-        height: 15em;
+        overflow-x: hidden;
+        width: auto;
+        z-index: 4;
+        overflow-y: scroll;
+      }
+      div {
+        img {
+          width: auto;
+          height: auto;
+        }
+        .map-list-item {
+          margin: 1em;
+          display: flex;
+          flex-direction: row;
+          form {
+            input {
+              max-width: 8em;
+            }
+          }
+          button {
+            display: flex;
+            text-align: left;
+            width: 100%;
+            padding: 1em;
+            padding-right: 0;
+            align-items: center;
+            p {
+              align-self: center;
+              word-break: break-all;
+            }
+            img {
+              margin-right: 1em;
+              min-width: 3em;
+            }
+          }
+          .favouritable {
+            height: 1em;
+            margin-left: auto;
+            margin-top: 1em;
+            margin-right: 1em;
+            min-width: 1em;
+            align-self: end;
+          }
+          .icons {
+            display: flex;
+            flex-direction: column;
+            .favouritable, .cancel-img {
+              height: 1em;
+              margin-left: auto;
+              margin-top: 1em;
+              margin-right: 1em;
+              min-width: 1em;
+              align-self: end;
+            }
+            .edit-map-title, .confirm-img {
+              height: 1em;
+              margin-left: auto;
+              margin-top: 1em;
+              margin-right: 1em;
+              min-width: 1em;
+              align-self: end;
+            }
+            .confirm-img, .cancel-img {
+              display: none;
+            }
+          }
+        }
+      }
+      .favourites-aside {
+        display: none;
+      }
+      .contributions-aside {
+        display: none;
+      }
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
         z-index: 10;
-        flex-grow: 1;
+        justify-content: flex-start;
+        padding: 0;
         li {
           list-style-type:none;
-          flex-grow: 1;
           line-height: 5em;
           padding: 1em;
         }

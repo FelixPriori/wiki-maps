@@ -32,7 +32,9 @@ $("#Ulogin-form").on("submit", function(event){
 });
 
 const makeName = function(name){
-
+  const $h2 = $('<h2>');
+  $h2.text(`Welcome, ${name}!`);
+  $('#welcome-message').append($h2);
 };
 
 const toggleFavouriting = element => {
@@ -73,8 +75,8 @@ const editName = id => {
     .find('.not-edit')
     .hide();
   $(`#${id}`)
-  .find('p')
-  .hide();
+    .find('p')
+    .hide();
 };
 
 const cancel = id => {
@@ -112,7 +114,7 @@ const createMapElement = dataMap => {
         ${editNameForm(dataMap.name)}
       </button>
       <div class="icons">
-        <img onclick="cancel(${dataMap.id})" class="edit cancel-img" src="/assets/img/circle-slash.svg" alt="" title="cancel">
+        <img onclick="cancel(${dataMap.id})" class="edit cancel-img" src="/assets/img/x-circle.svg" alt="" title="cancel">
         <img class="edit confirm-img" src="/assets/img/check-circle.svg" alt="" title="confirm">
         <img onclick="toggleFavouriting(this)" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
         <img onclick="editName(${dataMap.id})" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
@@ -202,7 +204,7 @@ const addMarker = click => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
   arrayCoords = [latitude, longitude];
-  const newMarker = new L.marker(click.latlng, { draggable: "true" })
+  const newMarker = new L.marker(click.latlng)
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
@@ -241,16 +243,15 @@ const getPoints = function() {
   });
 };
 
-const deletePoint = id => {
-  // RAY : delete the point with this id;
-};
-
 newMarkerGroup = new L.LayerGroup();
 map.on("click", event => {
   if (localStorage.getItem('mapId')){
     addMarker(event);
   } else {
-    $('.login_form').show();
+    $('.select-map-alert').show();
+    setTimeout(() => {
+      $('.select-map-alert').hide();
+    }, 3000);
   }
 });
 
@@ -277,17 +278,17 @@ const backToPoint = () => {
     .show();
 };
 
-const editForm = () => {
+const editForm = markerData => {
   return `
     <form class='edit-popup' style='display:none;'>
       <h2>Edit marker</h2>
       <label for="marker-name">Name</label>
-      <input class="marker-name" name="name" type="text", placeholder="name your marker!"/>
+      <input class="marker-name" name="name" type="text", value='${markerData.name}'!"/>
       <p class="marker-name-alert alert alert-warning" style="display:none; color: rgba(237, 106, 90, 1);" role="alert">Please name your marker!</p>
       <label for="marker-img">Image</label>
-      <input name="image" class="marker-img" type="url", placeholder="img url"/>
+      <input name="image" class="marker-img" type="url", value="${markerData.image}"/>
       <label for="marker-description">Description</label>
-      <textarea name="description" class="marker-description" placeholder="desciption"></textarea>
+      <textarea name="description" class="marker-description">${markerData.description}</textarea>
       <div class="buttons">
         <input class="btn btn-light" type="submit">
         <button class="btn btn-light" onclick="backToPoint()">Cancel</button>
@@ -298,7 +299,7 @@ const editForm = () => {
 
 const makeMarkerHtml = markerData => {
   let markerContent =
-    editForm() + `<div class="marker-form" id='${markerData.id}'>`;
+    editForm(markerData) + `<div class="marker-form" id='${markerData.id}'>`;
   if (markerData.image) {
     markerContent += `
       <div class="img-box">
@@ -312,7 +313,7 @@ const makeMarkerHtml = markerData => {
   }
   markerContent += `
       <div id='${markerData.id}' class="buttons">
-        <button id='${markerData.map_id}'class="btn btn-light delete-button deleteMarker" onclick="deletePoint(${markerData.id})">Delete</button>
+        <button id='${markerData.map_id}'class="btn btn-light delete-button deleteMarker">Delete</button>
         <button id='${markerData.map_id}' class="btn btn-light edit-button editMarker" onclick="editPoint()">Edit</button>
       </div>
     </div>`;
@@ -322,15 +323,14 @@ const makeMarkerHtml = markerData => {
 const renderMarkers = function(markerList) {
   for (const marker of markerList) {
     const markerContent = makeMarkerHtml(marker);
-    const newMarker = new L.marker([marker.latitude, marker.longitude], {
-      draggable: "true"
-    })
+    const newMarker = new L.marker([marker.latitude, marker.longitude])
       .addTo(map)
       .bindPopup(markerContent);
     newMarker.point_id = marker.id;
     markers.push(newMarker);
   }
 };
+
 const getPointMaps = function(data) {
   let idMap = data;
   $.ajax({
@@ -357,12 +357,9 @@ $("#maps-container").on("click", "button", function(e) {
 });
 // have map-id from the cliked map name and render the point for this map
 // have point-id from the cliked delete
-const deleteMark = function() {
+const deleteMark = () => {
   $("#mapid").on("click", ".deleteMarker", function(e) {
-    console.log(e.target);
-
     let idMap = $(e.target).attr("id");
-    console.log("idMap: ", idMap);
     let point = $(e.target)
       .closest("div")
       .attr("id");
@@ -397,16 +394,23 @@ const registerUser = function(){
     method: "POST",
     url: "users/register",
     data: dataObj
-  }).done();
+  }).done(
+    loginUser()
+  );
 }
 
 const loginUser = function(){
+
   let userData = {email: $('.login-email').val()}
   $.ajax({
     method: "POST",
     url: "users/login",
-    data: userData 
+    data: userData
   }).done(data => {
+    $('#logout').show();
+    $('#login').hide();
+    $('#register').hide();
+    $('.login_form').hide();
     makeName(data.first_name);
   });
 }
