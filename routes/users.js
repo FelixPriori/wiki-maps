@@ -18,7 +18,7 @@ module.exports = (db) => {
       password: userData.password,
     };
     userHelper.addUser(db, userData).then((dbRes) => {
-      req.session.userID = dbRes.id
+      req.session.userID = dbRes[0].id
       console.log(req.session.userID);
       res.json(dbRes)
     });
