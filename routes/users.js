@@ -31,6 +31,13 @@ module.exports = (db) => {
     });
   });
 
+  router.get("/checkUser", (req, res) => {
+    let userObj = {
+      id: req.session.userID
+    }
+    userHelper.getUserNameById(db, userObj).then(dbRes => res.json(dbRes));
+  });
+
   router.post("/logout", (req, res) => {
     req.session = null;
     res.send();

@@ -2,6 +2,12 @@
 
 body {
   overflow: hidden;
+  .navigate-up {
+    display: none;
+  }
+  .navigate-down {
+    display:none;
+  }
   nav {
     position: relative;
     height: 15%;
@@ -51,7 +57,7 @@ body {
       position: absolute;
       display: flex;
       height: 100%;
-      width: 30vw;
+      width: 45vw;
       z-index: 10;
       top: 0;
       .aside-content {
@@ -62,6 +68,28 @@ body {
         width: auto;
         z-index: 4;
         overflow-y: scroll;
+      }
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        z-index: 10;
+        justify-content: flex-start;
+        padding: 0;
+        li {
+          list-style-type:none;
+          line-height: 5em;
+          padding: 1em;
+        }
+        #all-maps {
+          z-index: 3;
+        }
+        #favourites {
+          z-index: 2;
+        }
+        #contributions {
+          z-index: 1;
+        }
       }
       div {
         img {
@@ -132,28 +160,6 @@ body {
       .contributions-aside {
         display: none;
       }
-      .sidebar-nav {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        z-index: 10;
-        justify-content: flex-start;
-        padding: 0;
-        li {
-          list-style-type:none;
-          line-height: 5em;
-          padding: 1em;
-        }
-        #all-maps {
-          z-index: 3;
-        }
-        #favourites {
-          z-index: 2;
-        }
-        #contributions {
-          z-index: 1;
-        }
-      }
     }
   }
   #new-map_form {
@@ -162,7 +168,7 @@ body {
     display:none;
     right: 2%;
     bottom: 20%;
-    z-index: 10;
+    z-index: 11;
     padding: 2em;
   }
   .create-icons {
