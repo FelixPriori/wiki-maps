@@ -405,6 +405,7 @@ const loginLayout = (name) => {
   $('#favourites').show();
   $('#contributions').show();
   $('#new-map_button').show();
+  $('.icons').show();
   makeName(name);
 }
 
@@ -415,6 +416,7 @@ const logoutLayout = () => {
   $('#favourites').hide();
   $('#contributions').hide();
   $('#new-map_button').hide();
+  $('.icons').hide();
   $('.welcome-message').remove();
 }
 
