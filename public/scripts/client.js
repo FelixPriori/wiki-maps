@@ -1,5 +1,5 @@
 let markers = [];
-localStorage.removeItem('mapId');
+localStorage.removeItem("mapId");
 
 //The map is by default pointing to montreal
 $("#map-form").on("submit", function(event) {
@@ -9,38 +9,40 @@ $("#map-form").on("submit", function(event) {
 //Submit for a pointer on the map
 $("body").on("submit", ".marker-form", function(event) {
   event.preventDefault();
-  if ($('.marker-name').val().length) {
+  if ($(".marker-name").val().length) {
     markPoint();
     map.closePopup();
     renderPointsOnMap();
   } else {
-    $('.marker-name-alert').slideDown('fast');
+    $(".marker-name-alert").slideDown("fast");
     setTimeout(() => {
-      $('.marker-name-alert').slideUp('fast');
+      $(".marker-name-alert").slideUp("fast");
     }, 5000);
   }
 });
 
-$("#Uregister-form").on("submit", function(event){
+$("#Uregister-form").on("submit", function(event) {
   event.preventDefault();
   registerUser();
 });
 
-$("#Ulogin-form").on("submit", function(event){
+$("#Ulogin-form").on("submit", function(event) {
   event.preventDefault();
   loginUser();
 });
 
-$("#logout").on('click', function(event){
+$("#logout").on("click", function(event) {
   event.preventDefault();
   logoutUser();
 });
 
-const toggleFavouriting = element => {
+const toggleFavouriting = (element, id) => {
   if ($(element).attr("src") === "/assets/img/heart-fill.svg") {
     $(element).attr("src", "/assets/img/heart.svg");
+    deleteFavouriteMap(id);
   } else {
     $(element).attr("src", "/assets/img/heart-fill.svg");
+    userFavouriteMap(id);
   }
 };
 
@@ -65,31 +67,31 @@ const clearMap = () => {
 
 const editName = id => {
   $(`#${id}`)
-    .find('form')
+    .find("form")
     .show();
   $(`#${id}`)
-    .find('.edit')
+    .find(".edit")
     .show();
   $(`#${id}`)
-    .find('.not-edit')
+    .find(".not-edit")
     .hide();
   $(`#${id}`)
-    .find('p')
+    .find("p")
     .hide();
 };
 
 const cancel = id => {
   $(`#${id}`)
-    .find('form')
+    .find("form")
     .hide();
   $(`#${id}`)
-    .find('.edit')
+    .find(".edit")
     .hide();
   $(`#${id}`)
-    .find('.not-edit')
+    .find(".not-edit")
     .show();
   $(`#${id}`)
-    .find('p')
+    .find("p")
     .show();
 };
 
@@ -98,13 +100,14 @@ const editNameForm = currentName => {
     <form style="display:none;">
       <input type='text' value='${currentName}'>
     </form>
-  `
+  `;
 };
-
 
 const createMapElement = dataMap => {
   let $map = `
-    <div id=${dataMap.id} onclick="highlightMap(${dataMap.id}); clearMap();" class="map-list-item">
+    <div id=${dataMap.id} onclick="highlightMap(${
+    dataMap.id
+  }); clearMap();" class="map-list-item">
       <button >
         <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
         <p class="map-name">
@@ -113,10 +116,14 @@ const createMapElement = dataMap => {
         ${editNameForm(dataMap.name)}
       </button>
       <div class="icons">
-        <img onclick="cancel(${dataMap.id})" class="edit cancel-img" src="/assets/img/x-circle.svg" alt="" title="cancel">
+        <img onclick="cancel(${
+          dataMap.id
+        })" class="edit cancel-img" src="/assets/img/x-circle.svg" alt="" title="cancel">
         <img class="edit confirm-img" src="/assets/img/check-circle.svg" alt="" title="confirm">
-        <img onclick="toggleFavouriting(this)" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
-        <img onclick="editName(${dataMap.id})" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
+        <img onclick="toggleFavouriting(this, ${dataMap.id})" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
+        <img onclick="editName(${
+          dataMap.id
+        })" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
       </div>
     </div>
   `;
@@ -215,23 +222,25 @@ const addMarker = click => {
 };
 
 //post markers on the map using ajax post request
-const markPoint = function(){
-    let dataObj = $('.marker-form').serialize();
-    dataObj += `&latitude=${arrayCoords[0]}&longitude=${arrayCoords[1]}&map_id=${localStorage.getItem('mapId')}`;
-    $.ajax({
-      method: "POST",
-      url: "points/markpoint",
-      data: dataObj,
-    }).done(() => {
-      clearMap()
-      getPointsOnMap();
-    });
-}
+const markPoint = function() {
+  let dataObj = $(".marker-form").serialize();
+  dataObj += `&latitude=${arrayCoords[0]}&longitude=${
+    arrayCoords[1]
+  }&map_id=${localStorage.getItem("mapId")}`;
+  $.ajax({
+    method: "POST",
+    url: "points/markpoint",
+    data: dataObj
+  }).done(() => {
+    clearMap();
+    getPointsOnMap();
+  });
+};
 
-const getPointsOnMap = function(){
+const getPointsOnMap = function() {
   $.ajax({
     method: "GET",
-    url: `/maps/${localStorage.getItem('mapId')}`
+    url: `/maps/${localStorage.getItem("mapId")}`
   }).done(renderMarkers);
 };
 
@@ -244,8 +253,8 @@ const getPoints = function() {
 
 newMarkerGroup = new L.LayerGroup();
 map.on("click", event => {
-  if (localStorage.getItem('mapId')){
-    if (checkUserLoggedIn()){
+  if (localStorage.getItem("mapId")) {
+    if (checkUserLoggedIn()) {
       addMarker(event);
     } else {
       $('.user-login-alert').show();
@@ -254,9 +263,9 @@ map.on("click", event => {
       }, 3000);
     }
   } else {
-    $('.select-map-alert').show();
+    $(".select-map-alert").show();
     setTimeout(() => {
-      $('.select-map-alert').hide();
+      $(".select-map-alert").hide();
     }, 3000);
   }
 });
@@ -427,11 +436,10 @@ const checkUserLoggedIn = function(){
 }
 
 if (checkUserLoggedIn()) {
-  // $.ajax({
-  //   method: 'GET',
-  //   url: 'users/checkUser'
-  // }).done(data => loginLayout(data.name))
-  loginLayout();
+   $.ajax({
+     method: 'GET',
+     url: 'users/checkUser'
+   }).done(data => loginLayout(data.first_name))
 } else {
   logoutLayout();
 }
@@ -457,18 +465,79 @@ $.ajax({
     loginLayout(data.first_name);
   });
 }
-
 const registerUser = function(){
   let dataObj = {
-    first_name: $('.register-name').val(),
-    email: $('.register-email').val(),
-    password: $('.register-password').val()
-  }
+    first_name: $(".register-name").val(),
+    email: $(".register-email").val(),
+    password: $(".register-password").val()
+  };
   $.ajax({
     method: "POST",
     url: "users/register",
     data: dataObj
-  }).done(
-    loginUser()
-  );
+  }).done(loginUser());
+};
+/* User Favourites and Contributions */
+
+const createFavouriteMapElement = dataMap => {
+  let $map = `
+  <div id=${dataMap.id} onclick="highlightMap(${
+    dataMap.id
+  }); clearMap();" class="map-list-item">
+  <button >
+  <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
+  <p class="map-name">
+  ${dataMap.name}
+  </p>
+  ${editNameForm(dataMap.name)}
+  </button>
+  <div class="icons">
+  <img onclick="cancel(${
+    dataMap.id
+  })" class="edit cancel-img" src="/assets/img/x-circle.svg" alt="" title="cancel">
+  <img class="edit confirm-img" src="/assets/img/check-circle.svg" alt="" title="confirm">
+  <img onclick="toggleFavouriting(this)" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
+  <img onclick="editName(${
+    dataMap.id
+  })" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
+  </div>
+  </div>
+  `;
+  return $map;
+};
+
+const renderFavouriteMaps = function(maps) {
+  $("#favouriteMap-aside").empty();
+  for (let i = 0; i < maps.length; i++) {
+    $map = createMapFavouriteMapElement(maps[i]);
+    $("#favouriteMap-aside").prepend($map);
+  }
+};
+
+const userFavouriteMap = function(id) {
+  let favouriteMap = id;
+  let userId = localStorage.getItem("userID");
+  dataObj = {
+    map_id: favouriteMap,
+    contributor_id: userId
+  };
+  $.ajax({
+    method: "POST",
+    url: "/users/favourite",
+    data: dataObj
+  }).done();
+};
+
+const deleteFavouriteMap = function(id){
+  let favouriteMap = id;
+  let userId = localStorage.getItem("userID");
+  dataObj = {
+    map_id: favouriteMap,
+    contributor_id: userId
+  };
+  $.ajax({
+    method: "POST",
+    url: "/users/deleteFavouriteMap",
+    data: dataObj
+  }).done();
 }
