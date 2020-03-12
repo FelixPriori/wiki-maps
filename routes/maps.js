@@ -33,16 +33,14 @@ module.exports = db => {
     const idPoint = req.body.pointId;
     console.log(idPoint);
     mapsHelper.deletePoint(db, idPoint).then(() =>  res.send('ok'));
-
-   
   });
- 
+
   router.post("/points/edit", (req, res) => {
     const idPoint = req.body.pointId;
     // console.log(idPoint);
     mapsHelper.editPoint(db, idPoint).then()//.....
   });
- 
+
 
 
 

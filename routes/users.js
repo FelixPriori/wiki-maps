@@ -42,6 +42,13 @@ module.exports = (db) => {
       id: req.session.userID
     }
     userHelper.getFavouritesByUser(db, userObj).then(dbRes => res.json(dbRes));
+  });
+
+  router.get('/favourites', (req, res) => {
+    let userObj = {
+      id: req.session.userID
+    }
+    userHelper.getUserFavouriteMaps(db, userObj).then(dbRes => res.json(dbRes));
   })
 
   router.post("/logout", (req, res) => {
