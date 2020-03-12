@@ -36,11 +36,13 @@ $("#logout").on("click", function(event) {
   logoutUser();
 });
 
-const toggleFavouriting = element => {
+const toggleFavouriting = (element, id) => {
   if ($(element).attr("src") === "/assets/img/heart-fill.svg") {
     $(element).attr("src", "/assets/img/heart.svg");
+    deleteFavouriteMap(id);
   } else {
     $(element).attr("src", "/assets/img/heart-fill.svg");
+    userFavouriteMap(id);
   }
 };
 
@@ -118,7 +120,7 @@ const createMapElement = dataMap => {
           dataMap.id
         })" class="edit cancel-img" src="/assets/img/x-circle.svg" alt="" title="cancel">
         <img class="edit confirm-img" src="/assets/img/check-circle.svg" alt="" title="confirm">
-        <img onclick="toggleFavouriting(this)" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
+        <img onclick="toggleFavouriting(this, ${dataMap.id})" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
         <img onclick="editName(${
           dataMap.id
         })" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
@@ -510,8 +512,8 @@ const renderFavouriteMaps = function(maps) {
   }
 };
 
-const userFavouriteMap = function() {
-  let favouriteMap = localStorage.getItem("mapId");
+const userFavouriteMap = function(id) {
+  let favouriteMap = id;
   let userId = localStorage.getItem("userID");
   dataObj = {
     map_id: favouriteMap,
@@ -523,3 +525,17 @@ const userFavouriteMap = function() {
     data: dataObj
   }).done();
 };
+
+const deleteFavouriteMap = function(id){
+  let favouriteMap = id;
+  let userId = localStorage.getItem("userID");
+  dataObj = {
+    map_id: favouriteMap,
+    contributor_id: userId
+  };
+  $.ajax({
+    method: "POST",
+    url: "/users/deleteFavouriteMap",
+    data: dataObj
+  }).done();
+}
