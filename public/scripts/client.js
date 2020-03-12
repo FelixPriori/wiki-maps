@@ -31,6 +31,11 @@ $("#Ulogin-form").on("submit", function(event){
   loginUser();
 });
 
+$("#logout").on('click', function(event){
+  event.preventDefault();
+  logoutUser();
+});
+
 const makeName = function(name){
   const $h2 = $('<h2>');
   $h2.text(`Welcome, ${name}!`);
@@ -246,7 +251,12 @@ const getPoints = function() {
 newMarkerGroup = new L.LayerGroup();
 map.on("click", event => {
   if (localStorage.getItem('mapId')){
-    addMarker(event);
+    if (checkUserLoggedIn()){
+      addMarker(event);
+    } else {
+      console.log('user is not logged in')
+      // TODO : FELIX
+    }
   } else {
     $('.select-map-alert').show();
     setTimeout(() => {
@@ -396,17 +406,22 @@ const registerUser = function(){
     data: dataObj
   }).done(
     loginUser()
-  );
-}
-
-const loginUser = function(){
-
+    );
+  }
+  const checkUserLoggedIn = function(){
+      if(localStorage.getItem('userID') !== null){
+        return true;
+      }
+    }
+  
+  const loginUser = function(){
   let userData = {email: $('.login-email').val()}
   $.ajax({
     method: "POST",
     url: "users/login",
     data: userData
-  }).done(data => {
+  }).done(data =>  {
+    localStorage.setItem('userID', data.id)
     $('#logout').show();
     $('#login').hide();
     $('#register').hide();
@@ -415,3 +430,14 @@ const loginUser = function(){
   });
 }
 
+const logoutUser = function() {
+  localStorage.removeItem('userID');
+  $.ajax({
+    method: "POST",
+    url: "users/logout",
+  }).done(() => {
+    $('#login').show();
+    $('#register').show();
+    $('#logout').hide();
+  });
+}

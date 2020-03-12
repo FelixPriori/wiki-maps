@@ -11,7 +11,6 @@ const router  = express.Router();
 module.exports = (db) => {
   router.post("/register", (req, res) => {
     let userData = req.body;
-    req.session.userID = //enter the userId that the database has
     userData = {
       first_name: userData.first_name,
       email: userData.email,
@@ -19,7 +18,6 @@ module.exports = (db) => {
     };
     userHelper.addUser(db, userData).then((dbRes) => {
       req.session.userID = dbRes[0].id
-      console.log(req.session.userID);
       res.json(dbRes)
     });
   });
@@ -27,8 +25,16 @@ module.exports = (db) => {
   router.post("/login", (req, res) => {
     let userData = req.body;
     console.log(userData);
-    userHelper.getUsersNameByEmail(db, userData).then(dbRes => res.json(dbRes));
-  })
+    userHelper.getUsersNameByEmail(db, userData).then((dbRes) => {
+      req.session.userID = dbRes[0].id
+      res.json(dbRes[0])
+    });
+  });
+
+  router.post("/logout", (req, res) => {
+    req.session = null;
+    res.send();
+  });
   return router;
 };
 
