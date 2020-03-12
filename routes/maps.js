@@ -10,7 +10,7 @@ module.exports = db => {
   router.get("/:mapID", (req, res) => {
     const mapID = req.params.mapID;
     // const {mapID} = req.body;
-    console.log("mapid", mapID);
+    // console.log("mapid", mapID);
     //   let mapInfo = {
     //  id: mapID['map-ID']
     // }
@@ -31,20 +31,21 @@ module.exports = db => {
 
   router.post("/points/delete", (req, res) => {
     const idPoint = req.body.pointId;
-    console.log(idPoint);
+    // console.log(idPoint);
     mapsHelper.deletePoint(db, idPoint).then(() =>  res.send('ok'));
 
    
   });
  
-  router.post("/points/edit", (req, res) => {
-    const idPoint = req.body.pointId;
-    // console.log(idPoint);
-    mapsHelper.editPoint(db, idPoint).then()//.....
+  router.post("/edit/point", (req, res) => {
+    const dataPoint = req.body;
+    // console.log(dataPoint);
+    mapsHelper.editPoint(db, dataPoint).then(() =>  res.send('ok'));
+    // .then(pointObject => res.json(pointObject));
   });
- 
 
 
+  
 
 
   return router;
