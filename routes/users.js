@@ -35,6 +35,16 @@ module.exports = (db) => {
     req.session = null;
     res.send();
   });
+
+  router.post("/favourite", (req, res) => {
+    let dataObj = req.body;
+    userHelper.addUserFavouriteMap(db, dataObj).then((dbRes) => {
+      if(req.session.userID = dbRes[0].contributor_id){
+        res.json(dbRes);
+      }
+    });
+  })
+  
   return router;
 };
 
