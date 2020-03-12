@@ -75,8 +75,8 @@ const editName = id => {
     .find('.not-edit')
     .hide();
   $(`#${id}`)
-  .find('p')
-  .hide();
+    .find('p')
+    .hide();
 };
 
 const cancel = id => {
@@ -204,7 +204,7 @@ const addMarker = click => {
   let latitude = click.latlng.lat;
   let longitude = click.latlng.lng;
   arrayCoords = [latitude, longitude];
-  const newMarker = new L.marker(click.latlng, { draggable: "true" })
+  const newMarker = new L.marker(click.latlng)
     .addTo(map)
     .bindPopup(popupContent)
     .openPopup();
@@ -248,7 +248,10 @@ map.on("click", event => {
   if (localStorage.getItem('mapId')){
     addMarker(event);
   } else {
-    $('.login_form').show();
+    $('.select-map-alert').show();
+    setTimeout(() => {
+      $('.select-map-alert').hide();
+    }, 3000);
   }
 });
 
@@ -275,17 +278,17 @@ const backToPoint = () => {
     .show();
 };
 
-const editForm = () => {
+const editForm = markerData => {
   return `
     <form class='edit-popup' style='display:none;'>
       <h2>Edit marker</h2>
       <label for="marker-name">Name</label>
-      <input class="marker-name" name="name" type="text", placeholder="name your marker!"/>
+      <input class="marker-name" name="name" type="text", value='${markerData.name}'!"/>
       <p class="marker-name-alert alert alert-warning" style="display:none; color: rgba(237, 106, 90, 1);" role="alert">Please name your marker!</p>
       <label for="marker-img">Image</label>
-      <input name="image" class="marker-img" type="url", placeholder="img url"/>
+      <input name="image" class="marker-img" type="url", value="${markerData.image}"/>
       <label for="marker-description">Description</label>
-      <textarea name="description" class="marker-description" placeholder="desciption"></textarea>
+      <textarea name="description" class="marker-description">${markerData.description}</textarea>
       <div class="buttons">
         <input class="btn btn-light" type="submit">
         <button class="btn btn-light" onclick="backToPoint()">Cancel</button>
@@ -296,7 +299,7 @@ const editForm = () => {
 
 const makeMarkerHtml = markerData => {
   let markerContent =
-    editForm() + `<div class="marker-form" id='${markerData.id}'>`;
+    editForm(markerData) + `<div class="marker-form" id='${markerData.id}'>`;
   if (markerData.image) {
     markerContent += `
       <div class="img-box">
@@ -320,15 +323,14 @@ const makeMarkerHtml = markerData => {
 const renderMarkers = function(markerList) {
   for (const marker of markerList) {
     const markerContent = makeMarkerHtml(marker);
-    const newMarker = new L.marker([marker.latitude, marker.longitude], {
-      draggable: "true"
-    })
+    const newMarker = new L.marker([marker.latitude, marker.longitude])
       .addTo(map)
       .bindPopup(markerContent);
     newMarker.point_id = marker.id;
     markers.push(newMarker);
   }
 };
+
 const getPointMaps = function(data) {
   let idMap = data;
   $.ajax({

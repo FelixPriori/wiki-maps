@@ -26,7 +26,13 @@ body {
       }
     }
   }
-
+  .alert {
+    z-index: 3;
+    position: fixed;
+    top: 20%;
+    right: 25%;
+    display: none;
+  }
   .login_form, .register_form {
     display:none;
   }
