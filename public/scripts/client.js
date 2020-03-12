@@ -114,7 +114,7 @@ const createMapElement = dataMap => {
         ${editNameForm(dataMap.name)}
       </button>
       <div class="icons">
-        <img onclick="cancel(${dataMap.id})" class="edit cancel-img" src="/assets/img/circle-slash.svg" alt="" title="cancel">
+        <img onclick="cancel(${dataMap.id})" class="edit cancel-img" src="/assets/img/x-circle.svg" alt="" title="cancel">
         <img class="edit confirm-img" src="/assets/img/check-circle.svg" alt="" title="confirm">
         <img onclick="toggleFavouriting(this)" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
         <img onclick="editName(${dataMap.id})" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
