@@ -37,6 +37,13 @@ module.exports = (db) => {
     userHelper.getUserNameById(db, userObj).then(dbRes => res.json(dbRes));
   });
 
+  router.get('/getFaves', (req, res) => {
+    let userObj ={
+      id: req.session.userID
+    }
+    userHelper.getFavouritesByUser(db, userObj).then(dbRes => res.json(dbRes));
+  })
+
   router.post("/logout", (req, res) => {
     req.session = null;
     res.send();
@@ -49,7 +56,7 @@ module.exports = (db) => {
         res.json(dbRes);
       })
     });
-  
+
   router.post("/deleteFavouriteMap", (req, res) => {
     let dataObj = req.body;
     userHelper.deleteUserFavouriteMap(db, dataObj).then(dbRes => res.json(dbRes));

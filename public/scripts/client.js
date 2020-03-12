@@ -435,11 +435,23 @@ const checkUserLoggedIn = function(){
   }
 }
 
+const fillHearts = favourites => {
+  for (const favourite of favourites) {
+    $(`#${favourite.map_id}`)
+      .find('.favouritable')
+      .attr("src", "/assets/img/heart-fill.svg");
+  }
+}
+
 if (checkUserLoggedIn()) {
    $.ajax({
      method: 'GET',
      url: 'users/checkUser'
    }).done(data => loginLayout(data.first_name))
+   $.ajax({
+     method: 'GET',
+     url: 'users/getFaves'
+   }).done(data => fillHearts(data));
 } else {
   logoutLayout();
 }
