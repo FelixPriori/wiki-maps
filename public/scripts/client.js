@@ -40,9 +40,11 @@ const toggleFavouriting = (element, id) => {
   if ($(element).attr("src") === "/assets/img/heart-fill.svg") {
     $(element).attr("src", "/assets/img/heart.svg");
     deleteFavouriteMap(id);
+    getPointMaps(id);
   } else {
     $(element).attr("src", "/assets/img/heart-fill.svg");
     userFavouriteMap(id);
+    getPointMaps(id);
   }
 };
 
@@ -105,10 +107,8 @@ const editNameForm = currentName => {
 
 const createMapElement = dataMap => {
   let $map = `
-    <div id=${dataMap.id} onclick="highlightMap(${
-    dataMap.id
-  }); clearMap();" class="map-list-item">
-      <button >
+    <div id=${dataMap.id} onclick="highlightMap(${dataMap.id}); clearMap();" class="map-list-item">
+      <button>
         <img src="/assets/img/compass.svg" alt="" style="width: 3em" title="view map">
         <p class="map-name">
           ${dataMap.name}
@@ -120,12 +120,8 @@ const createMapElement = dataMap => {
           dataMap.id
         })" class="edit cancel-img" src="/assets/img/x-circle.svg" alt="" title="cancel">
         <img class="edit confirm-img" src="/assets/img/check-circle.svg" alt="" title="confirm">
-        <img onclick="toggleFavouriting(this, ${
-          dataMap.id
-        })" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
-        <img onclick="editName(${
-          dataMap.id
-        })" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
+        <img onclick="toggleFavouriting(this, ${dataMap.id})" class="favouritable not-edit" src="/assets/img/heart.svg" alt="" title="favourite">
+        <img onclick="editName(${dataMap.id})" class="edit-map-title not-edit" src="/assets/img/pencil.svg" alt="" title="edit title">
       </div>
     </div>
   `;
