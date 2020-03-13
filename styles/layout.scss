@@ -123,6 +123,9 @@ body {
               min-width: 1em;
               align-self: end;
             }
+            .edit-map-title {
+              visibility: hidden;
+            }
             .confirm-img, .cancel-img {
               display: none;
             }
