@@ -128,11 +128,11 @@ const createMapElement = dataMap => {
   return $map;
 };
 
-const renderMaps = function(maps) {
-  $("#maps-container").empty();
+const renderMaps = function(maps, target) {
+  $(`#${target}`).empty();
   for (let i = 0; i < maps.length; i++) {
     $map = createMapElement(maps[i]);
-    $("#maps-container").prepend($map);
+    $(`#${target}`).prepend($map);
   }
 };
 
@@ -141,7 +141,7 @@ const loadMaps = highlight => {
     method: "GET",
     url: `/maps`
   }).done(data => {
-    renderMaps(data);
+    renderMaps(data, 'maps-container');
     if (highlight) {
       const firstMapId = data[data.length - 1].id;
       highlightMap(firstMapId);
@@ -149,6 +149,40 @@ const loadMaps = highlight => {
   });
 };
 loadMaps(false);
+
+const loadFavouriteMaps = highlight => {
+  $.ajax({
+    method: "GET",
+    url: "users/favourites"
+  }).done(data => {
+    renderMaps(data, 'favourites-container');
+    if (highlight) {
+      const firstMapId = data[data.length - 1].id;
+      highlightMap(firstMapId);
+    }
+  });
+};
+
+const loadContributedMaps = highlight => {
+  $.ajax({
+  method: "GET",
+  url: "users/contributions"
+  }).done(data => {
+    renderMaps(data, 'contributions-container');
+    if (highlight) {
+      const firstMapId = data[data.length - 1].id;
+      highlightMap(firstMapId);
+    }
+  });
+};
+
+$('#contributions').click(() => {
+  loadContributedMaps(false);
+});
+
+$('#favourites').click(() => {
+  loadFavouriteMaps(false);
+})
 
 const postMap = function() {
   if ($("#name-field").val()) {
@@ -233,6 +267,15 @@ const markPoint = function() {
     clearMap();
     getPointsOnMap();
   });
+  let contributionObject = {
+    map_id: localStorage.getItem('mapId'),
+    contributor_id: localStorage.getItem('userID')
+  }
+  $.ajax({
+    method: "POST",
+    url: "users/contributions",
+    data: contributionObject
+  }).done(data => console.log(data));
 };
 
 const getPointsOnMap = function() {

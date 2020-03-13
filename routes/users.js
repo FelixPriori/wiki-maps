@@ -42,6 +42,25 @@ module.exports = (db) => {
       id: req.session.userID
     }
     userHelper.getFavouritesByUser(db, userObj).then(dbRes => res.json(dbRes));
+  });
+
+  router.get('/favourites', (req, res) => {
+    let userObj = {
+      id: req.session.userID
+    }
+    userHelper.getUserFavouriteMaps(db, userObj).then(dbRes => res.json(dbRes));
+  })
+
+  router.get('/contributions', (req, res) => {
+    let userObj = {
+      id: req.session.userID
+    }
+    userHelper.getUserContributedMaps(db, userObj).then(dbRes => res.json(dbRes));
+  });
+  router.post('/contributions', (req, res) => {
+    let userObj = req.body;
+    console.log('req.body', req.body)
+    userHelper.postUserContributions(db, userObj).then(dbRes => res.json(dbRes));
   })
 
   router.post("/logout", (req, res) => {
@@ -52,7 +71,6 @@ module.exports = (db) => {
   router.post("/favourite", (req, res) => {
     let dataObj = req.body;
     userHelper.addUserFavouriteMap(db, dataObj).then((dbRes) => {
-        console.log(req.session.userID);
         res.json(dbRes);
       })
     });
