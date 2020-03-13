@@ -178,9 +178,9 @@ const loadContributedMaps = highlight => {
   });
 };
 
-// $('#contributions').click(() => {
-//   loadContributedMaps(false);
-// });
+$('#contributions').click(() => {
+  loadContributedMaps(false);
+});
 
 $('#favourites').click(() => {
   loadFavouriteMaps(false);
@@ -269,15 +269,15 @@ const markPoint = function() {
     clearMap();
     getPointsOnMap();
   });
-  // let contributionObject = {
-  //   map_id: localStorage.getItem('mapId'),
-  //   contributor_id: localStorage.getItem('userID')
-  // }
-  // $.ajax({
-  //   method: "POST",
-  //   url: "users/contributions",
-  //   data: contributionObject
-  // }).done(data => console.log(data));
+  let contributionObject = {
+    map_id: localStorage.getItem('mapId'),
+    contributor_id: localStorage.getItem('userID')
+  }
+  $.ajax({
+    method: "POST",
+    url: "users/contributions",
+    data: contributionObject
+  }).done(data => console.log(data));
 };
 
 const getPointsOnMap = function() {
