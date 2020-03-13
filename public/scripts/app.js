@@ -16,6 +16,16 @@ $(document).ready(() => {
   const $welcome = $('#welcome-message');
   const $registerForm = $('.register_form');
   const $loginForm = $('.login_form');
+  const $navigateDown = $('.navigate-down');
+  const $navigateUp = $('.navigate-up');
+
+  $navigateUp.click(() => {
+    $("html, body").animate({ scrollTop: "0" }, 1000);
+  });
+
+  $navigateDown.click(() => {
+    $("html, body").animate({ scrollTop: "9999" }, 1000);
+  })
 
   $login.click(() => {
     $loginForm.toggle();
@@ -23,16 +33,14 @@ $(document).ready(() => {
   });
 
   $register.click(() => {
-    $loginForm.hide();
     $registerForm.toggle();
   });
 
-  $logout.click(() => {
-    $login.show();
-    $register.show();
-    $logout.hide();
-    $welcome.hide();
-  });
+  // $logout.click(() => {
+  //   $login.show();
+  //   $register.show();
+  //   $logout.hide();
+  // });
 
   $newMapButton.click(() => {
     $mapForm.toggle();

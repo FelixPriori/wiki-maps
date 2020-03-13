@@ -20,7 +20,8 @@ module.exports = db => {
   });
 
   router.post("/", (req, res) => {
-    const mapName = req.body[0];
+    const mapName = req.body;
+    console.log(mapName);
     let mapInfo = {
       name: mapName["map-name"]
     };

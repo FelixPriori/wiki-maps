@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <!-- styles -->
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/combined.css" type="text/css"/>
     <!-- scripts -->
     <script type="text/javascript" src="/scripts/app.js"></script>
@@ -31,7 +30,7 @@
     <nav>
       <h1>wiki maps</h1>
       <span id='welcome-message'>
-        Welcome, Team Promising!
+
       </span>
       <div class="form register_form">
         <form id="Uregister-form">
@@ -58,9 +57,13 @@
         <button type="button" id="register" class="btn btn-light">Register</button>
         <button type="button" id="logout" class="btn btn-light">Logout</button>
       </span>
+      <div class="alert select-map-alert alert-danger" role="alert"> 🛑 Please select a map before adding a point! 🛑</div>
+      <div class="alert user-login-alert alert-danger" role="alert"> 🛑 Please register or login before adding a point! 🛑</div>
     </nav>
+    <div class='navigate-down'><img src="/assets/img/arrow-down.svg" alt="" style="width: 1.5em" title="contributions"></div>
+    <div class='navigate-up'><img src="/assets/img/arrow-up.svg" alt="" style="width: 1.5em" title="contributions"></div>
     <!-- this div is here for flexbox purposes -->
-    <div>
+    <div class="flexbox-responsive">
       <main>
         <div id="mapid" data-mapId = '15'>
 
@@ -70,9 +73,10 @@
         <div class="aside-content">
           <h2 class="all-maps-aside"> all maps</h2>
           <div id="maps-container" class="all-maps-aside">
+
           </div>
           <h2 class="favourites-aside"> favourites</h2>
-          <div class="favourites-aside">
+          <div class="favourites-aside" id="favouriteMap-aside">
             <div class="map-list-item">
               <p>This is a map title, please click me so that you can see me on the big map!</p>
             </div>
@@ -102,17 +106,15 @@
             </div>
           </div>
         </div>
-        <div class="sidebar-nav">
-          <ul class='map-navigation-menu'>
+          <ul class='map-navigation-menu sidebar-nav'>
             <li id="all-maps">
               <img src="/assets/img/map.svg" alt="" style="width: 1.5em" title="all-maps"></li>
             <li id="favourites" class="left-border">
               <img src="/assets/img/heart.svg" alt="" style="width: 1.5em" title="favourites"></li>
             <li id="contributions" class="left-border">
               <img src="/assets/img/person.svg" alt="" style="width: 1.5em" title="contributions">
-          </li>
+            </li>
           </ul>
-        </div>
       </aside>
     </div>
     <div id='new-map_form'>
