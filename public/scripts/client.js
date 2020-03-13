@@ -178,11 +178,37 @@ const loadContributedMaps = highlight => {
 
 $('#contributions').click(() => {
   loadContributedMaps(false);
+  setTimeout(() => {
+    $('.icons').css('visibility', 'hidden');
+    if($('#contributions-container').children().length === 0) {
+      $('#contribution-notice').show()
+      $('#favourite-notice').hide()
+    } else {
+      $('#favourite-notice').hide()
+      $('#contribution-notice').hide()
+    }
+  }, 25);
 });
 
 $('#favourites').click(() => {
   loadFavouriteMaps(false);
+  setTimeout(() => {
+    $('.icons').css('visibility', 'hidden');
+    if($('#favourites-container').children().length === 0) {
+      $('#favourite-notice').show()
+      $('#contribution-notice').hide()
+    } else {
+      $('#favourite-notice').hide()
+      $('#contribution-notice').hide()
+    }
+  }, 25);
 })
+
+$('#all-maps').click(() => {
+  $('.icons').css('visibility', 'visible');
+  $('#favourite-notice').hide()
+  $('#contribution-notice').hide()
+});
 
 const postMap = function() {
   if ($("#name-field").val()) {

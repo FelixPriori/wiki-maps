@@ -9,6 +9,10 @@ $shadow: 0.2em 0.2em 0 0 $color4;
 body {
   font-family: 'Lato', sans-serif;
   aside {
+    h3 {
+      color: $color2;
+      text-shadow: 2px 2px $color4;
+    }
     .aside-content {
       background-color: $color3;
       box-shadow: 0.1em 0 0 0 $color4;

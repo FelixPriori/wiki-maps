@@ -54,6 +54,9 @@ body {
       max-width: 45vw;
       z-index: 10;
       top: 0;
+      h3{
+        display: none;
+      }
       .aside-content {
         position: relative;
         display: flex;
