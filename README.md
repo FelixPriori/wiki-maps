@@ -23,7 +23,7 @@ ___**Note:**___ a _visitor_ is someone who is visitig the site without being log
 - Contributors can create maps;
 - Contributors can modify maps (add, edit, remove points);
 - Contributors can favourite a map;
-- Contributors have profiles, indicating their favourite maps and maps they've contributed to;
+- Contributors have a tab indicating their favourite maps and maps they've contributed to;
 
 ## Dependencies
 
