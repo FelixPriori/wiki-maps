@@ -23,11 +23,13 @@ $("body").on("submit", ".marker-form", function(event) {
 
 $("#Uregister-form").on("submit", function(event) {
   event.preventDefault();
+  $('.register_form').hide();
   registerUser();
 });
 
 $("#Ulogin-form").on("submit", function(event) {
   event.preventDefault();
+  $('.login_form').hide();
   loginUser();
 });
 
@@ -494,7 +496,7 @@ const loginLayout = name => {
   $("#favourites").show();
   $("#contributions").show();
   $("#new-map_button").show();
-  $(".icons").show();
+  $(".icons").css('visibility', 'visible');
   makeName(name);
 };
 
@@ -505,7 +507,7 @@ const logoutLayout = () => {
   $("#favourites").hide();
   $("#contributions").hide();
   $("#new-map_button").hide();
-  $(".icons").hide();
+  $(".icons").css('visibility', 'hidden');
   $(".welcome-message").remove();
 };
 

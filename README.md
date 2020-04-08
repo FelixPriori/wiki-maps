@@ -1,4 +1,8 @@
-# WIKI MAPS (name pending)
+# WIKI MAPS
+
+Wiki Maps is a web app using Leaflet which allows users to collaboratively create and edit maps. 
+
+It was built by Felix Rioux Sabourin, Rayesh Rajah, and Camilo Pineda using Postgresql, jQuery, Express.js, Node.js and Sass.
 
 ## User stories
 
@@ -40,3 +44,20 @@ ___**Note:**___ a _visitor_ is someone who is visitig the site without being log
 |POST         |/points:id/edit   |Display form for editing map  |
 |DELETE       |/maps:id/delete   |Delete a single map           |
 |DELETE       |/points:id/delete |Delete a single point         |
+
+## ERD
+
+![ERD](./docs/ERD.png)
+
+
+## Finished product
+
+![Front page](./docs/front.png)
+
+![Front page logged in](./docs/front-logged.png)
+
+![Create map](./docs/create-map.png)
+
+![Create marker](./docs/create-marker.png)
+
+![Created marker](./docs/created.png)
